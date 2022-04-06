@@ -18,6 +18,7 @@ import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
+
     List<itemDescription> pantryItems;
     List<String> categories;
 
