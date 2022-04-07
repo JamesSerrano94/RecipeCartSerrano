@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     List<String> categories;
 
     private class itemDescription{
+
         String name;
         double amount;
         String unit;
