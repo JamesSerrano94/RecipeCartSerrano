@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.*;
+import java.lang.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,27 +23,70 @@ public class MainActivity extends AppCompatActivity {
     List<itemDescription> pantryItems;
     List<String> categories;
 
-    private class itemDescription{
+    private String trimString(String item) {
+        StringBuilder str = new StringBuilder(item);
+        for (int i = 0; i < item.length(); i++) {
+            if (str.charAt(0) == ' ') {
+                str = str.deleteCharAt(0);
+            } else {
+                i = 2 * item.length();
+            }
+        }
 
-        String name;
-        double amount;
-        String unit;
+        return str.toString();
+    }
 
-        public itemDescription(String name){
+    private String parseItem(String item) {
+        item = trimString(item);
+        int count = item.length() - item.replace(" ", "").length();
+        String[] newItem = item.split(" ", count + 1);
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < newItem.length; i++) {
+            if (newItem[i].length() > 0) {
+                StringBuilder substr = new StringBuilder(newItem[i]);
+                substr.setCharAt(0, Character.toUpperCase(newItem[i].charAt(0)));
+                for (int j = 1; j < newItem[i].length(); j++) {
+                    substr.setCharAt(j, Character.toLowerCase(newItem[i].charAt(j)));
+                }
+                if (str.length() > 0) {
+                    str.append(" ");
+                }
+                str.append(substr);
+
+            }
+        }
+
+
+        return str.toString();
+
+    }
+
+    private class itemDescription {
+
+        private String name;
+        private double amount;
+        private String unit;
+
+
+        private itemDescription(String name) {
             this.name = name;
             amount = 1;
-            unit = " "; }
+            unit = " ";
+        }
 
-        public itemDescription(String name, double amount, String unit){
+        private itemDescription(String name, double amount, String unit) {
             this.name = name;
-            if (amount <= 0){
-                this.amount = 1; }
-            else {
-                this.amount = amount; }
-            this.unit = unit; }
+            if (amount <= 0) {
+                this.amount = 1;
+            } else {
+                this.amount = amount;
+            }
+            this.unit = unit;
+        }
 
-        public String getName(){
-            return name; }
+        private String getName() {
+            return name;
+        }
 
         @NonNull
         @Override
@@ -50,33 +94,44 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder fullDescription = new StringBuilder(name);
 
             fullDescription.append(" ");
-            fullDescription.append(String.valueOf(amount));
+            if (amount - Math.floor(amount) < .01) {
+                fullDescription.append(String.valueOf((int) amount));
+            } else {
+                fullDescription.append(String.valueOf(amount));
+            }
             fullDescription.append(" ");
             fullDescription.append(String.valueOf(unit));
+
 
             return fullDescription.toString();
         }
 
-        private double getAmount(){
-            return amount;}
+        private double getAmount() {
+            return amount;
+        }
 
-        private void setAmount(double amount){
-            this.amount = amount;}
+        private void setAmount(double amount) {
+            this.amount = amount;
+        }
     }
 
-    private boolean isInList(String item){
-        for (int i = 0; i < pantryItems.size(); i++){
-            if (pantryItems.get(i).getName().equals(item)){
-                return true; }
+    private boolean isInList(String item) {
+        for (int i = 0; i < pantryItems.size(); i++) {
+            if (pantryItems.get(i).getName().equals(item)) {
+                return true;
+            }
         }
-        return false;}
+        return false;
+    }
 
-    private int getIndexOf(String item){
-        for (int i = 0; i < pantryItems.size(); i++){
-            if (pantryItems.get(i).getName().equals(item)){
-                return i; }
+    private int getIndexOf(String item) {
+        for (int i = 0; i < pantryItems.size(); i++) {
+            if (pantryItems.get(i).getName().equals(item)) {
+                return i;
+            }
         }
-        return -1;}
+        return -1;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +139,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Spinner unitSpinner = (Spinner) findViewById(R.id.unitSpinner);
         Button addButton = (Button) findViewById(R.id.addButton);
+        Button removeButton = (Button) findViewById(R.id.removeButton);
         ListView pantryList = (ListView) findViewById(R.id.pantryList);
         TextView addItem = (TextView) findViewById(R.id.addItemTxtField);
         TextView qnty = (TextView) findViewById(R.id.qntyTxtField);
+        Button clearButton = (Button) findViewById(R.id.clearButton);
 
         categories = new ArrayList<String>();
         categories.add(" ");
@@ -102,30 +159,73 @@ public class MainActivity extends AppCompatActivity {
         pantryList.setAdapter(pantryAdapter);
 
 
-
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String item = String.valueOf(addItem.getText());
+                String itemName = parseItem(item);
                 itemDescription newItem;
                 if (String.valueOf(qnty.getText()).equals("")) {
-                    newItem = new itemDescription(item); }
-                else {
-                    newItem = new itemDescription(item, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())); }
-                if (item.length() > 0 && !isInList(item)){
+                    newItem = new itemDescription(itemName);
+                } else {
+                    newItem = new itemDescription(itemName,
+                            Double.valueOf(String.valueOf(qnty.getText())),
+                            categories.get(unitSpinner.getSelectedItemPosition()));
+                }
+                if (itemName.length() > 0 && !isInList(itemName)) {
                     pantryItems.add(newItem);
                     pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    pantryList.setAdapter(pantryAdapter);}
-                else if (item.length() > 0){
-                    double newAmount = pantryItems.get(getIndexOf(item)).getAmount();
+                    pantryList.setAdapter(pantryAdapter);
+                } else if (itemName.length() > 0) {
+                    double newAmount = pantryItems.get(getIndexOf(itemName)).getAmount();
                     newAmount += newItem.getAmount();
-                    pantryItems.get(getIndexOf(item)).setAmount(newAmount);
+                    pantryItems.get(getIndexOf(itemName)).setAmount(newAmount);
                     pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    pantryList.setAdapter(pantryAdapter);}
+                    pantryList.setAdapter(pantryAdapter);
+                }
 
-                addItem.setText(""); }
+                addItem.setText("");
+                qnty.setText("");
+            }
         });
 
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String item = String.valueOf(addItem.getText());
+                String itemName = parseItem(item);
+                itemDescription newItem;
+                if (String.valueOf(qnty.getText()).equals("")) {
+                    newItem = new itemDescription(itemName);
+                } else {
+                    newItem = new itemDescription(itemName,
+                            Double.valueOf(String.valueOf(qnty.getText())),
+                            categories.get(unitSpinner.getSelectedItemPosition()));
+                }
+                if (itemName.length() > 0) {
+                    double newAmount = pantryItems.get(getIndexOf(itemName)).getAmount();
+                    newAmount -= newItem.getAmount();
+                    if (newAmount <= .01) {
+                        pantryItems.remove(getIndexOf(itemName));
+                    } else {
+                        pantryItems.get(getIndexOf(itemName)).setAmount(newAmount);
+                    }
+                    pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    pantryList.setAdapter(pantryAdapter);
+                }
 
+                addItem.setText("");
+                qnty.setText("");
+            }
 
+        });
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                pantryItems.removeAll(pantryItems);
+                pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                pantryList.setAdapter(pantryAdapter);
+                addItem.setText("");
+                qnty.setText("");
+            }
+        });
     }
 }
