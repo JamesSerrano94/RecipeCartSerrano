@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -102,6 +101,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/removeButton" />
 
-    </android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="104dp"
+            android:layout_marginTop="48dp"
+            android:text="Logout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pantryList" />
+
+        <Button
+            android:id="@+id/settings"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="316dp"
+            android:layout_marginTop="48dp"
+            android:text="Settings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pantryList" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

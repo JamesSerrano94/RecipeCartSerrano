@@ -1,11 +1,12 @@
 package com.example.pantry;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,11 +15,13 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
-
-
+    private FirebaseAuth mAuth;
     List<itemDescription> pantryItems;
     List<String> categories;
 
@@ -84,9 +87,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Spinner unitSpinner = (Spinner) findViewById(R.id.unitSpinner);
         Button addButton = (Button) findViewById(R.id.addButton);
+        Button logout = (Button) findViewById(R.id.logout);
+        Button settings = (Button) findViewById(R.id.settings);
         ListView pantryList = (ListView) findViewById(R.id.pantryList);
         TextView addItem = (TextView) findViewById(R.id.addItemTxtField);
         TextView qnty = (TextView) findViewById(R.id.qntyTxtField);
+        mAuth = FirebaseAuth.getInstance();
 
         categories = new ArrayList<String>();
         categories.add(" ");
@@ -100,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<itemDescription> pantryAdapter = new ArrayAdapter<itemDescription>(this, android.R.layout.simple_spinner_item, pantryItems);
         pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pantryList.setAdapter(pantryAdapter);
+
+
+
 
 
 
@@ -125,7 +134,33 @@ public class MainActivity extends AppCompatActivity {
                 addItem.setText(""); }
         });
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, OptionsActivity.class));
+            }
+        });
 
+    }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser == null){
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
+    }
+
+    public void logout(){
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 }
