@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/text_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register Here"
+        android:textSize="20dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/register_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_register"
+        android:layout_marginTop="25dp"
+        android:minHeight="48dp"
+        android:hint="Email"
+        app:layout_constraintTop_toBottomOf="@+id/text_register"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_email"
+        android:layout_marginTop="30dp"
+        android:minHeight="48dp"
+        android:hint="Password"
+        app:layout_constraintTop_toBottomOf="@+id/register_email"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_password"
+        android:layout_marginTop="32dp"
+        android:text="Register"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/register_password"
+        tools:layout_editor_absoluteX="-16dp" />
+
+    <TextView
+        android:id="@+id/text_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:text="Existing User Login"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/register"
+        tools:layout_editor_absoluteX="0dp" />
+
+</RelativeLayout>

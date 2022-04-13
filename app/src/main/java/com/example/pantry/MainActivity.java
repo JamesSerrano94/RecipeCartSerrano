@@ -14,12 +14,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.*;
 import java.lang.*;
 
 public class MainActivity extends AppCompatActivity {
-
-
+    private FirebaseAuth mAuth;
     List<itemDescription> pantryItems;
     List<String> categories;
 
@@ -140,10 +142,13 @@ public class MainActivity extends AppCompatActivity {
         Spinner unitSpinner = (Spinner) findViewById(R.id.unitSpinner);
         Button addButton = (Button) findViewById(R.id.addButton);
         Button removeButton = (Button) findViewById(R.id.removeButton);
+        Button logout = (Button) findViewById(R.id.logout);
+        Button settings = (Button) findViewById(R.id.settings);
         ListView pantryList = (ListView) findViewById(R.id.pantryList);
         TextView addItem = (TextView) findViewById(R.id.addItemTxtField);
         TextView qnty = (TextView) findViewById(R.id.qntyTxtField);
         Button clearButton = (Button) findViewById(R.id.clearButton);
+        mAuth = FirebaseAuth.getInstance();
 
         categories = new ArrayList<String>();
         categories.add(" ");
@@ -215,8 +220,23 @@ public class MainActivity extends AppCompatActivity {
                 addItem.setText("");
                 qnty.setText("");
             }
-
         });
+
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, OptionsActivity.class));
+            }
+        });
+
 
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -227,5 +247,20 @@ public class MainActivity extends AppCompatActivity {
                 qnty.setText("");
             }
         });
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser == null) {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        }
+
+        public void logout() {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
     }
 }
