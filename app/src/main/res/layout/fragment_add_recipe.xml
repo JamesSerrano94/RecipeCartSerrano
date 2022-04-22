@@ -36,7 +36,7 @@
     <EditText
         android:id="@+id/editTextTextMultiLine"
         android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:gravity="start|top"
@@ -49,7 +49,7 @@
     <EditText
         android:id="@+id/editTextTextMultiLine2"
         android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:gravity="start|top"
@@ -63,9 +63,9 @@
         android:id="@+id/picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="8dp"
-        android:text="Upload Photos"
+        android:text="Photos"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine2" />
 
@@ -74,15 +74,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Upload Ingredients"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine2"
-        tools:layout_editor_absoluteX="195dp" />
+        android:layout_marginEnd="52dp"
+        android:text="Add Ingredients"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine2" />
 
     <Button
         android:id="@+id/upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
         android:width="125dp"
         android:height="75dp"
         android:text="All Done!"

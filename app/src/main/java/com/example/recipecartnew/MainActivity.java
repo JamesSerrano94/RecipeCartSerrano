@@ -43,14 +43,17 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             break;
                         case R.id.navigation_add:
-                            selectedFragment = new AddFragment();
+                            //selectedFragment = new AddFragment();
+                            selectedFragment = new AddRecipeFragment();
                             break;
                         case R.id.navigation_pantry:
-                            selectedFragment = new PantryFragment();
+                            //selectedFragment = new PantryFragment();
+                            selectedFragment = new AddPantryFragment();
                             break;
                         case R.id.navigation_search:
                             selectedFragment = new SearchFragment();
                             break;
+
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main,
                             selectedFragment).commit();
