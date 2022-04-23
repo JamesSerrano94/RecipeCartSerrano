@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.navigation_search:
                             selectedFragment = new SearchFragment();
                             break;
+                        case R.id.navigation_settings:
+                            selectedFragment = new SettingsFragment();
+                            break;
 
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main,
