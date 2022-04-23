@@ -16,20 +16,27 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pantry-ae39f-default-rtdb.firebaseio.com/");
     private FirebaseAuth mAuth;
     private Button btnLogin;
     private TextView textRegister;
-    private EditText password,email;
+    private EditText password,username;
+    private boolean hidden = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         btnLogin = (Button) findViewById(R.id.login);
+        username = (EditText) findViewById(R.id.login_user);
         password = (EditText) findViewById(R.id.login_password);
-        email = (EditText) findViewById(R.id.login_email);
         textRegister = (TextView) findViewById(R.id.text_register);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                password.setTransformationMethod(new PasswordTransformationMethod());
             }
         });
         textRegister.setOnClickListener(new View.OnClickListener() {
@@ -55,10 +62,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(){
-        String user = email.getText().toString().trim();
-        String pass = password.getText().toString().trim();
+        final String user = username.getText().toString().trim();
+        final String pass = password.getText().toString().trim();
         if(user.isEmpty()){
-            email.setError("Email can not be empty");
+            username.setError("Username can not be empty");
             if(pass.isEmpty()){
                 password.setError("Password can not be empty");
             }
@@ -67,7 +74,30 @@ public class LoginActivity extends AppCompatActivity {
             password.setError("Password can not be empty");
         }
         else{
-            mAuth.signInWithEmailAndPassword(user,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.hasChild(user)) {
+
+                        final String getPass = snapshot.child(user).child("password").getValue(String.class);
+                        if (getPass.equals(pass)) {
+                            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, "Incorrect Username", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            /*mAuth.signInWithEmailAndPassword(user,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
@@ -78,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
-            });
+            });*/
         }
     }
 }

@@ -27,25 +27,46 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <EditText
-        android:id="@+id/register_password"
+        android:id="@+id/register_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_email"
+        android:layout_marginTop="25dp"
+        android:minHeight="48dp"
+        android:hint="Username"
+        app:layout_constraintTop_toBottomOf="@+id/register_email"
+        tools:layout_editor_absoluteX="0dp" />
+    <EditText
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_user"
         android:layout_marginTop="30dp"
         android:minHeight="48dp"
         android:hint="Password"
-        app:layout_constraintTop_toBottomOf="@+id/register_email"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/register_user"
         tools:layout_editor_absoluteX="16dp" />
-
+    <EditText
+        android:id="@+id/register_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_password"
+        android:layout_marginTop="30dp"
+        android:minHeight="48dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/register_password"
+        tools:layout_editor_absoluteX="16dp" />
     <Button
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/register_password"
+        android:layout_below="@+id/register_confirm"
         android:layout_marginTop="32dp"
         android:text="Register"
         android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/register_password"
+        app:layout_constraintTop_toBottomOf="@+id/register_confirm"
         tools:layout_editor_absoluteX="-16dp" />
 
     <TextView
