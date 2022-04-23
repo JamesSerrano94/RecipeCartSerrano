@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class RegisterActivity extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pantry-ae39f-default-rtdb.firebaseio.com/");
+    private User currentUser = User.getInstance();
     private FirebaseAuth mAuth;
     private Button btnRegister;
     private TextView textLogin;
@@ -101,7 +102,12 @@ public class RegisterActivity extends AppCompatActivity {
                     else{
                         databaseReference.child("users").child(user).child("email").setValue(e);
                         databaseReference.child("users").child(user).child("password").setValue(pass);
+                        databaseReference.child("users").child(user).child("measureType").setValue("imperial");
                         Toast.makeText(RegisterActivity.this, "User Registration Successful", Toast.LENGTH_SHORT).show();
+                        currentUser.setUsername(user);
+                        currentUser.setPassword(pass);
+                        currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
+                        currentUser.setMeasureType("imperial");
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     }
                 }

@@ -24,11 +24,11 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pantry-ae39f-default-rtdb.firebaseio.com/");
+    User currentUser = User.getInstance();
     private FirebaseAuth mAuth;
     private Button btnLogin;
     private TextView textRegister;
     private EditText password,username;
-    private boolean hidden = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +82,10 @@ public class LoginActivity extends AppCompatActivity {
                         final String getPass = snapshot.child(user).child("password").getValue(String.class);
                         if (getPass.equals(pass)) {
                             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                            currentUser.setUsername(user);
+                            currentUser.setPassword(pass);
+                            currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
+                            currentUser.setMeasureType(snapshot.child(user).child("measureType").getValue(String.class));
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                         else {
