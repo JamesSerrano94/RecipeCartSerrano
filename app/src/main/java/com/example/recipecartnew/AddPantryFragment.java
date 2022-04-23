@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddPantryFragment extends Fragment {
-    List<itemDescription> pantryItems;
+    static List<itemDescription> pantryItems;
     List<String> categories;
-    private String trimString(String item) {
+    protected static String trimString(String item) {
         StringBuilder str = new StringBuilder(item);
         for (int i = 0; i < item.length(); i++) {
             if (str.charAt(0) == ' ') {
@@ -32,7 +32,7 @@ public class AddPantryFragment extends Fragment {
 
         return str.toString();
     }
-    private String parseItem(String item) {
+    protected static String parseItem(String item) {
         item = trimString(item);
         int count = item.length() - item.replace(" ", "").length();
         String[] newItem = item.split(" ", count + 1);
@@ -57,7 +57,7 @@ public class AddPantryFragment extends Fragment {
         return str.toString();
 
     }
-    private class itemDescription{
+    protected static class itemDescription{
         String name;
         double amount;
         String unit;
@@ -94,21 +94,21 @@ public class AddPantryFragment extends Fragment {
             return fullDescription.toString();
         }
 
-        private double getAmount(){
+        public double getAmount(){
             return amount;}
 
-        private void setAmount(double amount){
+        public void setAmount(double amount){
             this.amount = amount;}
     }
 
-    private boolean isInList(String item){
+    protected static boolean isInList(String item){
         for (int i = 0; i < pantryItems.size(); i++){
             if (pantryItems.get(i).getName().equals(item)){
                 return true; }
         }
         return false;}
 
-    private int getIndexOf(String item){
+    protected static int getIndexOf(String item){
         for (int i = 0; i < pantryItems.size(); i++){
             if (pantryItems.get(i).getName().equals(item)){
                 return i; }

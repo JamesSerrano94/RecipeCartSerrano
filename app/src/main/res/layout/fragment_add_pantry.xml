@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/qntyTxtField" />
 
     <TextView
-        android:id="@+id/userPantry"
+        android:id="@+id/addIngredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -50,7 +50,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPantry" />
+        app:layout_constraintTop_toBottomOf="@+id/addIngredient" />
 
     <EditText
         android:id="@+id/qntyTxtField"
