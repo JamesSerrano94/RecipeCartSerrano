@@ -63,6 +63,7 @@ public class SettingsFragment extends Fragment {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item,categories);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinnerUser.setAdapter(spinnerAdapter);
+
         password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +114,7 @@ public class SettingsFragment extends Fragment {
                 currentUser.setName(person);
                 updated = true;
             }
+            name.getText().clear();
         }
 
         if(!e.isEmpty()){
