@@ -30,13 +30,14 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Button btnRegister;
     private TextView textLogin;
-    private EditText username, confirmPass, password,email;
+    private EditText name, username, confirmPass, password,email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
         btnRegister = (Button) findViewById(R.id.register);
+        name = (EditText) findViewById(R.id.register_name);
         username = (EditText) findViewById(R.id.register_user);
         password = (EditText) findViewById(R.id.register_password);
         confirmPass = (EditText) findViewById(R.id.register_confirm);
@@ -73,11 +74,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void register(){
         String user = username.getText().toString().trim();
+        String person = name.getText().toString().trim();
         String pass = password.getText().toString().trim();
         String confirm = confirmPass.getText().toString().trim();
         String e = email.getText().toString().trim();
+        String end = e.substring(e.length()-3, e.length());
         if(e.isEmpty()){
             email.setError("Email can not be empty");
+        }
+        if(person.isEmpty()){
+            name.setError("Name cannot be empty");
         }
         if(user.isEmpty()){
             username.setError("Username cannot be empty");
@@ -90,6 +96,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
         else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(e).matches()){
             email.setError("Invalid Email Address");
+        }
+        else if(!end.equals("com") && !end.equals("edu") && !end.equals("gov") && !end.equals("net")){
+            email.setError("Invalid email address");
         }
         else if(pass.length() < 6){
             password.setError("Password must be at least 6 characters");
@@ -106,9 +115,11 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                     else{
                         databaseReference.child("users").child(user).child("email").setValue(e);
+                        databaseReference.child("users").child(user).child("name").setValue(person);
                         databaseReference.child("users").child(user).child("password").setValue(pass);
                         databaseReference.child("users").child(user).child("measureType").setValue("Imperial");
                         Toast.makeText(RegisterActivity.this, "User Registration Successful", Toast.LENGTH_SHORT).show();
+                        currentUser.setName(person);
                         currentUser.setUsername(user);
                         currentUser.setPassword(pass);
                         currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));

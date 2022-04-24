@@ -33,7 +33,8 @@ public class SettingsFragment extends Fragment {
     User currentUser = User.getInstance();
     private Button btnUpdate, btnPhoto, btnFavorites, btnLogout;
     private Spinner unitSpinnerUser;
-    private EditText password,confirmPass,username,email;
+    private EditText password,confirmPass,name,email;
+    private boolean updated=false;
     List<String> categories;
 
     @Nullable
@@ -51,7 +52,7 @@ public class SettingsFragment extends Fragment {
         btnFavorites = (Button) view.findViewById(R.id.favorites);
         btnLogout = (Button) view.findViewById(R.id.Logout);
         password = (EditText) view.findViewById(R.id.new_password);
-        username = (EditText) view.findViewById(R.id.new_username);
+        name = (EditText) view.findViewById(R.id.new_name);
         email = (EditText) view.findViewById(R.id.new_email);
         confirmPass = (EditText) view.findViewById(R.id.new_confirm);
 
@@ -98,36 +99,21 @@ public class SettingsFragment extends Fragment {
         startActivity(new Intent(getActivity(), LoginActivity.class));
     }
     public void update(){
-        String user = username.getText().toString().trim();
+        String person = name.getText().toString().trim();
         String pass = password.getText().toString().trim();
         String confirm = confirmPass.getText().toString().trim();
         String e = email.getText().toString().trim();
+        String end = e.substring(e.length()-3, e.length());
         String unit = unitSpinnerUser.getSelectedItem().toString();
-        if(!user.isEmpty()){
-            databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(user.equals(currentUser.getUsername())){
-                        username.setError("Please enter new username");
-                    }
-                    else if(snapshot.hasChild(user)){
-                        username.setError("Username already in use");
-                    }
-                    else {
-                        databaseReference.child("users").child(user).child("email").setValue(currentUser.getEmail());
-                        databaseReference.child("users").child(user).child("password").setValue(currentUser.getPassword());
-                        databaseReference.child("users").child(user).child("measureType").setValue(currentUser.getMeasureType());
-                        databaseReference.child("users").child(currentUser.getUsername()).removeValue();
-                        currentUser.setUsername(user);
-                        username.getText().clear();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+        if(!person.isEmpty()){
+            if(person.equals(currentUser.getName())){
+                name.setError("Please enter a new name");
+            }
+            else {
+                databaseReference.child("users").child(currentUser.getUsername()).child("name").setValue(person);
+                currentUser.setName(person);
+                updated = true;
+            }
         }
 
         if(!e.isEmpty()){
@@ -138,10 +124,15 @@ public class SettingsFragment extends Fragment {
             else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(e).matches()){
                 email.setError("Invalid email address");
             }
+
+            else if((!end.equals("com") && (!end.equals("edu")) && (!end.equals("gov")) && (!end.equals("net")))){
+                email.setError("Invalid email address");
+            }
             else {
                 databaseReference.child("users").child(currentUser.getUsername()).child("email").setValue(e);
                 currentUser.setEmail(e);
                 email.getText().clear();
+                updated = true;
             }
         }
 
@@ -167,11 +158,17 @@ public class SettingsFragment extends Fragment {
                 currentUser.setPassword(pass);
                 password.getText().clear();
                 confirmPass.getText().clear();
+                updated = true;
             }
         }
         if(!unit.equals(currentUser.getMeasureType())){
             databaseReference.child("users").child(currentUser.getUsername()).child("measureType").setValue(unit);
             currentUser.setMeasureType(unit);
+            updated = true;
+        }
+        if(updated){
+            updated = false;
+            Toast.makeText(getActivity(), "Update Successful!", Toast.LENGTH_SHORT).show();
         }
     }
 }

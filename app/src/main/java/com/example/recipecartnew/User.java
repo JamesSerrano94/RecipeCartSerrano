@@ -1,7 +1,7 @@
 package com.example.recipecartnew;
 
 public class User {
-    private String username, email, password, measureType;
+    private String name, username, email, password, measureType;
     private static User instance;
     public static User getInstance(){
         if (instance == null){
@@ -15,8 +15,12 @@ public class User {
         this.email = null;
         this.password = null;
         this.measureType = null;
+        this.name = null;
         this.instance = null;
     }
+
+    public void setName(String name){this.name = name;}
+    public String getName(){return this.name;}
 
     public void setUsername(String username){
         this.username = username;
