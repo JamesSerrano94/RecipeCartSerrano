@@ -110,6 +110,7 @@ public class AddPantryFragment extends Fragment {
 
 
 
+
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String item = String.valueOf(addItem.getText());

@@ -8,6 +8,7 @@
     android:rotationX="0"
     tools:context=".AddRecipeFragment">
 
+
     <EditText
         android:id="@+id/editTextTextPersonName4"
         android:layout_width="wrap_content"

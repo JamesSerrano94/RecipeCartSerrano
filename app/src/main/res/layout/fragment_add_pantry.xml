@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:paddingTop="?attr/actionBarSize">
 
+
     <Button
         android:id="@+id/removeButton"
         android:layout_width="120dp"

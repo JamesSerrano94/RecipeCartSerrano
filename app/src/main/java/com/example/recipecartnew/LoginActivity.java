@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             password.setError("Password can not be empty");
         }
         else{
+
             databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

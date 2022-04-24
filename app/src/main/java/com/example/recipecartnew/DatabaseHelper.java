@@ -108,6 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+
     public ArrayList<itemDescription> getAllPantryData(String username){
 
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -121,6 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return pantryData;
     }
+
 
     public boolean updatePantryData(String username, String ingredient, int amount){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();

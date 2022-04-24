@@ -104,6 +104,7 @@ public class AddIngredientFragment extends Fragment {
                     }
                 }
 
+
                 addItem.setText("");
                 qnty.setText("");
             }
