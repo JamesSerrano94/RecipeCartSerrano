@@ -102,12 +102,12 @@ public class RegisterActivity extends AppCompatActivity {
                     else{
                         databaseReference.child("users").child(user).child("email").setValue(e);
                         databaseReference.child("users").child(user).child("password").setValue(pass);
-                        databaseReference.child("users").child(user).child("measureType").setValue("imperial");
+                        databaseReference.child("users").child(user).child("measureType").setValue("Imperial");
                         Toast.makeText(RegisterActivity.this, "User Registration Successful", Toast.LENGTH_SHORT).show();
                         currentUser.setUsername(user);
                         currentUser.setPassword(pass);
                         currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
-                        currentUser.setMeasureType("imperial");
+                        currentUser.setMeasureType("Imperial");
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     }
                 }

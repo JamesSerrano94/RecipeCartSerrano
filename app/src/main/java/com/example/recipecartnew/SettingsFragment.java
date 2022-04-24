@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +31,8 @@ public class SettingsFragment extends Fragment {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pantry-ae39f-default-rtdb.firebaseio.com/");
     User currentUser = User.getInstance();
     private Button btnUpdate, btnPhoto, btnFavorites, btnLogout;
-    private EditText password,username,email;
+    private Spinner unitSpinnerUser;
+    private EditText password,confirmPass,username,email;
     List<String> categories;
 
     @Nullable
@@ -42,7 +44,7 @@ public class SettingsFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Spinner unitSpinnerUser = (Spinner) view.findViewById(R.id.unitSpinnerUser);
+        unitSpinnerUser = (Spinner) view.findViewById(R.id.unitSpinnerUser);
         btnUpdate = (Button) view.findViewById(R.id.update);
         btnPhoto = (Button) view.findViewById(R.id.pfp);
         btnFavorites = (Button) view.findViewById(R.id.favorites);
@@ -50,6 +52,7 @@ public class SettingsFragment extends Fragment {
         password = (EditText) view.findViewById(R.id.new_password);
         username = (EditText) view.findViewById(R.id.new_username);
         email = (EditText) view.findViewById(R.id.new_email);
+        confirmPass = (EditText) view.findViewById(R.id.new_confirm);
 
         categories = new ArrayList<String>();
         categories.add("Imperial");
@@ -61,6 +64,7 @@ public class SettingsFragment extends Fragment {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 update();
             }
         });
@@ -75,23 +79,31 @@ public class SettingsFragment extends Fragment {
 
     }
     public void logout(){
+        currentUser.logout();
         startActivity(new Intent(getActivity(), LoginActivity.class));
     }
     public void update(){
-        final String user = username.getText().toString().trim();
-        final String pass = password.getText().toString().trim();
-        final String e = email.getText().toString().trim();
+        String user = username.getText().toString().trim();
+        String pass = password.getText().toString().trim();
+        String confirm = confirmPass.getText().toString().trim();
+        String e = email.getText().toString().trim();
+        String unit = unitSpinnerUser.getSelectedItem().toString();
         if(!user.isEmpty()){
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.hasChild(user)){
-                        Toast.makeText(getActivity(), "Username already used", Toast.LENGTH_SHORT).show();
+                    if(user.equals(currentUser.getUsername())){
+                        username.setError("Please enter new username");
+                    }
+                    else if(snapshot.hasChild(user)){
+                        username.setError("Username already in use");
                     }
                     else {
                         databaseReference.child("users").child(user).child("email").setValue(currentUser.getEmail());
                         databaseReference.child("users").child(user).child("password").setValue(currentUser.getPassword());
                         databaseReference.child("users").child(user).child("measureType").setValue(currentUser.getMeasureType());
+                        databaseReference.child("users").child(currentUser.getUsername()).removeValue();
+                        currentUser.setUsername(user);
                     }
                 }
 
@@ -100,7 +112,42 @@ public class SettingsFragment extends Fragment {
 
                 }
             });
-            currentUser.setUsername(user);
+        }
+
+        if(!e.isEmpty()){
+            if(e.equals(currentUser.getEmail())){
+                email.setError("Please enter a new email");
+            }
+            else {
+                databaseReference.child("users").child(currentUser.getUsername()).child("email").setValue(e);
+                currentUser.setEmail(e);
+            }
+        }
+
+        if(!pass.isEmpty()){
+            if(pass.equals(currentUser.getPassword())){
+                password.setError("Please enter a new password");
+            }
+
+            else if(pass.length() < 6){
+                password.setError("Password must be at least 6 characters");
+            }
+
+            else if(confirm.isEmpty()){
+                confirmPass.setError("Confirmation cannot be empty");
+            }
+
+            else if(!pass.equals(confirm)){
+                Toast.makeText(getActivity(), "Passwords are not matching", Toast.LENGTH_SHORT).show();
+            }
+
+            else{
+                databaseReference.child("users").child(currentUser.getUsername()).child("password").setValue(pass);
+                currentUser.setPassword(pass);
+            }
+        }
+        if(!unit.equals(currentUser.getMeasureType())){
+            databaseReference.child("users").child(currentUser.getUsername()).child("measureType").setValue(unit);
         }
     }
 }
