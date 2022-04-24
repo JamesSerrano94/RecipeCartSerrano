@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_password"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="#8BC34A"
         android:text="Login"
         android:textSize="20dp" />
 
