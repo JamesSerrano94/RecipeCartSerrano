@@ -32,7 +32,6 @@ public class SettingsFragment extends Fragment {
     User currentUser = User.getInstance();
     private Button btnUpdate, btnPhoto, btnFavorites, btnLogout;
     private Spinner unitSpinnerUser;
-    private String unit;
     private EditText password,confirmPass,username,email;
     List<String> categories;
 
@@ -65,6 +64,7 @@ public class SettingsFragment extends Fragment {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 update();
             }
         });
@@ -87,6 +87,7 @@ public class SettingsFragment extends Fragment {
         String pass = password.getText().toString().trim();
         String confirm = confirmPass.getText().toString().trim();
         String e = email.getText().toString().trim();
+        String unit = unitSpinnerUser.getSelectedItem().toString();
         if(!user.isEmpty()){
             databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -128,6 +129,10 @@ public class SettingsFragment extends Fragment {
                 password.setError("Please enter a new password");
             }
 
+            else if(pass.length() < 6){
+                password.setError("Password must be at least 6 characters");
+            }
+
             else if(confirm.isEmpty()){
                 confirmPass.setError("Confirmation cannot be empty");
             }
@@ -136,19 +141,13 @@ public class SettingsFragment extends Fragment {
                 Toast.makeText(getActivity(), "Passwords are not matching", Toast.LENGTH_SHORT).show();
             }
 
-            if(pass.length() < 6){
-                password.setError("Password must be at least 6 characters");
-            }
-
             else{
                 databaseReference.child("users").child(currentUser.getUsername()).child("password").setValue(pass);
                 currentUser.setPassword(pass);
             }
         }
-
-        if(!currentUser.getMeasureType().equals(unit)){
+        if(!unit.equals(currentUser.getMeasureType())){
             databaseReference.child("users").child(currentUser.getUsername()).child("measureType").setValue(unit);
-            currentUser.setMeasureType(unit);
         }
     }
 }
