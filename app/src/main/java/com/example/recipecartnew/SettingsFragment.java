@@ -103,7 +103,6 @@ public class SettingsFragment extends Fragment {
         String pass = password.getText().toString().trim();
         String confirm = confirmPass.getText().toString().trim();
         String e = email.getText().toString().trim();
-        String end = e.substring(e.length()-3, e.length());
         String unit = unitSpinnerUser.getSelectedItem().toString();
         if(!person.isEmpty()){
             if(person.equals(currentUser.getName())){
@@ -117,6 +116,7 @@ public class SettingsFragment extends Fragment {
         }
 
         if(!e.isEmpty()){
+            String end = e.substring(e.length()-3, e.length());
             if(e.equals(currentUser.getEmail())){
                 email.setError("Please enter a new email");
             }

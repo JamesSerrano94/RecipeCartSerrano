@@ -78,9 +78,12 @@ public class RegisterActivity extends AppCompatActivity {
         String pass = password.getText().toString().trim();
         String confirm = confirmPass.getText().toString().trim();
         String e = email.getText().toString().trim();
-        String end = e.substring(e.length()-3, e.length());
+        String end = "";
         if(e.isEmpty()){
             email.setError("Email can not be empty");
+        }
+        else {
+            end = e.substring(e.length() - 3, e.length());
         }
         if(person.isEmpty()){
             name.setError("Name cannot be empty");
