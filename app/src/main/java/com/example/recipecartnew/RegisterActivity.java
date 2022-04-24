@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.text.TextWatcher;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -85,6 +87,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if(confirm.isEmpty()){
             confirmPass.setError("Confirmation cannot be empty");
+        }
+        else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(e).matches()){
+            email.setError("Invalid Email Address");
         }
         else if(pass.length() < 6){
             password.setError("Password must be at least 6 characters");

@@ -24,6 +24,7 @@
         android:layout_marginTop="25dp"
         android:minHeight="48dp"
         android:hint="Email"
+        android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@+id/text_register"
         tools:layout_editor_absoluteX="0dp" />
 

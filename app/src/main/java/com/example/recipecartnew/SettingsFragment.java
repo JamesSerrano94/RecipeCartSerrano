@@ -2,6 +2,7 @@ package com.example.recipecartnew;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,20 @@ public class SettingsFragment extends Fragment {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item,categories);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinnerUser.setAdapter(spinnerAdapter);
+        password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                password.setTransformationMethod(new PasswordTransformationMethod());
+            }
+        });
+
+        confirmPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmPass.setTransformationMethod(new PasswordTransformationMethod());
+            }
+        });
+
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +119,7 @@ public class SettingsFragment extends Fragment {
                         databaseReference.child("users").child(user).child("measureType").setValue(currentUser.getMeasureType());
                         databaseReference.child("users").child(currentUser.getUsername()).removeValue();
                         currentUser.setUsername(user);
+                        username.getText().clear();
                     }
                 }
 
@@ -121,6 +137,7 @@ public class SettingsFragment extends Fragment {
             else {
                 databaseReference.child("users").child(currentUser.getUsername()).child("email").setValue(e);
                 currentUser.setEmail(e);
+                email.getText().clear();
             }
         }
 
@@ -144,10 +161,13 @@ public class SettingsFragment extends Fragment {
             else{
                 databaseReference.child("users").child(currentUser.getUsername()).child("password").setValue(pass);
                 currentUser.setPassword(pass);
+                password.getText().clear();
+                confirmPass.getText().clear();
             }
         }
         if(!unit.equals(currentUser.getMeasureType())){
             databaseReference.child("users").child(currentUser.getUsername()).child("measureType").setValue(unit);
+            currentUser.setMeasureType(unit);
         }
     }
 }
