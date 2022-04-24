@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddIngredientFragment extends Fragment {
-    List<AddPantryFragment.itemDescription> pantryItems;
+    List<itemDescription> pantryItems;
     List<String> categories;
 
     @Nullable
@@ -48,8 +48,8 @@ public class AddIngredientFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(spinnerAdapter);
 
-        pantryItems = new ArrayList<AddPantryFragment.itemDescription>();
-        ArrayAdapter<AddPantryFragment.itemDescription> pantryAdapter = new ArrayAdapter<AddPantryFragment.itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
+        pantryItems = new ArrayList<itemDescription>();
+        ArrayAdapter<itemDescription> pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
         pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pantryList.setAdapter(pantryAdapter);
 
@@ -59,11 +59,11 @@ public class AddIngredientFragment extends Fragment {
             public void onClick(View v) {
                 String item = String.valueOf(addItem.getText());
                 String itemName = AddPantryFragment.parseItem(item);
-                AddPantryFragment.itemDescription newItem;
+                itemDescription newItem;
                 if (String.valueOf(qnty.getText()).equals("")) {
-                    newItem = new AddPantryFragment.itemDescription(itemName); }
+                    newItem = new itemDescription(itemName); }
                 else {
-                    newItem = new AddPantryFragment.itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())); }
+                    newItem = new itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())); }
                 if (itemName.length() > 0 && !AddPantryFragment.isInList(itemName)){
                     pantryItems.add(newItem);
                     pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -82,11 +82,11 @@ public class AddIngredientFragment extends Fragment {
             public void onClick(View v) {
                 String item = String.valueOf(addItem.getText());
                 String itemName = AddPantryFragment.parseItem(item);
-                AddPantryFragment.itemDescription newItem;
+                itemDescription newItem;
                 if (String.valueOf(qnty.getText()).equals("")) {
-                    newItem = new AddPantryFragment.itemDescription(itemName);
+                    newItem = new itemDescription(itemName);
                 } else {
-                    newItem = new AddPantryFragment.itemDescription(itemName,
+                    newItem = new itemDescription(itemName,
                             Double.valueOf(String.valueOf(qnty.getText())),
                             categories.get(unitSpinner.getSelectedItemPosition()));
                 }

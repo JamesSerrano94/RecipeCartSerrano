@@ -67,6 +67,7 @@ public class AddRecipeFragment extends Fragment  implements View.OnClickListener
         button.setOnClickListener((View.OnClickListener) this);
         return view;
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){

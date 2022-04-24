@@ -19,7 +19,12 @@ import java.util.List;
 
 public class AddPantryFragment extends Fragment {
     static List<itemDescription> pantryItems;
+    static ArrayList<itemDescription> pantryData;
+    ArrayAdapter<itemDescription> pantryAdapter;
+    ListView pantryList;
+    DatabaseHelper myDB;
     List<String> categories;
+    String currentUser = User.getInstance().getUsername();
     protected static String trimString(String item) {
         StringBuilder str = new StringBuilder(item);
         for (int i = 0; i < item.length(); i++) {
@@ -57,57 +62,12 @@ public class AddPantryFragment extends Fragment {
         return str.toString();
 
     }
-    protected static class itemDescription{
-        String name;
-        double amount;
-        String unit;
-
-        public itemDescription(String name){
-            this.name = name;
-            amount = 1;
-            unit = " "; }
-
-        public itemDescription(String name, double amount, String unit){
-            this.name = name;
-            if (amount <= 0){
-                this.amount = 1; }
-            else {
-                this.amount = amount; }
-            this.unit = unit; }
-
-        public String getName(){
-            return name; }
-
-        @NonNull
-        @Override
-        public String toString() {
-            StringBuilder fullDescription = new StringBuilder(name);
-
-            fullDescription.append(" ");
-            if (amount %1 < .01){
-                fullDescription.append(String.valueOf((int)amount));
-            } else {
-                fullDescription.append(String.valueOf(amount)); }
-            fullDescription.append(" ");
-            fullDescription.append(String.valueOf(unit));
-
-            return fullDescription.toString();
-        }
-
-        public double getAmount(){
-            return amount;}
-
-        public void setAmount(double amount){
-            this.amount = amount;}
-    }
-
     protected static boolean isInList(String item){
-        for (int i = 0; i < pantryItems.size(); i++){
-            if (pantryItems.get(i).getName().equals(item)){
+        for (int i = 0; i < pantryData.size(); i++){
+            if (pantryData.get(i).getName().equals(item)){
                 return true; }
         }
         return false;}
-
     protected static int getIndexOf(String item){
         for (int i = 0; i < pantryItems.size(); i++){
             if (pantryItems.get(i).getName().equals(item)){
@@ -124,9 +84,10 @@ public class AddPantryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        myDB = new DatabaseHelper(getContext());
+        ListView pantryList = (ListView) view.findViewById(R.id.pantryList);
         Spinner unitSpinner = (Spinner) view.findViewById(R.id.unitSpinner);
         Button addButton = (Button) view.findViewById(R.id.addButton);
-        ListView pantryList = (ListView) view.findViewById(R.id.pantryList);
         TextView addItem = (TextView) view.findViewById(R.id.addItemTxtField);
         TextView qnty = (TextView) view.findViewById(R.id.qntyTxtField);
         Button clearButton = (Button) view.findViewById(R.id.clearButton);
@@ -136,13 +97,14 @@ public class AddPantryFragment extends Fragment {
         categories.add(" ");
         categories.add("Kgs");
         categories.add("L");
-        //ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(view, android.R.layout.simple_spinner_item, categories);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item,categories);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(spinnerAdapter);
 
         pantryItems = new ArrayList<itemDescription>();
-        ArrayAdapter<itemDescription> pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
+        pantryData = new ArrayList<itemDescription>();
+        pantryData = myDB.getAllPantryData(currentUser);
+        pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
         pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pantryList.setAdapter(pantryAdapter);
 
@@ -159,12 +121,18 @@ public class AddPantryFragment extends Fragment {
                     newItem = new itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())); }
                 if (itemName.length() > 0 && !isInList(itemName)){
                     pantryItems.add(newItem);
+                    myDB.insertDataPantry(currentUser,newItem.name,(int)newItem.amount);
+                    pantryData = myDB.getAllPantryData(currentUser);
+                    pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
                     pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     pantryList.setAdapter(pantryAdapter);}
                 else if (itemName.length() > 0){
                     double newAmount = pantryItems.get(getIndexOf(itemName)).getAmount();
                     newAmount += newItem.getAmount();
                     pantryItems.get(getIndexOf(itemName)).setAmount(newAmount);
+                    myDB.updatePantryData(currentUser,newItem.name, (int) newAmount);
+                    pantryData= myDB.getAllPantryData(currentUser);
+                    pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
                     pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     pantryList.setAdapter(pantryAdapter);}
 
