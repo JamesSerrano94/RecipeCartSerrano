@@ -9,7 +9,6 @@ public class User {
         }
         return instance;
     }
-
     private User(){ }
     public void logout(){
         this.username = null;
@@ -18,9 +17,6 @@ public class User {
         this.measureType = null;
         this.instance = null;
     }
-
-
-
 
     public void setUsername(String username){
         this.username = username;

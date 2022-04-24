@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
     <Button
         android:id="@+id/pfp"
         android:layout_width="wrap_content"
@@ -53,6 +51,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_email" />
 
+    <EditText
+        android:id="@+id/new_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_password" />
+
     <Spinner
         android:id="@+id/unitSpinnerUser"
         android:layout_width="300dp"
@@ -60,7 +70,7 @@
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_password" />
+        app:layout_constraintTop_toBottomOf="@+id/new_confirm" />
 
     <Button
         android:id="@+id/favorites"
