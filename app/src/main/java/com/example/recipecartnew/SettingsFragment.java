@@ -63,7 +63,8 @@ public class SettingsFragment extends Fragment {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item,categories);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinnerUser.setAdapter(spinnerAdapter);
-
+        if (currentUser.getMeasureType().equals("Metric")){
+            unitSpinnerUser.setSelection(1);}
         password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
