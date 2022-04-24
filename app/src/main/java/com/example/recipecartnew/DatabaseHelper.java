@@ -133,4 +133,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(PANTRY_TABLE,contentValues,PCOL_1 +" = ? AND "+PCOL_2+"= ?",new String[] {username,ingredient});
         return true;
     }
+    //used only if amount reached zero, else the updatePantryData will be called
+    public Integer deletePantryData(String username, String ingredient){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        return sqLiteDatabase.delete(PANTRY_TABLE,PCOL_1+" = ? AND "+PCOL_2 + " = ?", new String[]{username,ingredient});
+    }
+    public Integer clearUserPantry(String username){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        return sqLiteDatabase.delete(PANTRY_TABLE,PCOL_1+" = ?", new String[]{username});
+    }
 }
