@@ -134,6 +134,10 @@ public class SettingsFragment extends Fragment {
             if(e.equals(currentUser.getEmail())){
                 email.setError("Please enter a new email");
             }
+
+            else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(e).matches()){
+                email.setError("Invalid email address");
+            }
             else {
                 databaseReference.child("users").child(currentUser.getUsername()).child("email").setValue(e);
                 currentUser.setEmail(e);
