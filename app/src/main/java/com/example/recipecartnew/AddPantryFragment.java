@@ -99,7 +99,7 @@ public class AddPantryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         myDB = new DatabaseHelper(getContext());
-        ListView pantryList = (ListView) view.findViewById(R.id.pantryList);
+        ListView pantryList = (ListView) view.findViewById(R.id.recipeList);
         Spinner unitSpinner = (Spinner) view.findViewById(R.id.unitSpinner);
         Button addButton = (Button) view.findViewById(R.id.addButton);
         TextView addItem = (TextView) view.findViewById(R.id.addItemTxtField);
@@ -149,9 +149,11 @@ public class AddPantryFragment extends Fragment {
                 else if (itemName.length() > 0){
                     double newAmount = getAmount(itemName);
                     newAmount += newItem.getAmount();
-                    pantryItems.get(getIndexOf(itemName)).setAmount(newAmount);
+
+                    //pantryItems.get(getIndexOf(itemName)).setAmount(newAmount);
                     myDB.updatePantryData(currentUser,newItem.name, newAmount);
                     pantryData= myDB.getAllPantryData(currentUser);
+
                     pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
                     pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     pantryList.setAdapter(pantryAdapter);}

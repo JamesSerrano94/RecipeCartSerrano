@@ -18,7 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddIngredientFragment extends Fragment {
-    List<itemDescription> pantryItems;
+    static List<itemDescription> recipeItems;
+    static ArrayList<itemDescription> recipeData;
+    ArrayAdapter<itemDescription> recipeAdapter;
+    ListView recipeList;
     List<String> categories;
 
     @Nullable
@@ -28,17 +31,55 @@ public class AddIngredientFragment extends Fragment {
 
     }
 
+    protected static boolean isInRecipeDatabase(String item){
+        for (int i = 0; i < recipeItems.size(); i++){
+            if (recipeItems.get(i).getName().equals(item)){
+                return true; }
+        }
+        return false;}
+    protected static double getRecipeAmount(String item){
+        for (int i = 0; i<recipeItems.size();i++){
+            if (recipeItems.get(i).getName().equals(item)){
+                return recipeItems.get(i).amount; }
+        }
+        return -1;
+    }
+    protected static boolean isInRecipeList(String item){
+        for (int i = 0; i < recipeItems.size(); i++){
+            if (recipeItems.get(i).getName().equals(item)){
+                return true; }
+        }
+        return false;}
+    protected static int getRecipeIndexOf(String item){
+        for (int i = 0; i < recipeItems.size(); i++){
+            if (recipeItems.get(i).getName().equals(item)){
+                return i; }
+        }
+        return -1;}
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Spinner unitSpinner = (Spinner) view.findViewById(R.id.unitSpinner);
         Button addButton = (Button) view.findViewById(R.id.addButton);
-        ListView pantryList = (ListView) view.findViewById(R.id.pantryList);
+        ListView recipeList = (ListView) view.findViewById(R.id.recipeList);
         TextView addItem = (TextView) view.findViewById(R.id.addItemTxtField);
         TextView qnty = (TextView) view.findViewById(R.id.qntyTxtField);
         Button doneButton = (Button) view.findViewById(R.id.doneButton);
         Button removeButton = (Button) view.findViewById(R.id.removeButton);
         User currentUser = User.getInstance();
+
+        recipeItems = new ArrayList<itemDescription>();
+        System.out.println("YAY!!!!!!!!/n/n/n/n/n/\n\n\n\n\n\n\n\n");
+        recipeAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, recipeItems);
+
+        recipeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        recipeList.setAdapter(recipeAdapter);
+        System.out.println("BOO!!!!!!!!/n/n/n/n/n/\n\n\n\n\n\n\n\n");
+
+
 
         categories = new ArrayList<String>();
         categories.add(" ");
@@ -49,14 +90,15 @@ public class AddIngredientFragment extends Fragment {
             categories.add("Lbs");
             categories.add("Gallon"); }
         //ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(view, android.R.layout.simple_spinner_item, categories);
+
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item,categories);
+
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(spinnerAdapter);
 
-        pantryItems = new ArrayList<itemDescription>();
-        ArrayAdapter<itemDescription> pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
-        pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pantryList.setAdapter(pantryAdapter);
+
+
+
 
 
 
@@ -69,16 +111,18 @@ public class AddIngredientFragment extends Fragment {
                     newItem = new itemDescription(itemName); }
                 else {
                     newItem = new itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())); }
-                if (itemName.length() > 0 && !AddPantryFragment.isInList(itemName)){
-                    pantryItems.add(newItem);
-                    pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    pantryList.setAdapter(pantryAdapter);}
+                if (itemName.length() > 0 && !isInRecipeDatabase(itemName)){
+                    recipeItems.add(newItem);
+                    recipeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    recipeList.setAdapter(recipeAdapter);
+                }
                 else if (itemName.length() > 0){
-                    double newAmount = pantryItems.get(AddPantryFragment.getIndexOf(itemName)).getAmount();
+                    double newAmount = getRecipeAmount(itemName);
                     newAmount += newItem.getAmount();
-                    pantryItems.get(AddPantryFragment.getIndexOf(itemName)).setAmount(newAmount);
-                    pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    pantryList.setAdapter(pantryAdapter);}
+                    recipeItems.get(getRecipeIndexOf(itemName)).setAmount(newAmount);
+                    recipeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    recipeList.setAdapter(recipeAdapter);
+                }
 
 
 
@@ -97,17 +141,17 @@ public class AddIngredientFragment extends Fragment {
                             Double.valueOf(String.valueOf(qnty.getText())),
                             categories.get(unitSpinner.getSelectedItemPosition()));
                 }
-                if (AddPantryFragment.isInList(itemName)) {
+                if (isInRecipeDatabase(itemName)) {
                     if (itemName.length() > 0) {
-                        double newAmount = pantryItems.get(AddPantryFragment.getIndexOf(itemName)).getAmount();
+                        double newAmount = recipeItems.get(getRecipeIndexOf(itemName)).getAmount();
                         newAmount -= newItem.getAmount();
                         if (newAmount <= .01) {
-                            pantryItems.remove(AddPantryFragment.getIndexOf(itemName));
+                            recipeItems.remove(getRecipeIndexOf(itemName));
                         } else {
-                            pantryItems.get(AddPantryFragment.getIndexOf(itemName)).setAmount(newAmount);
+                            recipeItems.get(getRecipeIndexOf(itemName)).setAmount(newAmount);
                         }
-                        pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        pantryList.setAdapter(pantryAdapter);
+                        recipeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        recipeList.setAdapter(recipeAdapter);
                     }
                 }
 

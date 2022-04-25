@@ -32,10 +32,10 @@ public class itemDescription{
         StringBuilder fullDescription = new StringBuilder(name);
 
         fullDescription.append(" ");
-        if (amount %1 < .01){
+        if (amount %1 < .01 || amount %1 > .99){
             fullDescription.append(String.valueOf((int)amount));
         } else {
-            fullDescription.append(String.valueOf(amount)); }
+            fullDescription.append(String.format("%.2f", amount)); }
         fullDescription.append(" ");
         fullDescription.append(String.valueOf(unit));
 

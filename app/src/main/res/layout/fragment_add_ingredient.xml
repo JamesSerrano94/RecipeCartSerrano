@@ -91,7 +91,7 @@
 
 
     <ListView
-        android:id="@+id/pantryList"
+        android:id="@+id/recipeList"
         android:layout_width="350dp"
         android:layout_height="260dp"
         app:layout_constraintEnd_toEndOf="parent"
