@@ -8,6 +8,7 @@ public class itemDescription{
     String unit;
 
 
+
     public itemDescription(String name){
         this.name = name;
         amount = 1;

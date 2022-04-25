@@ -74,6 +74,7 @@ public class PantryFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.PantryButton:

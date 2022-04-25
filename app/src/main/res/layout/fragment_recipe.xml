@@ -10,7 +10,6 @@
         android:layout_width="413dp"
         android:layout_height="wrap_content">
 
-
         <TextView
             android:id="@+id/RecipeList"
             android:layout_width="wrap_content"

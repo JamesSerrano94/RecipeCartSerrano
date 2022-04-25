@@ -12,7 +12,6 @@
     tools:context=".PantryFragment"
     >
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/PantryButton"
         android:layout_width="75dp"

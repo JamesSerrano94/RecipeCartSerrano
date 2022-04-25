@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.navigation_home:
                             selectedFragment = new HomeFragment();
                             break;
+
                         case R.id.navigation_recipe:
                             selectedFragment = new RecipeFragment();
                             break;

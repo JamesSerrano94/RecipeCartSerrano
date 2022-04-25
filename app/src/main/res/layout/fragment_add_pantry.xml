@@ -108,7 +108,6 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/removeButton" />
-
     <Button
         android:id="@+id/returnButton"
         android:layout_width="73dp"

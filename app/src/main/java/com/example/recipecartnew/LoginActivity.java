@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{
 
+
             databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

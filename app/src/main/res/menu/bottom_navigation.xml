@@ -11,7 +11,6 @@
         android:id="@+id/navigation_recipe"
         android:icon="@drawable/ic_baseline_food_bank_24"
         android:title="Recipe" />
-
     <item
         android:id="@+id/navigation_pantry"
         android:icon="@drawable/ic_baseline_pantry_24"

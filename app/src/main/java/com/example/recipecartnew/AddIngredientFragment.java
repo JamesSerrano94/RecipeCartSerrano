@@ -76,6 +76,7 @@ public class AddIngredientFragment extends Fragment {
                     pantryList.setAdapter(pantryAdapter);}
 
 
+
                 addItem.setText("");
                 qnty.setText("");}
         });

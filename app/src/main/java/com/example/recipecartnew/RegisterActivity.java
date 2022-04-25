@@ -57,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+
         confirmPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

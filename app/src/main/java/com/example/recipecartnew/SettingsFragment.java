@@ -37,6 +37,7 @@ public class SettingsFragment extends Fragment {
     private boolean updated=false;
     List<String> categories;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
