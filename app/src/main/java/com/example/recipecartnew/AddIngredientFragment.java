@@ -36,13 +36,18 @@ public class AddIngredientFragment extends Fragment {
         ListView pantryList = (ListView) view.findViewById(R.id.pantryList);
         TextView addItem = (TextView) view.findViewById(R.id.addItemTxtField);
         TextView qnty = (TextView) view.findViewById(R.id.qntyTxtField);
-        Button clearButton = (Button) view.findViewById(R.id.clearButton);
+        Button doneButton = (Button) view.findViewById(R.id.doneButton);
         Button removeButton = (Button) view.findViewById(R.id.removeButton);
+        User currentUser = User.getInstance();
 
         categories = new ArrayList<String>();
         categories.add(" ");
-        categories.add("Kgs");
-        categories.add("L");
+        if (currentUser.getMeasureType().equals("Metric")){
+            categories.add("Kgs");
+            categories.add("L");}
+        else {
+            categories.add("Lbs");
+            categories.add("Gallon"); }
         //ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(view, android.R.layout.simple_spinner_item, categories);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item,categories);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -115,8 +120,11 @@ public class AddIngredientFragment extends Fragment {
 
 
 
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction().replace(getId(),
+                        new AddRecipeFragment()).commit();
 
             }
         });

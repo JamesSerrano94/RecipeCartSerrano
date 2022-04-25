@@ -25,6 +25,7 @@ public class AddPantryFragment extends Fragment {
     DatabaseHelper myDB;
     List<String> categories;
     String currentUser = User.getInstance().getUsername();
+    User user = User.getInstance();
     protected static String trimString(String item) {
         StringBuilder str = new StringBuilder(item);
         for (int i = 0; i < item.length(); i++) {
@@ -103,14 +104,18 @@ public class AddPantryFragment extends Fragment {
         Button addButton = (Button) view.findViewById(R.id.addButton);
         TextView addItem = (TextView) view.findViewById(R.id.addItemTxtField);
         TextView qnty = (TextView) view.findViewById(R.id.qntyTxtField);
-        Button clearButton = (Button) view.findViewById(R.id.clearButton);
+        Button clearButton = (Button) view.findViewById(R.id.doneButton);
         Button removeButton = (Button) view.findViewById(R.id.removeButton);
         Button returnButton = (Button) view.findViewById(R.id.returnButton);
 
         categories = new ArrayList<String>();
         categories.add(" ");
-        categories.add("Kgs");
-        categories.add("L");
+        if (user.getMeasureType().equals("Metric")){
+            categories.add("Kgs");
+            categories.add("L");}
+        else {
+            categories.add("Lbs");
+            categories.add("Gallon"); }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item,categories);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(spinnerAdapter);

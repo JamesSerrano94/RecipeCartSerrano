@@ -1,17 +1,14 @@
 package com.example.recipecartnew;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipecartnew.databinding.FragmentPantryBinding;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * TODO: Replace the implementation with code for your data type.
@@ -38,6 +35,7 @@ public class MyPantryRecyclerViewAdapter extends RecyclerView.Adapter<MyPantryRe
         holder.mItem = mValues.get(position);
         holder.mIngredient.setText(mValues.get(position).name);
         holder.mAmount.setText(String.valueOf(mValues.get(position).amount));
+        //TESTLINEOFCODE
 
     }
 
