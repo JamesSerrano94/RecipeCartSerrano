@@ -136,7 +136,7 @@ public class AddPantryFragment extends Fragment {
                     newItem = new itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())); }
                 if (itemName.length() > 0 && !isInDatabase(itemName)){
                     pantryItems.add(newItem);
-                    myDB.insertDataPantry(currentUser,newItem.name,(int)newItem.amount);
+                    myDB.insertDataPantry(currentUser,newItem.name,newItem.amount);
                     pantryData = myDB.getAllPantryData(currentUser);
                     pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
                     pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -145,7 +145,7 @@ public class AddPantryFragment extends Fragment {
                     double newAmount = getAmount(itemName);
                     newAmount += newItem.getAmount();
                     pantryItems.get(getIndexOf(itemName)).setAmount(newAmount);
-                    myDB.updatePantryData(currentUser,newItem.name, (int) newAmount);
+                    myDB.updatePantryData(currentUser,newItem.name, newAmount);
                     pantryData= myDB.getAllPantryData(currentUser);
                     pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
                     pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -177,7 +177,7 @@ public class AddPantryFragment extends Fragment {
                             pantryData= myDB.getAllPantryData(currentUser);
                         } else {
                             //pantryData.get(getIndexOf(itemName)).setAmount(newAmount);
-                            myDB.updatePantryData(currentUser,newItem.name, (int) newAmount);
+                            myDB.updatePantryData(currentUser,newItem.name,  newAmount);
                             pantryData= myDB.getAllPantryData(currentUser);
 
                         }

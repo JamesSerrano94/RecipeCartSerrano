@@ -75,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
 
     }
-    public boolean insertDataPantry(String username, String ingredient, int amount){
+    public boolean insertDataPantry(String username, String ingredient, double amount){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PCOL_1,username);
@@ -124,7 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean updatePantryData(String username, String ingredient, int amount){
+    public boolean updatePantryData(String username, String ingredient, double amount){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PCOL_1,username);
