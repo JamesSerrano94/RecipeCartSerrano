@@ -3,6 +3,7 @@ package com.example.recipecartnew;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.motion.widget.Debug;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +33,8 @@ import java.util.List;
 public class SettingsFragment extends Fragment {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pantry-ae39f-default-rtdb.firebaseio.com/");
     User currentUser = User.getInstance();
+    DatabaseHelper myDB;
+    static ArrayList<itemDescription> pantryData;
     private Button btnUpdate, btnPhoto, btnFavorites, btnLogout;
     private Spinner unitSpinnerUser;
     private EditText password,confirmPass,name,email;
@@ -56,10 +60,11 @@ public class SettingsFragment extends Fragment {
         name = (EditText) view.findViewById(R.id.new_name);
         email = (EditText) view.findViewById(R.id.new_email);
         confirmPass = (EditText) view.findViewById(R.id.new_confirm);
-
+        myDB = new DatabaseHelper(getContext());
         categories = new ArrayList<String>();
         categories.add("Imperial");
         categories.add("Metric");
+
         //ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(view, android.R.layout.simple_spinner_item, categories);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item,categories);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -166,6 +171,43 @@ public class SettingsFragment extends Fragment {
             }
         }
         if(!unit.equals(currentUser.getMeasureType())){
+            pantryData = new ArrayList<itemDescription>();
+            pantryData = myDB.getAllPantryData(currentUser.getUsername());
+            if(currentUser.getMeasureType().equals("Imperial")){
+                for(int i=0; i<pantryData.size(); i++){
+                    Log.d("OLD DATABASE", pantryData.get(i).toString());
+                    if(pantryData.get(i).getUnit().equals("Lbs")){
+                        pantryData.get(i).setUnit("Kgs");
+                        pantryData.get(i).setAmount(pantryData.get(i).getAmount()/2.205);
+                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
+                        Log.d("UPDATED DATABASE", pantryData.get(i).toString());
+                    }
+                    else if(pantryData.get(i).getUnit().equals("Gallon")){
+                        pantryData.get(i).setUnit("L");
+                        pantryData.get(i).setAmount(pantryData.get(i).getAmount()*3.785);
+                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
+                        Log.d("UPDATED DATABASE", pantryData.get(i).toString());
+                    }
+                }
+            }
+
+            else if(currentUser.getMeasureType().equals("Metric")){
+                for(int i=0; i<pantryData.size(); i++){
+                    if(pantryData.get(i).getUnit().equals("Kgs")){
+                        pantryData.get(i).setUnit("Lbs");
+                        pantryData.get(i).setAmount(pantryData.get(i).getAmount()*2.205);
+                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
+                        Log.d("UPDATED DATABASE", pantryData.get(i).toString());
+
+                    }
+                    else if(pantryData.get(i).getUnit().equals("L")){
+                        pantryData.get(i).setUnit("Gallon");
+                        pantryData.get(i).setAmount(pantryData.get(i).getAmount()/3.785);
+                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
+                        Log.d("UPDATED DATABASE", pantryData.get(i).toString());
+                    }
+                }
+            }
             databaseReference.child("users").child(currentUser.getUsername()).child("measureType").setValue(unit);
             currentUser.setMeasureType(unit);
             updated = true;

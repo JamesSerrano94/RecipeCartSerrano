@@ -47,4 +47,12 @@ public class itemDescription{
 
     public void setAmount(double amount){
         this.amount = amount;}
+
+    public void setUnit(String unit){
+        this.unit = unit;
+    }
+
+    public String getUnit(){
+        return this.unit;
+    }
 }
