@@ -124,6 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+
     public boolean updatePantryData(String username, String ingredient, int amount){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

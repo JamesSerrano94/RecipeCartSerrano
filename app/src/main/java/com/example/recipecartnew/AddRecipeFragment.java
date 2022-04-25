@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 ///**
 // * A simple {@link Fragment} subclass.
 // * Use the {@link AddRecipeFragment#newInstance} factory method to
@@ -66,6 +68,9 @@ public class AddRecipeFragment extends Fragment  implements View.OnClickListener
         Button button;
         button = (Button)view.findViewById(R.id.ingredients);
         button.setOnClickListener((View.OnClickListener) this);
+        Button button2;
+        button2 = view.findViewById(R.id.upload);
+        button2.setOnClickListener( this);
         return view;
     }
 
@@ -75,6 +80,10 @@ public class AddRecipeFragment extends Fragment  implements View.OnClickListener
             case R.id.ingredients:
                 getParentFragmentManager().beginTransaction().replace(this.getId(),
                         new AddIngredientFragment()).commit();
+                return;
+            case R.id.upload:
+                getParentFragmentManager().beginTransaction().replace(this.getId(),
+                        new RecipeFragment()).commit();
                 return;
         }
 

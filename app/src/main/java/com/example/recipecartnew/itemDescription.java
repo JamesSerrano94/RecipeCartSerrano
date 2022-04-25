@@ -13,6 +13,7 @@ public class itemDescription{
         amount = 1;
         unit = " "; }
 
+
     public itemDescription(String name, double amount, String unit){
         this.name = name;
         if (amount <= 0){

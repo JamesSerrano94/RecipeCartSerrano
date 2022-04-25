@@ -105,6 +105,7 @@ public class AddPantryFragment extends Fragment {
         TextView qnty = (TextView) view.findViewById(R.id.qntyTxtField);
         Button clearButton = (Button) view.findViewById(R.id.clearButton);
         Button removeButton = (Button) view.findViewById(R.id.removeButton);
+        Button returnButton = (Button) view.findViewById(R.id.returnButton);
 
         categories = new ArrayList<String>();
         categories.add(" ");
@@ -186,6 +187,7 @@ public class AddPantryFragment extends Fragment {
                     }
                 }
 
+
                 addItem.setText("");
                 qnty.setText("");
             }
@@ -204,6 +206,15 @@ public class AddPantryFragment extends Fragment {
                 pantryList.setAdapter(pantryAdapter);
                 addItem.setText("");
                 qnty.setText("");
+            }
+        });
+
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction().replace(getId(),
+                        new PantryFragment()).commit();
+
             }
         });
     }

@@ -44,13 +44,11 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.navigation_home:
                             selectedFragment = new HomeFragment();
                             break;
-                        case R.id.navigation_add:
-                            //selectedFragment = new AddFragment();
-                            selectedFragment = new AddRecipeFragment();
+                        case R.id.navigation_recipe:
+                            selectedFragment = new RecipeFragment();
                             break;
                         case R.id.navigation_pantry:
-                            //selectedFragment = new PantryFragment();
-                            selectedFragment = new AddPantryFragment();
+                            selectedFragment = new PantryFragment();
                             break;
                         case R.id.navigation_search:
                             selectedFragment = new SearchFragment();

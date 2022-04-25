@@ -75,6 +75,7 @@ public class AddIngredientFragment extends Fragment {
                     pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     pantryList.setAdapter(pantryAdapter);}
 
+
                 addItem.setText("");
                 qnty.setText("");}
         });

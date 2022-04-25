@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * A fragment representing a list of Items.
  */
-public class PantryFragment extends Fragment implements View.OnClickListener {
+public class RecipeFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -30,20 +30,20 @@ public class PantryFragment extends Fragment implements View.OnClickListener {
 
     DatabaseHelper myDB;
     String currentUser = User.getInstance().getUsername();
-    ArrayList<itemDescription> pantry;
+    ArrayList<itemDescription> recipe;
 
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public PantryFragment() {
+    public RecipeFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PantryFragment newInstance(int columnCount) {
-        PantryFragment fragment = new PantryFragment();
+    public static RecipeFragment newInstance(int columnCount) {
+        RecipeFragment fragment = new RecipeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -62,23 +62,24 @@ public class PantryFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pantry_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
         FloatingActionButton button;
-        button = (FloatingActionButton) view.findViewById(R.id.PantryButton);
+        button = (FloatingActionButton) view.findViewById(R.id.RecipeButton);
         button.setOnClickListener( this);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        pantry = myDB.getAllPantryData(currentUser);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewRecipe);
+        //pantry = myDB.getAllPantryData(currentUser);
+        recipe = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new MyPantryRecyclerViewAdapter(pantry));
+        recyclerView.setAdapter(new MyPantryRecyclerViewAdapter(recipe));
 
         return view;
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.PantryButton:
+            case R.id.RecipeButton:
                 getParentFragmentManager().beginTransaction().replace(this.getId(),
-                        new AddPantryFragment()).commit();
+                        new AddRecipeFragment()).commit();
                 return;
         }
     }
