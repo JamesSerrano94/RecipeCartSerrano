@@ -1,18 +1,13 @@
 package com.example.recipecartnew;
 
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -66,9 +61,12 @@ public class RecipeFragment extends Fragment implements View.OnClickListener {
         FloatingActionButton button;
         button = (FloatingActionButton) view.findViewById(R.id.RecipeButton);
         button.setOnClickListener( this);
+
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewRecipe);
         //pantry = myDB.getAllPantryData(currentUser);
+
         recipe = new ArrayList<>();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new MyPantryRecyclerViewAdapter(recipe));
 

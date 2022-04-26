@@ -3,29 +3,21 @@ package com.example.recipecartnew;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.motion.widget.Debug;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,18 +174,18 @@ public class SettingsFragment extends Fragment {
             pantryData = myDB.getAllPantryData(currentUser.getUsername());
             if(currentUser.getMeasureType().equals("Imperial")){
                 for(int i=0; i<pantryData.size(); i++){
-                    Log.d("OLD DATABASE", pantryData.get(i).toString());
+                    //Log.d("OLD DATABASE", pantryData.get(i).toString());
                     if(pantryData.get(i).getUnit().equals("Lbs")){
                         pantryData.get(i).setUnit("Kgs");
                         pantryData.get(i).setAmount(pantryData.get(i).getAmount()/2.205);
                         myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
-                        Log.d("UPDATED DATABASE", pantryData.get(i).toString());
+                        //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
                     }
                     else if(pantryData.get(i).getUnit().equals("Gallon")){
                         pantryData.get(i).setUnit("L");
                         pantryData.get(i).setAmount(pantryData.get(i).getAmount()*3.785);
                         myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
-                        Log.d("UPDATED DATABASE", pantryData.get(i).toString());
+                        //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
                     }
                 }
             }
@@ -204,14 +196,14 @@ public class SettingsFragment extends Fragment {
                         pantryData.get(i).setUnit("Lbs");
                         pantryData.get(i).setAmount(pantryData.get(i).getAmount()*2.205);
                         myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
-                        Log.d("UPDATED DATABASE", pantryData.get(i).toString());
+                        //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
 
                     }
                     else if(pantryData.get(i).getUnit().equals("L")){
                         pantryData.get(i).setUnit("Gallon");
                         pantryData.get(i).setAmount(pantryData.get(i).getAmount()/3.785);
                         myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
-                        Log.d("UPDATED DATABASE", pantryData.get(i).toString());
+                        //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
                     }
                 }
             }

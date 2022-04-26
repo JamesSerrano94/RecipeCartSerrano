@@ -93,7 +93,7 @@
     <ListView
         android:id="@+id/recipeList"
         android:layout_width="350dp"
-        android:layout_height="260dp"
+        android:layout_height="230dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/scrollView2" />

@@ -28,12 +28,24 @@
         android:id="@+id/recyclerViewRecipe"
         android:layout_width="480dp"
         android:layout_height="937dp"
+        android:layout_marginTop="96dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.188"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/fragment_recipe" />
+
+    <TextView
+        android:id="@+id/YourRecipes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Recipes"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewRecipe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,7 +17,6 @@ buildscript {
             google()  // Google's Maven repository
 
 
-
         }
     }
 }
