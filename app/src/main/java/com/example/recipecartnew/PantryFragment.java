@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,6 +31,7 @@ public class PantryFragment extends Fragment implements View.OnClickListener {
 
     DatabaseHelper myDB;
     String currentUser = User.getInstance().getUsername();
+    String currentUserName = User.getInstance().getName();
     ArrayList<itemDescription> pantry;
 
 
@@ -64,8 +66,10 @@ public class PantryFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pantry_list, container, false);
         FloatingActionButton button;
+        TextView UserName = view.findViewById(R.id.yourPantry);
         button = (FloatingActionButton) view.findViewById(R.id.PantryButton);
-        button.setOnClickListener( this);
+        UserName.setText(currentUserName+"'s Pantry");
+        button.setOnClickListener(this);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         pantry = myDB.getAllPantryData(currentUser);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

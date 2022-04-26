@@ -92,8 +92,8 @@ public class LoginActivity extends AppCompatActivity {
                             currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
                             currentUser.setMeasureType(snapshot.child(user).child("measureType").getValue(String.class));
 
-                          // myDB.dropTables();
-                            myDB.insertDataUser(user,pass);
+                           //myDB.dropTables();
+                            myDB.insertDataUser(user,user);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                         else {

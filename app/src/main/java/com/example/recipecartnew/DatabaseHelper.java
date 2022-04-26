@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_TABLE = "User_table";
     public static final String UCOL_1 = "Username";
     public static final String UCOL_1_type = "String";
-    public static final String UCOL_2 = "Password";
+    public static final String UCOL_2 = "Name";
     public static final String UCOL_2_type = "String";
     public static final String PANTRY_TABLE = "Pantry_table";
     public static final String PCOL_1 = "ID";
@@ -25,6 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PCOL_2_type = "String";
     public static final String PCOL_3 = "amount";
     public static final String PCOL_3_type = "Integer";
+    public static final String PCOL_4= "unit";
+    public static final String PCOL_4_type = "String";
     public static final String RECIPE_TABLE= "Recipe_table";
     public static final String RCOL_1 = "ID";
     public static final String RCOL_2 = "Recipe";
@@ -47,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 .append("(").append(PCOL_1).append(" ").append(PCOL_1_type)
                 .append(", ").append(PCOL_2).append(" ").append(PCOL_2_type)
                 .append(", ").append(PCOL_3).append(" ").append(PCOL_3_type)
+                .append(", ").append(PCOL_4).append(" ").append(PCOL_4_type)
                 .append(", ").append("UNIQUE(").append(PCOL_1).append(",").append(PCOL_2)
                 .append(")").append(", foreign key (").append(PCOL_1)
                 .append(") REFERENCES USER_TABLE (").append(UCOL_1).append(")").append(")").toString());
@@ -63,11 +66,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+RECIPE_TABLE);
         onCreate(sqLiteDatabase);
     }
-    public boolean insertDataUser(String username, String password){
+    public boolean insertDataUser(String username, String name){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(UCOL_1,username);
-        contentValues.put(UCOL_2,password);
+        contentValues.put(UCOL_2,name);
         long result = sqLiteDatabase.insert(USER_TABLE,null,contentValues);
         if(result==-1) {
             return false;
@@ -75,12 +78,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
 
     }
-    public boolean insertDataPantry(String username, String ingredient, double amount){
+    public boolean insertDataPantry(String username, String ingredient, double amount,String unit){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PCOL_1,username);
         contentValues.put(PCOL_2,ingredient);
         contentValues.put(PCOL_3,amount);
+        contentValues.put(PCOL_4,unit);
         long result = sqLiteDatabase.insert(PANTRY_TABLE,null,contentValues);
         if(result==-1) {
             return false;
@@ -116,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<itemDescription> pantryData  = new ArrayList<>();
         Cursor res = sqLiteDatabase.rawQuery("SELECT * from "+ PANTRY_TABLE+" WHERE "+PCOL_1 + "=\""+username+"\";",null);
         while (res.moveToNext()){
-            itemDescription item = new itemDescription(res.getString(1),res.getDouble(2),"");
+            itemDescription item = new itemDescription(res.getString(1),res.getDouble(2),res.getString(3));
             pantryData.add(item);
         }
         sqLiteDatabase.close();
@@ -124,12 +128,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean updatePantryData(String username, String ingredient, double amount){
+    public boolean updatePantryData(String username, String ingredient, double amount,String unit){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PCOL_1,username);
         contentValues.put(PCOL_2,ingredient);
         contentValues.put(PCOL_3,amount);
+        contentValues.put(PCOL_4,unit);
         sqLiteDatabase.update(PANTRY_TABLE,contentValues,PCOL_1 +" = ? AND "+PCOL_2+"= ?",new String[] {username,ingredient});
         return true;
     }

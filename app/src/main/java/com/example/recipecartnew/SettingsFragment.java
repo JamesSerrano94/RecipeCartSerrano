@@ -178,13 +178,13 @@ public class SettingsFragment extends Fragment {
                     if(pantryData.get(i).getUnit().equals("Lbs")){
                         pantryData.get(i).setUnit("Kgs");
                         pantryData.get(i).setAmount(pantryData.get(i).getAmount()/2.205);
-                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
+                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount(),pantryData.get(i).getUnit());
                         //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
                     }
                     else if(pantryData.get(i).getUnit().equals("Gallon")){
                         pantryData.get(i).setUnit("L");
                         pantryData.get(i).setAmount(pantryData.get(i).getAmount()*3.785);
-                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
+                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount(),pantryData.get(i).getUnit());
                         //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
                     }
                 }
@@ -195,14 +195,14 @@ public class SettingsFragment extends Fragment {
                     if(pantryData.get(i).getUnit().equals("Kgs")){
                         pantryData.get(i).setUnit("Lbs");
                         pantryData.get(i).setAmount(pantryData.get(i).getAmount()*2.205);
-                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
+                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount(),pantryData.get(i).getUnit());
                         //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
 
                     }
                     else if(pantryData.get(i).getUnit().equals("L")){
                         pantryData.get(i).setUnit("Gallon");
                         pantryData.get(i).setAmount(pantryData.get(i).getAmount()/3.785);
-                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount());
+                        myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount(),pantryData.get(i).getUnit());
                         //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
                     }
                 }
