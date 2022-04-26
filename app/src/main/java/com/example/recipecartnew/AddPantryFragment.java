@@ -76,6 +76,7 @@ public class AddPantryFragment extends Fragment {
         }
         return -1;
     }
+
     protected static boolean isInList(String item){
         for (int i = 0; i < pantryItems.size(); i++){
             if (pantryItems.get(i).getName().equals(item)){
