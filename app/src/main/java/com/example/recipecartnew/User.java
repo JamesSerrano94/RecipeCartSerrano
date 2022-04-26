@@ -1,7 +1,7 @@
 package com.example.recipecartnew;
 
 public class User {
-    private String name, username, email, password, measureType;
+    private String name, username, email, password, measureType, imageURL;
     private static User instance;
     public static User getInstance(){
         if (instance == null){
@@ -16,6 +16,7 @@ public class User {
         this.password = null;
         this.measureType = null;
         this.name = null;
+        this.imageURL = null;
         this.instance = null;
     }
 
@@ -50,4 +51,7 @@ public class User {
     public String getMeasureType(){
         return this.measureType;
     }
+
+    public void setImageURL(String URL){ this.imageURL = URL.trim();}
+    public String getImageURL(){return this.imageURL;}
 }

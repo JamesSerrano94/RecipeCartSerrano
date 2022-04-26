@@ -99,9 +99,16 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        btnPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
 
     }
+
     public void logout(){
         currentUser.logout();
         startActivity(new Intent(getActivity(), LoginActivity.class));
