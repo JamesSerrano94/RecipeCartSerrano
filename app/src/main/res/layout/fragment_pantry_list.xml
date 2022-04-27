@@ -25,17 +25,17 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:scrollbars="vertical"
-        android:layout_width="377dp"
-        android:layout_height="635dp"
+        android:layout_width="371dp"
+        android:layout_height="503dp"
         android:layout_marginTop="96dp"
         android:accessibilityLiveRegion="none"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.107"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.14"
         tools:listitem="@layout/fragment_pantry" />
 
     <TextView

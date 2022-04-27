@@ -2,21 +2,16 @@ package com.example.recipecartnew;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.text.TextWatcher;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -130,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
                         currentUser.setPassword(pass);
                         currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
                         currentUser.setMeasureType("Imperial");
-                        myDB.dropTables();
+                        //myDB.dropTables();
                         myDB.insertDataUser(user,person);
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     }
