@@ -118,10 +118,9 @@ public class SettingsFragment extends Fragment {
             else {
                 databaseReference.child("users").child(currentUser.getUsername()).child("name").setValue(person);
                 currentUser.setName(person);
-                myDB.updateUserData(currentUser.getUsername(),person);
                 updated = true;
+                name.getText().clear();
             }
-            name.getText().clear();
         }
 
         if(!e.isEmpty()){
@@ -178,13 +177,13 @@ public class SettingsFragment extends Fragment {
                     //Log.d("OLD DATABASE", pantryData.get(i).toString());
                     if(pantryData.get(i).getUnit().equals("Lbs")){
                         pantryData.get(i).setUnit("Kgs");
-                        pantryData.get(i).setAmount(pantryData.get(i).getAmount()/2.205);
+                        pantryData.get(i).setAmount(lbsToKg(pantryData.get(i).getAmount()));
                         myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount(),pantryData.get(i).getUnit());
                         //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
                     }
                     else if(pantryData.get(i).getUnit().equals("Gallon")){
                         pantryData.get(i).setUnit("L");
-                        pantryData.get(i).setAmount(pantryData.get(i).getAmount()*3.785);
+                        pantryData.get(i).setAmount(galToL(pantryData.get(i).getAmount()));
                         myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount(),pantryData.get(i).getUnit());
                         //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
                     }
@@ -195,14 +194,14 @@ public class SettingsFragment extends Fragment {
                 for(int i=0; i<pantryData.size(); i++){
                     if(pantryData.get(i).getUnit().equals("Kgs")){
                         pantryData.get(i).setUnit("Lbs");
-                        pantryData.get(i).setAmount(pantryData.get(i).getAmount()*2.205);
+                        pantryData.get(i).setAmount(kgsToLbs(pantryData.get(i).getAmount()));
                         myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount(),pantryData.get(i).getUnit());
                         //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
 
                     }
                     else if(pantryData.get(i).getUnit().equals("L")){
                         pantryData.get(i).setUnit("Gallon");
-                        pantryData.get(i).setAmount(pantryData.get(i).getAmount()/3.785);
+                        pantryData.get(i).setAmount(lToGal(pantryData.get(i).getAmount()));
                         myDB.updatePantryData(currentUser.getUsername(),pantryData.get(i).getName(),pantryData.get(i).getAmount(),pantryData.get(i).getUnit());
                         //Log.d("UPDATED DATABASE", pantryData.get(i).toString());
                     }
@@ -216,5 +215,21 @@ public class SettingsFragment extends Fragment {
             updated = false;
             Toast.makeText(getActivity(), "Update Successful!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public double kgsToLbs(double kgs){
+        return kgs*2.205;
+    }
+
+    public double lbsToKg(double lbs){
+        return lbs/2.205;
+    }
+
+    public double lToGal(double l){
+        return l/3.785;
+    }
+
+    public double galToL(double gal){
+        return gal*3.785;
     }
 }
