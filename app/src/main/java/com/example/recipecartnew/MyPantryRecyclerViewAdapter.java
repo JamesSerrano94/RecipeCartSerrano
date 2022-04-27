@@ -34,7 +34,7 @@ public class MyPantryRecyclerViewAdapter extends RecyclerView.Adapter<MyPantryRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIngredient.setText(mValues.get(position).name);
-        holder.mAmount.setText(String.valueOf(mValues.get(position).amount));
+        holder.mAmount.setText(String.format("%.2f", mValues.get(position).amount));
         holder.mUnit.setText(String.valueOf(mValues.get(position).unit));
         //TESTLINEOFCODE
 
