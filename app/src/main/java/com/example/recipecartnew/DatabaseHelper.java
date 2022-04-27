@@ -76,7 +76,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
         return true;
+    }
+    public boolean updateUserData(String username, String name){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(PCOL_1,username);
+        contentValues.put(PCOL_2,name);
 
+        sqLiteDatabase.update(PANTRY_TABLE,contentValues,PCOL_1 +" = ?",new String[] {username});
+        return true;
     }
     public boolean insertDataPantry(String username, String ingredient, double amount,String unit){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();

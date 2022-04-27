@@ -118,6 +118,7 @@ public class SettingsFragment extends Fragment {
             else {
                 databaseReference.child("users").child(currentUser.getUsername()).child("name").setValue(person);
                 currentUser.setName(person);
+                myDB.updateUserData(currentUser.getUsername(),person);
                 updated = true;
             }
             name.getText().clear();

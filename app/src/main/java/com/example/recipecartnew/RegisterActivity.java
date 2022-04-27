@@ -30,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Button btnRegister;
     private TextView textLogin;
+    private DatabaseHelper myDB;
     private EditText name, username, confirmPass, password,email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
         String pass = password.getText().toString().trim();
         String confirm = confirmPass.getText().toString().trim();
         String e = email.getText().toString().trim();
+        myDB = new DatabaseHelper(this);
         String end = "";
         if(e.isEmpty()){
             email.setError("Email can not be empty");
@@ -128,6 +130,8 @@ public class RegisterActivity extends AppCompatActivity {
                         currentUser.setPassword(pass);
                         currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
                         currentUser.setMeasureType("Imperial");
+                        myDB.dropTables();
+                        myDB.insertDataUser(user,person);
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     }
                 }

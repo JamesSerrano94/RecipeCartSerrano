@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pantry-ae39f-default-rtdb.firebaseio.com/");
     User currentUser = User.getInstance();
     private FirebaseAuth mAuth;
-    private DatabaseHelper myDB;
     private Button btnLogin;
     private TextView textRegister;
     private EditText password,username;
@@ -66,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(){
         final String user = username.getText().toString().trim();
         final String pass = password.getText().toString().trim();
-        myDB = new DatabaseHelper(this);
+
         if(user.isEmpty()){
             username.setError("Username can not be empty");
             if(pass.isEmpty()){
@@ -92,8 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                             currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
                             currentUser.setMeasureType(snapshot.child(user).child("measureType").getValue(String.class));
 
-                           //myDB.dropTables();
-                            myDB.insertDataUser(user,user);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                         else {
