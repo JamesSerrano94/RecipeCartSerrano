@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -26,6 +27,7 @@ public class RecipeFragment extends Fragment implements View.OnClickListener {
     DatabaseHelper myDB;
     String currentUser = User.getInstance().getUsername();
     ArrayList<itemDescription> recipe;
+
 
 
     /**
@@ -49,6 +51,7 @@ public class RecipeFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myDB = new DatabaseHelper(getActivity());
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }

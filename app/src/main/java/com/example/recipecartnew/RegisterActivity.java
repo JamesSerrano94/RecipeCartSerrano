@@ -129,6 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                         myDB.insertDataUser(user,person);
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     }
+
                 }
 
                 @Override

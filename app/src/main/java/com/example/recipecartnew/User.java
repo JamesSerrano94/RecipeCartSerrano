@@ -1,5 +1,6 @@
 package com.example.recipecartnew;
 
+
 public class User {
     private String name, username, email, password, measureType, imageURL;
     private static User instance;

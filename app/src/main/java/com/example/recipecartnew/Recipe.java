@@ -2,6 +2,7 @@ package com.example.recipecartnew;
 
 public class Recipe {
 
+
     private String name, description, instructions, imageURL;
     private boolean anon;
     private itemDescription[] ingredients;

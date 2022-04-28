@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class MyRecipeRecyclerViewAdapter extends RecyclerView.Adapter<MyRecipeRecyclerViewAdapter.ViewHolder> {
 
+
     private final ArrayList<itemDescription> mValues;
 
     public MyRecipeRecyclerViewAdapter(ArrayList<itemDescription> items) {

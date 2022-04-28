@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class AddIngredientFragment extends Fragment {
     static List<itemDescription> recipeItems;
     static ArrayList<itemDescription> recipeData;

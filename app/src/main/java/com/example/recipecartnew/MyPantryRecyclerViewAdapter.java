@@ -30,6 +30,7 @@ public class MyPantryRecyclerViewAdapter extends RecyclerView.Adapter<MyPantryRe
 
     }
 
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);

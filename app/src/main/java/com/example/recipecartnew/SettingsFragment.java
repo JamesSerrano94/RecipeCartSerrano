@@ -105,6 +105,7 @@ public class SettingsFragment extends Fragment {
         currentUser.logout();
         startActivity(new Intent(getActivity(), LoginActivity.class));
     }
+
     public void update(){
         String person = name.getText().toString().trim();
         String pass = password.getText().toString().trim();

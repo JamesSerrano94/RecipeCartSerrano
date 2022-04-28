@@ -2,6 +2,7 @@ package com.example.recipecartnew;
 
 import androidx.annotation.NonNull;
 
+
 public class itemDescription{
     String name;
     double amount;
