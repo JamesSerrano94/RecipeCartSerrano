@@ -14,7 +14,11 @@
         <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_add_recipe.xml" value="0.2980072463768116" />
         <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_home.xml" value="0.34791666666666665" />
         <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_pantry.xml" value="0.34791666666666665" />
+        <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_pantry_list.xml" value="0.2171875" />
+        <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_recipe_list.xml" value="0.26222826086956524" />
+        <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_recipe_view.xml" value="0.26222826086956524" />
         <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_search.xml" value="0.34791666666666665" />
+        <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_search_list.xml" value="0.26222826086956524" />
         <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_settings.xml" value="0.29791666666666666" />
         <entry key="..\:/Users/james/AndroidStudioProjects/Pantry/app/src/main/res/layout/fragment_settings_list.xml" value="0.33016304347826086" />
         <entry key="..\:/Users/memer/AndroidStudioProjects/RecipeCartSerrano/app/src/main/res/layout/fragment_add_ingredient.xml" value="0.17255434782608695" />
@@ -33,19 +37,17 @@
         <entry key="app/src/main/res/layout/activity_options.xml" value="0.205474853515625" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_add.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_add_pantry.xml" value="0.3961661341853035" />
+        <entry key="app/src/main/res/layout/fragment_add_pantry.xml" value="0.6807792944479761" />
         <entry key="app/src/main/res/layout/fragment_add_recipe.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_options.xml" value="0.17708333333333334" />
-        <entry key="app/src/main/res/layout/fragment_pantry.xml" value="0.1864406779661017" />
+        <entry key="app/src/main/res/layout/fragment_pantry.xml" value="0.435302734375" />
         <entry key="app/src/main/res/layout/fragment_pantry_list.xml" value="0.18412698412698414" />
         <entry key="app/src/main/res/layout/fragment_recipe.xml" value="0.175" />
         <entry key="app/src/main/res/layout/fragment_recipe_list.xml" value="0.15833333333333333" />
-        <entry key="app/src/main/res/layout/fragment_recipe_view.xml" value="0.19533580835314757" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_search_list.xml" value="0.240625" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.1" />
       </map>

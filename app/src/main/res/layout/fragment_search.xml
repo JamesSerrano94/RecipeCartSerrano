@@ -12,9 +12,9 @@
 
         <TextView
             android:id="@+id/RecipeList2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
+            android:layout_width="252dp"
+            android:layout_height="74dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="TextView"
             android:textSize="24sp"
@@ -22,18 +22,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/DesList2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:layout_marginBottom="28dp"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView4" />
 
         <ImageView
             android:id="@+id/imageView4"

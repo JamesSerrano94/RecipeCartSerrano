@@ -1,19 +1,24 @@
 package com.example.recipecartnew;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link RecipeViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeViewFragment extends Fragment {
+public class RecipeViewFragment extends Fragment implements View.OnClickListener{
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -24,9 +29,20 @@ public class RecipeViewFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    TextView title;
+    List<recipeDescription> recipes = new ArrayList<>();
+    SearchRecyclerViewAdapter mSearchRecyclerViewAdapter;
+    SearchRecyclerViewAdapter.OnNoteListener monNoteListener;
+    private Button returnBtn;
+
+
 
     public RecipeViewFragment() {
         // Required empty public constructor
+    }
+
+    public RecipeViewFragment(SearchRecyclerViewAdapter.OnNoteListener obj){
+        monNoteListener = obj;
     }
 
     /**
@@ -54,12 +70,39 @@ public class RecipeViewFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_view, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_recipe_view, container, false);
+        //super.onViewCreated(view, savedInstanceState);
+        TextView title = view.findViewById(R.id.viewRecipeTitle);
+        //mSearchRecyclerViewAdapter = new SearchRecyclerViewAdapter(recipes, monNoteListener);
+        Button returnRecipesBtn= (Button) view.findViewById(R.id.returnRecipesBtn);
+        returnRecipesBtn.setOnClickListener(this::onClick);
+
+
+        return view;
+
     }
+
+
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.returnRecipesBtn:
+                getParentFragmentManager().beginTransaction().replace(getId(),
+                        new SearchFragment()).commit();
+                return;
+        }
+    }
+
 }
