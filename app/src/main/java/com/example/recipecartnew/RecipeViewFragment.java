@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -30,15 +31,21 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
     private String mParam1;
     private String mParam2;
     TextView title;
+    ImageView image;
     List<recipeDescription> recipes = new ArrayList<>();
     SearchRecyclerViewAdapter mSearchRecyclerViewAdapter;
     SearchRecyclerViewAdapter.OnNoteListener monNoteListener;
+    recipeDescription thisRecipe;
     private Button returnBtn;
 
 
 
     public RecipeViewFragment() {
         // Required empty public constructor
+    }
+
+    public RecipeViewFragment(recipeDescription thisRecipe){
+        this.thisRecipe = thisRecipe;
     }
 
     public RecipeViewFragment(SearchRecyclerViewAdapter.OnNoteListener obj){
@@ -86,9 +93,19 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_recipe_view, container, false);
         //super.onViewCreated(view, savedInstanceState);
         TextView title = view.findViewById(R.id.viewRecipeTitle);
+        ImageView image = view.findViewById(R.id.foodImage);
+        TextView description = view.findViewById(R.id.description);
+
         //mSearchRecyclerViewAdapter = new SearchRecyclerViewAdapter(recipes, monNoteListener);
         Button returnRecipesBtn= (Button) view.findViewById(R.id.returnRecipesBtn);
         returnRecipesBtn.setOnClickListener(this::onClick);
+
+        if (thisRecipe != null){
+            title.setText(thisRecipe.getTitle());
+            image.setImageResource(thisRecipe.getImageName());
+            description.setText(thisRecipe.getInstructions());
+
+        }
 
 
         return view;

@@ -76,7 +76,6 @@ public class SearchFragment extends Fragment
 
         //recipes = helper.loadHandler();
         if (myDB.getAllGlobalRecipes().size() == 0) {
-            System.out.println(recipes.size());
             myDB.insertDataGlobalRecipe("Miso-Butter Roast Chicken",
                     "1 (3½–4-lb.) whole chicken, 2¾ tsp. kosher salt, 2 small acorn squash (about 3 lb. total), 2 Tbsp. finely chopped sage, 1 Tbsp. finely chopped rosemary, 6 Tbsp. unsalted butter, ¼ tsp. ground allspice, Pinch of crushed red pepper flakes, Freshly ground black pepper, ⅓ loaf good-quality sturdy white bread,  2 medium apples , 2 Tbsp. extra-virgin olive oil, ½ small red onion, 3 Tbsp. apple cider vinegar, 1 Tbsp. white miso, ¼ cup all-purpose flour, 2 Tbsp. unsalted butter, ¼ cup dry white wine, 2 cups unsalted chicken broth, 2 tsp. white miso, Kosher salt, freshly ground pepper",
                     "Pat chicken dry with paper towels, season all over with 2 tsp. salt, and tie legs together with kitchen twine. Let sit at room temperature 1 hour.\n" +
@@ -99,10 +98,10 @@ public class SearchFragment extends Fragment
 
                 @Override
                 public void onNoteClick(int position) {
-                    recipes.get(position);
+                    //recipes.get(position);
 
                     getParentFragmentManager().beginTransaction().replace(getId(),
-                            new RecipeViewFragment()).commit();
+                            new RecipeViewFragment(recipes.get(position))).commit();
                     return;
 
                 }

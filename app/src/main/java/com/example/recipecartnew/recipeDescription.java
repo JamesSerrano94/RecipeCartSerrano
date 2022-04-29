@@ -2,12 +2,10 @@ package com.example.recipecartnew;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-
 
 public class recipeDescription{
     private String title;
-    private String Ingredients;
+    private itemDescription[] Ingredients;
     private String Instructions;
     private int ImageName;
 
@@ -15,7 +13,7 @@ public class recipeDescription{
     public recipeDescription(){
 
     }
-    public recipeDescription(String title, String Ingredients, String Instructions, int ImageName) {
+    public recipeDescription(String title, itemDescription[] Ingredients, String Instructions, int ImageName) {
         this.title = title;
         this.Ingredients = Ingredients;
         this.Instructions = Instructions;
@@ -34,11 +32,11 @@ public class recipeDescription{
         return fullDescription.toString();
     }
 
-    public String getIngredients() {
+    public itemDescription[] getIngredients() {
         return Ingredients;
     }
 
-    public void setIngredients(String ingredients) {
+    public void setIngredients(itemDescription[] ingredients) {
         Ingredients = ingredients;
     }
 
