@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -36,6 +38,13 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
     SearchRecyclerViewAdapter mSearchRecyclerViewAdapter;
     SearchRecyclerViewAdapter.OnNoteListener monNoteListener;
     recipeDescription thisRecipe;
+    ArrayList<itemDescription> ingredients;
+    List<itemDescription> ingredientsList = new ArrayList<>();
+    List<itemDescriptionWithPantry> ingredientsListWithPantry = new ArrayList<>();
+    ArrayAdapter<itemDescriptionWithPantry> itemAdapter;
+    static ArrayList<itemDescription> pantryData;
+    DatabaseHelper myDB;
+    String currentUser = User.getInstance().getUsername();
     private Button returnBtn;
 
 
@@ -81,7 +90,20 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
 
 
     }
+    protected static boolean isInDatabase(String item){
+        for (int i = 0; i < pantryData.size(); i++){
+            if (pantryData.get(i).getName().equals(item)){
+                return true; }
+        }
+        return false;}
 
+    protected static double getAmount(String item){
+        for (int i = 0; i<pantryData.size();i++){
+            if (pantryData.get(i).getName().equals(item)){
+                return pantryData.get(i).amount; }
+        }
+        return -1;
+    }
 
 
 
@@ -95,6 +117,11 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
         TextView title = view.findViewById(R.id.viewRecipeTitle);
         ImageView image = view.findViewById(R.id.foodImage);
         TextView description = view.findViewById(R.id.description);
+        ListView ingredientList = view.findViewById(R.id.recipeIngredientList);
+        myDB = new DatabaseHelper(getActivity());
+        myDB.getAllPantryData(currentUser);
+
+        pantryData = myDB.getAllPantryData(currentUser);
 
         //mSearchRecyclerViewAdapter = new SearchRecyclerViewAdapter(recipes, monNoteListener);
         Button returnRecipesBtn= (Button) view.findViewById(R.id.returnRecipesBtn);
@@ -104,12 +131,28 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
             title.setText(thisRecipe.getTitle());
             image.setImageResource(thisRecipe.getImageName());
             description.setText(thisRecipe.getInstructions());
+            ingredients = thisRecipe.getItems();
 
+
+            for (int i = 0; i < ingredients.size(); i++){
+                //ingredientsList.add(ingredients[i]);
+                String itemName = ingredients.get(i).getName();
+                itemDescriptionWithPantry newItem;
+                System.out.println(i + " " + ingredients.get(i).toString());
+                if (!isInDatabase(itemName)){
+                    newItem = new itemDescriptionWithPantry(ingredients.get(i), 0);
+                }
+                else {
+                    double number = getAmount(itemName);
+                    newItem = new itemDescriptionWithPantry(ingredients.get(i), number);
+                }
+                ingredientsListWithPantry.add(newItem);
+            }
+            itemAdapter = new ArrayAdapter<itemDescriptionWithPantry>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, ingredientsListWithPantry);
+            itemAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            ingredientList.setAdapter(itemAdapter);
         }
-
-
         return view;
-
     }
 
 

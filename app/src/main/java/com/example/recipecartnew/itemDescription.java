@@ -1,15 +1,16 @@
 package com.example.recipecartnew;
 
-import androidx.annotation.NonNull;
 
-
-public class itemDescription{
+public class itemDescription {
     String name;
     double amount;
     String unit;
 
 
 
+    public itemDescription(){
+
+    }
     public itemDescription(String name){
         this.name = name;
         amount = 1;
@@ -22,13 +23,18 @@ public class itemDescription{
             this.amount = 1; }
         else {
             this.amount = amount; }
-        this.unit = unit; }
+        if (unit.equals("None")){
+            this.unit = ""; }
+        else {
+            this.unit = unit; }
+    }
 
     public String getName(){
         return name; }
 
-    @NonNull
-    @Override
+
+
+
     public String toString() {
         StringBuilder fullDescription = new StringBuilder(name);
 
