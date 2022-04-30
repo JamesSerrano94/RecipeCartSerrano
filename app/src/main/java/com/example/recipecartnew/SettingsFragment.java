@@ -44,7 +44,10 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_settings, container,false);
+        View view = inflater.inflate(R.layout.fragment_settings, container,false);
+        btnPhoto = (Button) view.findViewById(R.id.pfp);
+        btnPhoto.setOnClickListener(this::onClick);
+        return view;
 
     }
 
@@ -52,7 +55,6 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         unitSpinnerUser = (Spinner) view.findViewById(R.id.unitSpinnerUser);
         btnUpdate = (Button) view.findViewById(R.id.update);
-        btnPhoto = (Button) view.findViewById(R.id.pfp);
         btnFavorites = (Button) view.findViewById(R.id.favorites);
         btnLogout = (Button) view.findViewById(R.id.Logout);
         password = (EditText) view.findViewById(R.id.new_password);
@@ -95,14 +97,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 logout();
-            }
-        });
-
-        btnPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), ChangePictureActivity.class));
-                getActivity().finish();
             }
         });
 
@@ -227,6 +221,13 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    public void onClick(View v){
+        switch (v.getId()) {
+            case R.id.pfp:
+                getParentFragmentManager().beginTransaction().replace(getId(),
+                        new ProfilePictureFragment()).commit();
+                return; }
+    }
     public double kgsToLbs(double kgs){
         return kgs*2.205;
     }

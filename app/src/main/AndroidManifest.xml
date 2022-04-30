@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecipeCartNew">
         <activity
-            android:name=".ChangePictureActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
@@ -33,7 +30,6 @@
         <activity
             android:name=".OptionsActivity"
             android:windowSoftInputMode="adjustResize"></activity>
-
     </application>
 
 </manifest>
