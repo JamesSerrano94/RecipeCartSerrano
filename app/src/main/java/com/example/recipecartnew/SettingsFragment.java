@@ -1,6 +1,7 @@
 package com.example.recipecartnew;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,9 +20,14 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SettingsFragment extends Fragment {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pantry-ae39f-default-rtdb.firebaseio.com/");
@@ -94,7 +101,8 @@ public class SettingsFragment extends Fragment {
         btnPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getContext(), ChangePictureActivity.class));
+                getActivity().finish();
             }
         });
 
@@ -103,7 +111,8 @@ public class SettingsFragment extends Fragment {
 
     public void logout(){
         currentUser.logout();
-        startActivity(new Intent(getActivity(), LoginActivity.class));
+        startActivity(new Intent(getContext(), LoginActivity.class));
+        getActivity().finish();
     }
 
     public void update(){

@@ -11,6 +11,16 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="114dp"
+            android:layout_height="82dp"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/defaultpfp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
         <Button
             android:id="@+id/pfp"
             android:layout_width="wrap_content"
@@ -33,7 +43,7 @@
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/picture" />
 
         <EditText
             android:id="@+id/new_email"
