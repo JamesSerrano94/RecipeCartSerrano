@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/change_Picture"
-        android:layout_width="96dp"
-        android:layout_height="81dp"
+        android:layout_width="150dp"
+        android:layout_height="145dp"
         android:layout_marginTop="25dp"
         android:src="@drawable/defaultpfp"
         app:layout_constraintEnd_toEndOf="parent"

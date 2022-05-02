@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.firebase.storage.StorageTask;
 
 
 public class ProfilePictureFragment extends Fragment {
+    private ImageView imageView;
     private Button save, close;
     private Uri imageURI;
     private StorageTask uploadTask;
@@ -26,25 +29,26 @@ public class ProfilePictureFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_picture, container, false);
+        imageView = (ImageView) view.findViewById(R.id.change_Picture);
         close = (Button) view.findViewById(R.id.closeBtn);
         save = (Button) view.findViewById(R.id.saveBtn);
 
-        /*imageView.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImagePicker.with(ChangePictureActivity.this)
+                ImagePicker.Companion.with(ProfilePictureFragment.this)
                         .crop()	    			//Crop image(Optional), Check Customization for more option
                         .compress(1024)			//Final image size will be less than 1 MB(Optional)
                         .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
                         .start();
             }
-        });*/
+        });
         close.setOnClickListener(this::onClick);
         save.setOnClickListener(this::onClick);
         return view;
     }
 
-
+    
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.closeBtn:

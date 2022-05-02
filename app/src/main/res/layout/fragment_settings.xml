@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/picture"
-            android:layout_width="114dp"
-            android:layout_height="82dp"
+            android:layout_width="150dp"
+            android:layout_height="140dp"
             android:layout_marginTop="25dp"
             android:src="@drawable/defaultpfp"
             app:layout_constraintEnd_toEndOf="parent"

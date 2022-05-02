@@ -10,7 +10,7 @@ public class User {
         }
         return instance;
     }
-    private User(){ }
+
     public void logout(){
         this.username = null;
         this.email = null;

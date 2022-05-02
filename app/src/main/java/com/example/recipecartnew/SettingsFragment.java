@@ -228,19 +228,19 @@ public class SettingsFragment extends Fragment {
                         new ProfilePictureFragment()).commit();
                 return; }
     }
-    public double kgsToLbs(double kgs){
+    public static double kgsToLbs(double kgs){
         return kgs*2.205;
     }
 
-    public double lbsToKg(double lbs){
+    public static double lbsToKg(double lbs){
         return lbs/2.205;
     }
 
-    public double lToGal(double l){
+    public static double lToGal(double l){
         return l/3.785;
     }
 
-    public double galToL(double gal){
+    public static double galToL(double gal){
         return gal*3.785;
     }
 }
