@@ -100,7 +100,7 @@ public class AddPantryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         myDB = new DatabaseHelper(getContext());
-        ListView pantryList = (ListView) view.findViewById(R.id.recipeList);
+        ListView pantryList = (ListView) view.findViewById(R.id.recipeList2);
         Spinner unitSpinner = (Spinner) view.findViewById(R.id.unitSpinner);
         Button addButton = (Button) view.findViewById(R.id.addButton);
         TextView addItem = (TextView) view.findViewById(R.id.addItemTxtField);

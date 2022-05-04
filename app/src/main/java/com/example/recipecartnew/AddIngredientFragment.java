@@ -64,7 +64,7 @@ public class AddIngredientFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Spinner unitSpinner = (Spinner) view.findViewById(R.id.unitSpinner);
         Button addButton = (Button) view.findViewById(R.id.addButton);
-        ListView recipeList = (ListView) view.findViewById(R.id.recipeList);
+        ListView recipeList = (ListView) view.findViewById(R.id.recipeList2);
         TextView addItem = (TextView) view.findViewById(R.id.addItemTxtField);
         TextView qnty = (TextView) view.findViewById(R.id.qntyTxtField);
         Button doneButton = (Button) view.findViewById(R.id.doneButton);
@@ -72,14 +72,12 @@ public class AddIngredientFragment extends Fragment {
         User currentUser = User.getInstance();
 
         recipeItems = new ArrayList<itemDescription>();
-        System.out.println("YAY!!!!!!!!/n/n/n/n/n/\n\n\n\n\n\n\n\n");
         recipeAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, recipeItems);
 
         recipeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
         recipeList.setAdapter(recipeAdapter);
-        System.out.println("BOO!!!!!!!!/n/n/n/n/n/\n\n\n\n\n\n\n\n");
 
 
 

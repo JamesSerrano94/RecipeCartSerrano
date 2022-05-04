@@ -92,7 +92,7 @@
 
 
     <ListView
-        android:id="@+id/recipeList"
+        android:id="@+id/recipeList2"
         android:layout_width="350dp"
         android:layout_height="230dp"
         app:layout_constraintEnd_toEndOf="parent"
