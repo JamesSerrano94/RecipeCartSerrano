@@ -119,11 +119,13 @@ public class RegisterActivity extends AppCompatActivity {
                         databaseReference.child("users").child(user).child("name").setValue(person);
                         databaseReference.child("users").child(user).child("password").setValue(pass);
                         databaseReference.child("users").child(user).child("measureType").setValue("Imperial");
+                        //databaseReference.child("users").child(user).child("imageURI").setValue("None");
                         Toast.makeText(RegisterActivity.this, "User Registration Successful", Toast.LENGTH_SHORT).show();
                         currentUser.setName(person);
                         currentUser.setUsername(user);
                         currentUser.setPassword(pass);
                         currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
+                        //currentUser.setImageURL(snapshot.child(user).child("imageURI").getValue(String.class));
                         currentUser.setMeasureType("Imperial");
                         //myDB.dropTables();
                         myDB.insertDataUser(user,person);

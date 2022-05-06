@@ -1,5 +1,6 @@
 package com.example.recipecartnew;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,18 +14,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.UUID;
 
 
 public class ProfilePictureFragment extends Fragment {
     private ImageView imageView;
     private Button save, close;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pantry-ae39f-default-rtdb.firebaseio.com/");
     private Uri imageURI;
-    private StorageTask uploadTask;
+    private UploadTask uploadTask;
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://pantry-ae39f.appspot.com");
     private User currentUser = User.getInstance();
-
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,19 +46,23 @@ public class ProfilePictureFragment extends Fragment {
         imageView = (ImageView) view.findViewById(R.id.change_Picture);
         close = (Button) view.findViewById(R.id.closeBtn);
         save = (Button) view.findViewById(R.id.saveBtn);
+        if(currentUser.getImageURL() != null){
+            imageView.setImageURI(Uri.parse(currentUser.getImageURL()));
+        }
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ImagePicker.Companion.with(ProfilePictureFragment.this)
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .cropSquare()	    			//Crop image(Optional), Check Customization for more option
                         .compress(1024)			//Final image size will be less than 1 MB(Optional)
                         .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
+                        .start(10);
             }
         });
         close.setOnClickListener(this::onClick);
         save.setOnClickListener(this::onClick);
+        progressDialog = new ProgressDialog(getContext());
         return view;
     }
 
@@ -63,7 +81,43 @@ public class ProfilePictureFragment extends Fragment {
                 }
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 10){
+            imageURI = data.getData();
+            imageView.setImageURI(imageURI);
+        }
+    }
+
     public boolean uploadProfileImage() {
-        return true;
+        if(imageURI != null){
+            uploadTask = storageReference.child("images/"+ imageURI.getLastPathSegment()).putFile(imageURI);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    return;
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getActivity(), "Error uploading image", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                }
+            });
+
+            Toast.makeText(getActivity(), "Upload Successful", Toast.LENGTH_SHORT).show();
+            currentUser.setImageURL(imageURI.toString());
+            databaseReference.child("users").child(currentUser.getUsername()).child("imageURI").setValue(imageURI.toString());
+            return true;
+        }
+
+        Toast.makeText(getActivity(), "No changes made to profile picture", Toast.LENGTH_SHORT).show();
+        return false;
     }
 }

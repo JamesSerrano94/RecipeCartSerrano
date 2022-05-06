@@ -93,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                             currentUser.setName(snapshot.child(user).child("name").getValue(String.class));
                             currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
                             currentUser.setMeasureType(snapshot.child(user).child("measureType").getValue(String.class));
+                            currentUser.setImageURL(snapshot.child(user).child("imageURI").getValue(String.class));
                             //myDB.dropTables();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }

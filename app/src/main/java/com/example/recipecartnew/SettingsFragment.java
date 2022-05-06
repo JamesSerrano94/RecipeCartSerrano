@@ -18,12 +18,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +36,13 @@ public class SettingsFragment extends Fragment {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://pantry-ae39f-default-rtdb.firebaseio.com/");
     User currentUser = User.getInstance();
     DatabaseHelper myDB;
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://pantry-ae39f.appspot.com");
     static ArrayList<itemDescription> pantryData;
     private Button btnUpdate, btnPhoto, btnFavorites, btnLogout;
     private Spinner unitSpinnerUser;
     private EditText password,confirmPass,name,email;
     private boolean updated=false;
+    private ImageView imageView;
     List<String> categories;
 
 
@@ -61,11 +66,15 @@ public class SettingsFragment extends Fragment {
         name = (EditText) view.findViewById(R.id.new_name);
         email = (EditText) view.findViewById(R.id.new_email);
         confirmPass = (EditText) view.findViewById(R.id.new_confirm);
+        imageView = (ImageView) view.findViewById(R.id.picture);
         myDB = new DatabaseHelper(getContext());
         categories = new ArrayList<String>();
         categories.add("Imperial");
         categories.add("Metric");
 
+        if(currentUser.getImageURL() != null){
+            imageView.setImageURI(Uri.parse(currentUser.getImageURL()));
+        }
         //ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(view, android.R.layout.simple_spinner_item, categories);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item,categories);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
