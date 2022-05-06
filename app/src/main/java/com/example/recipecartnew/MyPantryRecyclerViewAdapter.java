@@ -35,10 +35,8 @@ public class MyPantryRecyclerViewAdapter extends RecyclerView.Adapter<MyPantryRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIngredient.setText(mValues.get(position).name);
-
         holder.mUnit.setText(String.valueOf(mValues.get(position).unit));
         holder.mAmount.setText(String.format("%.2f", mValues.get(position).amount));
-        //TESTLINEOFCODE
 
     }
 
@@ -49,16 +47,13 @@ public class MyPantryRecyclerViewAdapter extends RecyclerView.Adapter<MyPantryRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mIngredient;
-
         public final TextView mAmount;
         public final TextView mUnit;
-
         public itemDescription mItem;
 
         public ViewHolder(FragmentPantryBinding binding) {
             super(binding.getRoot());
             mIngredient = binding.IngredientList;
-
             mAmount = binding.AmountList;
             mUnit = binding.unitList;
 

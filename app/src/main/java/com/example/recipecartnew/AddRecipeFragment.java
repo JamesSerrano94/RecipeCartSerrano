@@ -16,22 +16,25 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-
 ///**
 // * A simple {@link Fragment} subclass.
 // * Use the {@link AddRecipeFragment#newInstance} factory method to
 // * create an instance of this fragment.
 // */
-public class AddRecipeFragment extends Fragment  implements View.OnClickListener{
+public class AddRecipeFragment extends Fragment implements View.OnClickListener{
     static List<itemDescription> recipeItems;
-    static ArrayList<itemDescription> recipeData;
+    static ArrayList<recipeDescription> recipeData;
+    DatabaseHelper myDB;
+    String currentUser = User.getInstance().getUsername();
     ArrayAdapter<itemDescription> recipeAdapter;
     ListView recipeList;
     List<String> categories;
+    TextView recipeTitle, recipeInstructions;
     TextView addItem, qnty;
     Spinner unitSpinner;
     String item, itemName;
     itemDescription newItem;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,38 +49,25 @@ public class AddRecipeFragment extends Fragment  implements View.OnClickListener
         // Required empty public constructor
     }
 
-//    /**
-//     * Use this factory method to create a new instance of
-//     * this fragment using the provided parameters.
-//     *
-//     * @param param1 Parameter 1.
-//     * @param param2 Parameter 2.
-//     * @return A new instance of fragment AddRecipeFragment.
-//     */
-//    // TODO: Rename and change types and number of parameters
-//    public static AddRecipeFragment newInstance(String param1, String param2) {
-//        AddRecipeFragment fragment = new AddRecipeFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//    }
-protected static boolean isInRecipeDatabase(String item){
-    for (int i = 0; i < recipeItems.size(); i++){
-        if (recipeItems.get(i).getName().equals(item)){
-            return true; }
+    /**
+     * Check if item already exists in the list.
+     * @param item String
+     * @return true if item already added
+     */
+    protected static boolean isInRecipeItems(String item){
+        for (int i = 0; i < recipeItems.size(); i++){
+            if (recipeItems.get(i).getName().equals(item)){
+                return true;
+            }
+        }
+        return false;
     }
-    return false;}
+
+    /**
+     * Get amount of item in ingredient list.
+     * @param item
+     * @return
+     */
     protected static double getRecipeAmount(String item){
         for (int i = 0; i<recipeItems.size();i++){
             if (recipeItems.get(i).getName().equals(item)){
@@ -85,18 +75,27 @@ protected static boolean isInRecipeDatabase(String item){
         }
         return -1;
     }
+
     protected static boolean isInRecipeList(String item){
         for (int i = 0; i < recipeItems.size(); i++){
             if (recipeItems.get(i).getName().equals(item)){
                 return true; }
         }
         return false;}
+
+    /**
+     * Get index of item in recipe item list.
+     * @param item String
+     * @return int index
+     */
     protected static int getRecipeIndexOf(String item){
         for (int i = 0; i < recipeItems.size(); i++){
             if (recipeItems.get(i).getName().equals(item)){
-                return i; }
+                return i;
+            }
         }
-        return -1;}
+        return -1;
+    }
 
     @Nullable
     @Override
@@ -106,8 +105,13 @@ protected static boolean isInRecipeDatabase(String item){
         View view = inflater.inflate(R.layout.fragment_add_recipe, container, false);
         Button button;
         button = (Button)view.findViewById(R.id.upload);
+
+
         addItem = (TextView) view.findViewById(R.id.addItemTxtField2);
         qnty = (TextView) view.findViewById(R.id.qntyTxtField2);
+        recipeTitle = (TextView) view.findViewById(R.id.RecipeName) ;
+        recipeInstructions = (TextView) view.findViewById(R.id.Instructions);
+
         button.setOnClickListener((View.OnClickListener) this);
         Button button2;
         button2 = view.findViewById(R.id.addButton2);
@@ -160,7 +164,7 @@ protected static boolean isInRecipeDatabase(String item){
                     newItem = new itemDescription(itemName); }
                 else {
                     newItem = new itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())); }
-                if (itemName.length() > 0 && !isInRecipeDatabase(itemName)){
+                if (itemName.length() > 0 && !isInRecipeItems(itemName)){
                     recipeItems.add(newItem);
                     recipeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     recipeList.setAdapter(recipeAdapter);
@@ -188,7 +192,7 @@ protected static boolean isInRecipeDatabase(String item){
                             Double.valueOf(String.valueOf(qnty.getText())),
                             categories.get(unitSpinner.getSelectedItemPosition()));
                 }
-                if (isInRecipeDatabase(itemName)) {
+                if (isInRecipeItems(itemName)) {
                     if (itemName.length() > 0) {
                         double newAmount = recipeItems.get(getRecipeIndexOf(itemName)).getAmount();
                         newAmount -= newItem.getAmount();
@@ -207,6 +211,9 @@ protected static boolean isInRecipeDatabase(String item){
                 qnty.setText("");
                 return;
             case R.id.upload:
+                myDB = new DatabaseHelper(this.getContext());
+                myDB.insertDataUserRecipe(currentUser,String.valueOf(recipeTitle.getText()),String.valueOf(recipeItems),String.valueOf(recipeInstructions.getText()));
+                recipeItems = new ArrayList<>();
                 getParentFragmentManager().beginTransaction().replace(this.getId(),
                         new RecipeFragment()).commit();
                 return;

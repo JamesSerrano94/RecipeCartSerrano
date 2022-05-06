@@ -19,9 +19,9 @@ import java.util.List;
 public class MyRecipeRecyclerViewAdapter extends RecyclerView.Adapter<MyRecipeRecyclerViewAdapter.ViewHolder> {
 
 
-    private final ArrayList<itemDescription> mValues;
+    private final List<recipeDescription> mValues;
 
-    public MyRecipeRecyclerViewAdapter(ArrayList<itemDescription> items) {
+    public MyRecipeRecyclerViewAdapter(List<recipeDescription> items) {
         mValues = items;
     }
 
@@ -36,10 +36,7 @@ public class MyRecipeRecyclerViewAdapter extends RecyclerView.Adapter<MyRecipeRe
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-//        holder.mIngredient.setText(mValues.get(position).name);
-//        holder.mAmount.setText(String.valueOf(mValues.get(position).amount));
-
+        holder.mTitle.setText(mValues.get(position).getTitle());
     }
 
     @Override
@@ -48,14 +45,12 @@ public class MyRecipeRecyclerViewAdapter extends RecyclerView.Adapter<MyRecipeRe
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-//        public final TextView mIngredient;
-//        public final TextView mAmount;
-        public itemDescription mItem;
+        public final TextView mTitle;
 
         public ViewHolder(FragmentRecipeBinding binding) {
             super(binding.getRoot());
-//            mIngredient = binding.IngredientList;
-//            mAmount = binding.AmountList;
+            mTitle = binding.RecipeList;
+
         }
 
 

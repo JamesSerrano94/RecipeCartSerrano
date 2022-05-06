@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String RCOL4 = "Instructions";
     private static final String RCOL5 = "Image_name";
     private static final String RCOL6 = "Description";
+    private static final String RUOL = "username";
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME,null,1);
         //creates database and table
@@ -44,7 +44,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
+    /**
+     * Tables for the database
+     * User Table holds username(PK) and the user's name
+     * Pantry Table: items user adds to their pantry
+        Holds: Username+item name(CK), amounts, and units
+     * Global Recipe Table: recipes available to all users.
+        Holds: Recipe number(PK), title, ingredients, instructions, image
+     * User Recipe Table: recipes added by user
+        Holds: Username (FK), title, ingredients, instructions, image
+     * @param sqLiteDatabase
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(new StringBuilder().append("CREATE TABLE ").append(USER_TABLE)
@@ -63,17 +73,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         .append(RCOL2).append(" ").append(STRING_type).append(", ")
                         .append(RCOL3).append(" ").append(STRING_type).append(", ")
                         .append(RCOL4).append(" ").append(STRING_type).append(", ")
-                        .append(RCOL5).append(" ").append(INT_type).append(", ")
-                        .append(RCOL6).append(" ").append(STRING_type)
+                        .append(RCOL5).append(" ").append(INT_type)
                 .append(")").toString());
         sqLiteDatabase.execSQL(new StringBuilder().append("CREATE TABLE ").append(UserRecipe_TABLE)
-                .append("(").append(RCOL1).append(" ").append(INT_type).append(" PRIMARY KEY AUTOINCREMENT, ")
+                .append("(").append(RUOL).append(" ").append(STRING_type).append(", ")
                 .append(RCOL2).append(" ").append(STRING_type).append(", ")
                 .append(RCOL3).append(" ").append(STRING_type).append(", ")
-                .append(RCOL4).append(" ").append(STRING_type).append(", ")
-                .append(RCOL5).append(" ").append(INT_type).append(", ")
-                .append(RCOL6).append(" ").append(STRING_type)
-                .append(")").toString());
+                .append(RCOL4).append(" ").append(STRING_type)
+//                .append(", ").append(RCOL5).append(" ").append(INT_type)
+                .append(", foreign key (").append(RUOL)
+                .append(") REFERENCES USER_TABLE (").append(UCOL_1).append(")").append(")").toString());
     }
 
     @Override
@@ -84,6 +93,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+UserRecipe_TABLE);
         onCreate(sqLiteDatabase);
     }
+
+    /**
+     * Drop All Database Tables.
+     */
+    public void dropTables(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+USER_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+PANTRY_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+GlobalRecipe_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+UserRecipe_TABLE);
+        onCreate(sqLiteDatabase);
+    }
+
+    /**
+     * Insert data to the User Table
+     * @param username unique String initialized when user registers.
+     * @param name String initialized when user registers can be changed by user.
+     * @return true if data was inserted, false otherwise.
+     */
     public boolean insertDataUser(String username, String name){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -95,6 +123,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return true;
     }
+
+    /**
+     * Update user's name in the database.
+     * @param username String that is Primary Key to locate the tuple in table.
+     * @param name New String for use's name
+     * @return true if user was able to check their name, false otherwise.
+     */
     public boolean updateUserData(String username, String name){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -104,6 +139,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(PANTRY_TABLE,contentValues,PCOL_1 +" = ?",new String[] {username});
         return true;
     }
+
+
     public boolean insertDataPantry(String username, String ingredient, double amount,String unit){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -118,13 +155,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
 
     }
-    public void dropTables(){
+    public boolean insertDataUserRecipe(String username, String title, String ingredient, String instructions){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+USER_TABLE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+PANTRY_TABLE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+GlobalRecipe_TABLE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+UserRecipe_TABLE);
-        onCreate(sqLiteDatabase);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(RUOL, username);
+        contentValues.put(RCOL2,title);
+        contentValues.put(RCOL3,ingredient);
+        contentValues.put(RCOL4,instructions);
+        //contentValues.put(RCOL5,image);
+        long result = sqLiteDatabase.insert(UserRecipe_TABLE,null,contentValues);
+        if(result==-1) {
+            return false;
+        }
+        return true;
     }
     public boolean insertDataGlobalRecipe(String title, String ingredient, String Instructions, int image){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
@@ -155,6 +198,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return pantryData;
     }
+    public List<recipeDescription> getAllUserRecipes(String username){
+        List<recipeDescription> recipes = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor res = db.rawQuery("select * from "+UserRecipe_TABLE+" WHERE "+RUOL + "=\""+username+"\";",null);
+        try {
+            while (res.moveToNext()){
+
+                recipeDescription recipe = new recipeDescription(res.getString(1),res.getString(2),res.getString(3));
+                recipes.add(recipe);
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to get posts from database");
+        }
+        return recipes;
+    }
     public List<recipeDescription> getAllGlobalRecipes(){
         List<recipeDescription> recipes = new ArrayList<>();
         // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
@@ -184,6 +242,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.update(PANTRY_TABLE,contentValues,PCOL_1 +" = ? AND "+PCOL_2+"= ?",new String[] {username,ingredient});
         return true;
     }
+
     //used only if amount reached zero, else the updatePantryData will be called
     public Integer deletePantryData(String username, String ingredient){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();

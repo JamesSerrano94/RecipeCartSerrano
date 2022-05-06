@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(){
         final String user = username.getText().toString().trim();
         final String pass = password.getText().toString().trim();
-        myDB.dropTables();
+        //myDB.dropTables();
         if(user.isEmpty()){
             username.setError("Username can not be empty");
             if(pass.isEmpty()){
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                             currentUser.setName(snapshot.child(user).child("name").getValue(String.class));
                             currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
                             currentUser.setMeasureType(snapshot.child(user).child("measureType").getValue(String.class));
-                            myDB.dropTables();
+                            //myDB.dropTables();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                         else {

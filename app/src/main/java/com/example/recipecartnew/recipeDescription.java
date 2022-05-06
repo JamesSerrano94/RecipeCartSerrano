@@ -11,6 +11,7 @@ public class recipeDescription{
     private String Instructions;
     private User currentUser= User.getInstance();
     private int ImageName;
+    private String Description;
 
 
 
@@ -22,6 +23,11 @@ public class recipeDescription{
         this.Ingredients = Ingredients;
         this.Instructions = Instructions;
         this.ImageName = ImageName;
+    }
+    public recipeDescription(String title, String Ingredients, String Instructions) {
+        this.title = title;
+        this.Ingredients = Ingredients;
+        this.Instructions = Instructions;
     }
 
     @NonNull
@@ -66,6 +72,12 @@ public class recipeDescription{
 
     public void setImageName(int imageName) {
         ImageName = imageName;
+    }
+    public void setDescription(String description){
+        Description = description;
+    }
+    public String getDescription(){
+        return Description;
     }
 
     public ArrayList<itemDescription> getItems(){

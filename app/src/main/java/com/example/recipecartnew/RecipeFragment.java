@@ -13,6 +13,7 @@ import androidx.room.Room;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -26,7 +27,7 @@ public class RecipeFragment extends Fragment implements View.OnClickListener {
 
     DatabaseHelper myDB;
     String currentUser = User.getInstance().getUsername();
-    ArrayList<itemDescription> recipe;
+    List<recipeDescription> recipe;
 
 
 
@@ -66,12 +67,10 @@ public class RecipeFragment extends Fragment implements View.OnClickListener {
         button.setOnClickListener( this);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewRecipe);
-        //pantry = myDB.getAllPantryData(currentUser);
-
-        recipe = new ArrayList<>();
+        recipe = myDB.getAllUserRecipes(currentUser);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new MyPantryRecyclerViewAdapter(recipe));
+        recyclerView.setAdapter(new MyRecipeRecyclerViewAdapter(recipe));
 
         return view;
     }

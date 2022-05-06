@@ -15,15 +15,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSearch"
-        android:layout_width="350dp"
-        android:layout_height="500dp"
+        android:layout_width="385dp"
+        android:layout_height="732dp"
         android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
+        android:scrollbars="vertical"
         tools:listitem="@layout/fragment_search" />
 
 
