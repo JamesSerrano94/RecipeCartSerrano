@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -80,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 .append(RCOL2).append(" ").append(STRING_type).append(", ")
                 .append(RCOL3).append(" ").append(STRING_type).append(", ")
                 .append(RCOL4).append(" ").append(STRING_type)
-//                .append(", ").append(RCOL5).append(" ").append(INT_type)
+                .append(", ").append(RCOL5).append(" ").append(INT_type)
                 .append(", foreign key (").append(RUOL)
                 .append(") REFERENCES USER_TABLE (").append(UCOL_1).append(")").append(")").toString());
     }
@@ -155,14 +156,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
 
     }
-    public boolean insertDataUserRecipe(String username, String title, String ingredient, String instructions){
+    public boolean insertDataUserRecipe(String username, String title, String ingredient, String instructions, int image){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(RUOL, username);
         contentValues.put(RCOL2,title);
         contentValues.put(RCOL3,ingredient);
         contentValues.put(RCOL4,instructions);
-        //contentValues.put(RCOL5,image);
+        contentValues.put(RCOL5,image);
         long result = sqLiteDatabase.insert(UserRecipe_TABLE,null,contentValues);
         if(result==-1) {
             return false;
@@ -228,6 +229,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.d(TAG, "Error while trying to get posts from database");
         }
+        return recipes;
+    }
+    public List<recipeDescription> getRecommendedRecipes(String username){
+        List<recipeDescription> recipes = new ArrayList<>();
+        List<recipeDescription> Userrecipes = getAllUserRecipes(username);
+        List<recipeDescription> GlobalRecipes = getAllGlobalRecipes();
+        ArrayList<itemDescription> pantryItems = getAllPantryData(username);
+        for(int i = 0; i < pantryItems.size(); i++) {
+            for(int j = 0; j < GlobalRecipes.size(); j++){
+                if(GlobalRecipes.get(j).getIngredients().contains(pantryItems.get(i).getName())){
+                    recipes.add(GlobalRecipes.get(j));
+                }
+            }
+        }
+        for(int i = 0; i < pantryItems.size(); i++) {
+           for(int j = 0; j < Userrecipes.size(); j++){
+               if(Userrecipes.get(j).getIngredients().contains(pantryItems.get(i).getName())){
+                   if(!recipes.contains(Userrecipes.get(j))) {
+                       recipes.add(Userrecipes.get(j));
+                   }
+               }
+           }
+        }
+
         return recipes;
     }
 

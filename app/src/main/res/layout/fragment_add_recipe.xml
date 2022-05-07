@@ -10,51 +10,81 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:rotationX="0"
+        android:scrollbars="vertical"
         tools:context=".AddRecipeFragment">
 
 
-        <ScrollView
-            android:id="@+id/scrollView2"
-            android:layout_width="350dp"
-            android:layout_height="260dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="154dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/lato"
+            android:text="INGREDIENTS"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addButton2" />
+            app:layout_constraintTop_toBottomOf="@+id/Instructions" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="154dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/lato"
+            android:text="Instructions"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RecipeName" />
 
         <ListView
             android:id="@+id/recipeList2"
-            android:layout_width="350dp"
-            android:layout_height="230dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:scrollbars="vertical"
             android:nestedScrollingEnabled="true"
-            android:scrollY="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/picture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addButton2" />
+            app:layout_constraintTop_toBottomOf="@id/addButton2">
+
+        </ListView>
 
         <Button
             android:id="@+id/removeButton2"
-            android:layout_width="120dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="52dp"
-            android:backgroundTint="#8BC34A"
+            android:layout_width="117dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="92dp"
+            android:backgroundTint="#4DC350"
+            android:fontFamily="@font/lato_black"
             android:text="Remove"
+            app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/unitSpinner2" />
 
         <Button
             android:id="@+id/addButton2"
-            android:layout_width="120dp"
-            android:layout_height="48dp"
+            android:layout_width="114dp"
+            android:layout_height="40dp"
             android:layout_marginStart="56dp"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="#8BC34A"
+            android:layout_marginTop="48dp"
+            android:backgroundTint="#4DC350"
+            android:fontFamily="@font/lato_black"
             android:text="Add"
+            app:cornerRadius="20dp"
             app:layout_constraintEnd_toStartOf="@+id/removeButton2"
-            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/qntyTxtField2" />
 
@@ -64,7 +94,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.823"
+            app:layout_constraintHorizontal_bias="0.627"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addItemTxtField2" />
 
@@ -74,10 +104,11 @@
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
             android:ems="10"
+            android:fontFamily="@font/lato_black"
             android:hint="3"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.18"
+            app:layout_constraintHorizontal_bias="0.08"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addItemTxtField2" />
 
@@ -85,34 +116,30 @@
             android:id="@+id/addItemTxtField2"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="12dp"
             android:ems="10"
+            android:fontFamily="@font/lato_black"
             android:hint="egg"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.225"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addIngredient2" />
-
-        <TextView
-            android:id="@+id/addIngredient2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Add ingredient"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/picture" />
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <EditText
             android:id="@+id/RecipeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="20dp"
             android:ems="10"
+            android:fontFamily="@font/lato"
             android:hint="Recipe Name"
             android:inputType="textPersonName"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textStyle="bold|italic"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.126"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/AddRecipe" />
 
@@ -120,55 +147,57 @@
             android:id="@+id/AddRecipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
+            android:fontFamily="@font/lato_black"
             android:text="Add Recipe"
+            android:textColor="#000000"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.106"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/Instructions"
-            android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="358dp"
+            android:layout_height="69dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="28dp"
             android:ems="10"
+            android:fontFamily="@font/lato_black"
             android:gravity="start|top"
-            android:hint="Recipe Instructions"
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/RecipeName" />
 
         <Button
             android:id="@+id/picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#8BC34A"
+            android:layout_marginStart="156dp"
+            android:backgroundTint="#4DC350"
+            android:fontFamily="@font/lato_black"
             android:text="Photos"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Instructions" />
+            app:layout_constraintBottom_toTopOf="@+id/upload"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/upload"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="64dp"
+            android:layout_marginBottom="16dp"
             android:width="125dp"
             android:height="75dp"
-            android:backgroundTint="#8BC34A"
+            android:backgroundTint="#4DC350"
+            android:fontFamily="@font/lato_black"
             android:text="All Done!"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

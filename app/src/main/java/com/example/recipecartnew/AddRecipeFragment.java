@@ -212,7 +212,7 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
                 return;
             case R.id.upload:
                 myDB = new DatabaseHelper(this.getContext());
-                myDB.insertDataUserRecipe(currentUser,String.valueOf(recipeTitle.getText()),String.valueOf(recipeItems),String.valueOf(recipeInstructions.getText()));
+                myDB.insertDataUserRecipe(currentUser,String.valueOf(recipeTitle.getText()),String.valueOf(recipeItems),String.valueOf(recipeInstructions.getText()),R.drawable.ic_baseline_search_24);
                 recipeItems = new ArrayList<>();
                 getParentFragmentManager().beginTransaction().replace(this.getId(),
                         new RecipeFragment()).commit();

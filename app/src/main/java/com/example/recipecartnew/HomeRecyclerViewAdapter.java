@@ -8,14 +8,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recipecartnew.databinding.FragmentSearchBinding;
+import com.example.recipecartnew.databinding.FragmentHomeBinding;
 
 import java.util.List;
 
 /**
  * TODO: Replace the implementation with code for your data type.
  */
-public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder> {
+public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
 
     private final List<recipeDescription> mValues;
     private OnNoteListener monNoteListener;
@@ -35,7 +35,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     };
 
     //Constructor
-    public SearchRecyclerViewAdapter(List<recipeDescription> items) {
+    public HomeRecyclerViewAdapter(List<recipeDescription> items) {
         mValues = items;
         this.acceptsInterfaceObject(new OnNoteListener() {
             @Override
@@ -47,7 +47,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     }
 
     //Constructor
-    public SearchRecyclerViewAdapter(List<recipeDescription> items, OnNoteListener onNoteListener) {
+    public HomeRecyclerViewAdapter(List<recipeDescription> items, OnNoteListener onNoteListener) {
         mValues = items;
         this.monNoteListener = onNoteListener;
     }
@@ -57,7 +57,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(FragmentSearchBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), monNoteListener);
+        return new ViewHolder(FragmentHomeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), monNoteListener);
 
     }
 
@@ -65,8 +65,10 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTitle.setText(mValues.get(position).getTitle());
-        holder.mImage.setImageResource(mValues.get(position).getImageName());
-       // holder.mImage.setImageDrawable(draw);
+        if(mValues.get(position).getImageName()!=-1) {
+            holder.mImage.setImageResource(mValues.get(position).getImageName());
+        }
+        // holder.mImage.setImageDrawable(draw);
     }
 
     @Override
@@ -82,10 +84,10 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         public recipeDescription mItem;
         //OnNoteListener onNoteListener;
 
-        public ViewHolder(FragmentSearchBinding binding, OnNoteListener onNoteListener) {
+        public ViewHolder(FragmentHomeBinding binding, OnNoteListener onNoteListener) {
             super(binding.getRoot());
-            mTitle = binding.RecipeList2;
-            mImage = binding.imageView4;
+            mTitle = binding.RecipeList3;
+            mImage = binding.imageView5;
 
             monNoteListener = onNoteListener;
             itemView.setOnClickListener(this);

@@ -20,23 +20,12 @@ import java.util.List;
  * Use the {@link RecipeViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipeViewFragment extends Fragment implements View.OnClickListener{
-
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class UserRecipeViewFragment extends Fragment implements View.OnClickListener{
     TextView title;
     ImageView image;
     List<recipeDescription> recipes = new ArrayList<>();
-    SearchRecyclerViewAdapter mSearchRecyclerViewAdapter;
-    SearchRecyclerViewAdapter.OnNoteListener monNoteListener;
+    HomeRecyclerViewAdapter mHomeRecyclerViewAdapter;
+    HomeRecyclerViewAdapter.OnNoteListener monNoteListener;
     recipeDescription thisRecipe;
     ArrayList<itemDescription> ingredients;
     List<itemDescription> ingredientsList = new ArrayList<>();
@@ -45,52 +34,21 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
     static ArrayList<itemDescription> pantryData;
     DatabaseHelper myDB;
     String currentUser = User.getInstance().getUsername();
-    private Button returnBtn;
-    private Button addBtn;
 
 
 
-    public RecipeViewFragment() {
+    public UserRecipeViewFragment() {
         // Required empty public constructor
     }
 
-    public RecipeViewFragment(recipeDescription thisRecipe){
+    public UserRecipeViewFragment(recipeDescription thisRecipe){
         this.thisRecipe = thisRecipe;
     }
 
-    public RecipeViewFragment(SearchRecyclerViewAdapter.OnNoteListener obj){
+    public UserRecipeViewFragment(HomeRecyclerViewAdapter.OnNoteListener obj){
         monNoteListener = obj;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RecipeViewFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RecipeViewFragment newInstance(String param1, String param2) {
-        RecipeViewFragment fragment = new RecipeViewFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
-
-    }
     protected static boolean isInDatabase(String item){
         for (int i = 0; i < pantryData.size(); i++){
             if (pantryData.get(i).getName().equals(item)){
@@ -113,30 +71,32 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_recipe_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_recipe_view, container, false);
         //super.onViewCreated(view, savedInstanceState);
-        TextView title = view.findViewById(R.id.viewRecipeTitle);
-        ImageView image = view.findViewById(R.id.foodImage);
-        TextView description = view.findViewById(R.id.description);
-        ListView ingredientList = view.findViewById(R.id.recipeIngredientList);
+        TextView title = view.findViewById(R.id.viewRecipeTitle2);
+        ImageView image = view.findViewById(R.id.foodImage2);
+        TextView description = view.findViewById(R.id.description2);
+        ListView ingredientList = view.findViewById(R.id.recipeIngredientList2);
         myDB = new DatabaseHelper(getActivity());
         myDB.getAllPantryData(currentUser);
 
         pantryData = myDB.getAllPantryData(currentUser);
 
         //mSearchRecyclerViewAdapter = new SearchRecyclerViewAdapter(recipes, monNoteListener);
-        Button returnRecipesBtn= (Button) view.findViewById(R.id.returnRecipesBtn);
-        addBtn= (Button) view.findViewById(R.id.addToMyRecipes);
-        returnRecipesBtn.setOnClickListener(this::onClick);
-        addBtn.setOnClickListener(this::onClick);
+        Button returnRecipesBtn2= (Button) view.findViewById(R.id.returnRecipesBtn2);
+        returnRecipesBtn2.setOnClickListener(this::onClick);
+
 
         if (thisRecipe != null){
             title.setText(thisRecipe.getTitle());
-            if(thisRecipe.getImageName()!=-1) {
-                image.setImageResource(thisRecipe.getImageName());
-            }
+            image.setImageResource(thisRecipe.getImageName());
             description.setText(thisRecipe.getInstructions());
-            ingredients = thisRecipe.getItems();
+            if(thisRecipe.getImageName()==-1){
+                ingredients = thisRecipe.getItems(0);
+            }else{
+                ingredients =thisRecipe.getItems();
+            }
+
 
 
             for (int i = 0; i < ingredients.size(); i++){
@@ -163,11 +123,9 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.addToMyRecipes:
-                myDB.insertDataUserRecipe(currentUser,thisRecipe.getTitle(),thisRecipe.getIngredients(),thisRecipe.getInstructions(),thisRecipe.getImageName());
-            case R.id.returnRecipesBtn:
+            case R.id.returnRecipesBtn2:
                 getParentFragmentManager().beginTransaction().replace(getId(),
-                        new SearchFragment()).commit();
+                        new HomeFragment()).commit();
                 return;
         }
     }

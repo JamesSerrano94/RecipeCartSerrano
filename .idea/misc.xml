@@ -33,27 +33,32 @@
         <entry key="app/src/main/res/drawable-v24/ic_baseline_search_24.xml" value="0.138" />
         <entry key="app/src/main/res/drawable-v24/ic_home_black_24dp.xml" value="0.138" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1835" />
+        <entry key="app/src/main/res/drawable/background_splashscreen.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_pantry_24.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1835" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3261734008789063" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.6140065146579805" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main_app.xml" value="0.1793478260869565" />
         <entry key="app/src/main/res/layout/activity_options.xml" value="0.205474853515625" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.46790313720703125" />
         <entry key="app/src/main/res/layout/fragment_add.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_add_pantry.xml" value="0.6807792944479761" />
-        <entry key="app/src/main/res/layout/fragment_add_recipe.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_add_pantry.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_add_recipe.xml" value="0.463405876255756" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home_list.xml" value="0.17974198935688407" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_options.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_pantry.xml" value="0.435302734375" />
         <entry key="app/src/main/res/layout/fragment_pantry_list.xml" value="0.18412698412698414" />
-        <entry key="app/src/main/res/layout/fragment_recipe.xml" value="0.175" />
+        <entry key="app/src/main/res/layout/fragment_recipe.xml" value="0.17591705322265616" />
         <entry key="app/src/main/res/layout/fragment_recipe_list.xml" value="0.15833333333333333" />
+        <entry key="app/src/main/res/layout/fragment_recipe_view.xml" value="0.36933461909353904" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_search_list.xml" value="0.11666666666666667" />
+        <entry key="app/src/main/res/layout/fragment_search_list.xml" value="0.13303222656249997" />
+        <entry key="app/src/main/res/layout/fragment_user_recipe_view.xml" value="0.17074275362318841" />
+        <entry key="app/src/main/res/layout/textview_border.xml" value="0.7335526315789473" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="app/src/main/res/menu/bottom_navigation.xml" value="0.1" />
       </map>

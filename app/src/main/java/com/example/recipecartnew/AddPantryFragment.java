@@ -124,7 +124,7 @@ public class AddPantryFragment extends Fragment {
         pantryItems = new ArrayList<itemDescription>();
         pantryData = new ArrayList<itemDescription>();
         pantryData = myDB.getAllPantryData(currentUser);
-        pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
+        pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
         pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pantryList.setAdapter(pantryAdapter);
 
@@ -132,32 +132,46 @@ public class AddPantryFragment extends Fragment {
 
 
         addButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String item = String.valueOf(addItem.getText());
-                String itemName = parseItem(item);
-                itemDescription newItem;
-                if (String.valueOf(qnty.getText()).equals("")) {
-                    newItem = new itemDescription(itemName); }
-                else {
-                    newItem = new itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())); }
-                if (itemName.length() > 0 && !isInDatabase(itemName)){
-                    pantryItems.add(newItem);
-                    myDB.insertDataPantry(currentUser,newItem.name,newItem.amount,newItem.unit);
-                    pantryData = myDB.getAllPantryData(currentUser);
-                    pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
-                    pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    pantryList.setAdapter(pantryAdapter);}
-                else if (itemName.length() > 0){
-                    double newAmount = getAmount(itemName);
-                    newAmount += newItem.getAmount();
+                                         public void onClick(View v) {
+                                             String item = String.valueOf(addItem.getText());
+                                             String itemName = parseItem(item);
+                                             itemDescription newItem;
+                                             if (String.valueOf(qnty.getText()).equals("")) {
+                                                 newItem = new itemDescription(itemName);
+                                             } else {
+                                                 newItem = new itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition()));
+                                             }
+                                             if (itemName.length() > 0 && !isInDatabase(itemName) && !isInList(itemName)) {
+                                                 pantryItems.add(newItem);
+                                                 myDB.insertDataPantry(currentUser, newItem.name, newItem.amount, newItem.unit);
+                                                 pantryData = myDB.getAllPantryData(currentUser);
+                                                 pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
+                                                 pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                 pantryList.setAdapter(pantryAdapter);
+                                             } else if (itemName.length() > 0 && !isInList(itemName)) {
+                                                 double newAmount = getAmount(itemName);
+                                                 newAmount += newItem.getAmount();
+                                                 pantryItems.add(newItem);
 
-                    //pantryItems.get(getIndexOf(itemName)).setAmount(newAmount);
-                    myDB.updatePantryData(currentUser,newItem.name, newAmount,newItem.unit);
-                    pantryData= myDB.getAllPantryData(currentUser);
 
-                    pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
-                    pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    pantryList.setAdapter(pantryAdapter);}
+                                                 myDB.updatePantryData(currentUser, newItem.name, newAmount, newItem.unit);
+                                                 pantryData = myDB.getAllPantryData(currentUser);
+
+                                                 pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
+                                                 pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                 pantryList.setAdapter(pantryAdapter);
+                                             } else if (itemName.length() > 0) {
+                                                 double newAmount = getAmount(itemName);
+                                                 newAmount += newItem.getAmount();
+                                                 pantryItems.get(getIndexOf(itemName)).setAmount(newAmount);
+                                                 myDB.updatePantryData(currentUser, newItem.name, newAmount, newItem.unit);
+                                                 pantryData = myDB.getAllPantryData(currentUser);
+
+                                                 pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
+                                                 pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                 pantryList.setAdapter(pantryAdapter);
+                                             }
+
 
 
                 addItem.setText("");
@@ -175,7 +189,26 @@ public class AddPantryFragment extends Fragment {
                             Double.valueOf(String.valueOf(qnty.getText())),
                             categories.get(unitSpinner.getSelectedItemPosition()));
                 }
-                if (isInDatabase(itemName)) {
+                if (isInDatabase(itemName) && isInList(itemName)) {
+                    if (itemName.length() > 0) {
+                        double newAmount = getAmount(itemName);
+                        newAmount -= newItem.getAmount();
+
+                        if (newAmount <= .01) {
+                            pantryItems.remove(getIndexOf(itemName));
+                            myDB.deletePantryData(currentUser,itemName);
+                            pantryData= myDB.getAllPantryData(currentUser);
+                        } else {
+                            pantryItems.get(getIndexOf(itemName)).setAmount(newAmount);
+                            myDB.updatePantryData(currentUser,newItem.name, newAmount,newItem.unit);
+                            pantryData= myDB.getAllPantryData(currentUser);
+
+                        }
+                        pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
+                        pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        pantryList.setAdapter(pantryAdapter);
+                    }
+                }else if(isInDatabase(itemName)){
                     if (itemName.length() > 0) {
                         double newAmount = getAmount(itemName);
                         newAmount -= newItem.getAmount();
@@ -190,7 +223,7 @@ public class AddPantryFragment extends Fragment {
                             pantryData= myDB.getAllPantryData(currentUser);
 
                         }
-                        pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
+                        pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
                         pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         pantryList.setAdapter(pantryAdapter);
                     }
@@ -207,10 +240,10 @@ public class AddPantryFragment extends Fragment {
 
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //pantryItems.removeAll(pantryItems);
+                pantryItems.removeAll(pantryItems);
                 myDB.clearUserPantry(currentUser);
                 pantryData = myDB.getAllPantryData(currentUser);
-                pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryData);
+                pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, pantryItems);
                 pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 pantryList.setAdapter(pantryAdapter);
                 addItem.setText("");

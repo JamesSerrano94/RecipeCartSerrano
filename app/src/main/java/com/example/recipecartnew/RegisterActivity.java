@@ -127,7 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
                         currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
                         //currentUser.setImageURL(snapshot.child(user).child("imageURI").getValue(String.class));
                         currentUser.setMeasureType("Imperial");
-                        //myDB.dropTables();
+                        myDB.dropTables();
                         myDB.insertDataUser(user,person);
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     }
