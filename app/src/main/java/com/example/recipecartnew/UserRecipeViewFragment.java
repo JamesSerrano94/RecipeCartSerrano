@@ -89,12 +89,13 @@ public class UserRecipeViewFragment extends Fragment implements View.OnClickList
 
         if (thisRecipe != null){
             title.setText(thisRecipe.getTitle());
-            image.setImageResource(thisRecipe.getImageName());
+
             description.setText(thisRecipe.getInstructions());
             if(thisRecipe.getImageName()==-1){
                 ingredients = thisRecipe.getItems(0);
             }else{
-                ingredients =thisRecipe.getItems();
+                image.setImageResource(thisRecipe.getImageName());
+                ingredients =thisRecipe.getItems(0);
             }
 
 
@@ -125,7 +126,7 @@ public class UserRecipeViewFragment extends Fragment implements View.OnClickList
         switch (v.getId()) {
             case R.id.returnRecipesBtn2:
                 getParentFragmentManager().beginTransaction().replace(getId(),
-                        new HomeFragment()).commit();
+                        new RecipeFragment()).commit();
                 return;
         }
     }

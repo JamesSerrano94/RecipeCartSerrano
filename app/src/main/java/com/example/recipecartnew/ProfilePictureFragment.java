@@ -34,6 +34,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 
 public class ProfilePictureFragment extends Fragment {
@@ -95,6 +96,13 @@ public class ProfilePictureFragment extends Fragment {
                 return;
             case R.id.saveBtn:
                 if (uploadProfileImage()) {
+                    currentUser.setImageURL(imageURI.getLastPathSegment().toString());
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(getActivity(), "Upload Successful", Toast.LENGTH_SHORT).show();
                     getParentFragmentManager().beginTransaction().replace(getId(),
                             new SettingsFragment()).commit();
                     return;
@@ -131,8 +139,6 @@ public class ProfilePictureFragment extends Fragment {
                 }
             });
 
-            Toast.makeText(getActivity(), "Upload Successful", Toast.LENGTH_SHORT).show();
-            currentUser.setImageURL(imageURI.toString());
             databaseReference.child("users").child(currentUser.getUsername()).child("imageURI").setValue(imageURI.getLastPathSegment().toString());
             return true;
         }

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -134,7 +135,7 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
 
         System.out.println("D");
         categories = new ArrayList<String>();
-        categories.add(" ");
+        categories.add("");
         if (currentUser.getMeasureType().equals("Metric")){
             categories.add("Kgs");
             categories.add("L");}
@@ -158,10 +159,12 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.addButton2:
-                item = String.valueOf(addItem.getText());
+                item = addItem.getText().toString();
                 itemName = AddPantryFragment.parseItem(item);
                 if (String.valueOf(qnty.getText()).equals("")) {
-                    newItem = new itemDescription(itemName); }
+                    newItem = new itemDescription(itemName);
+                    newItem.setUnit(categories.get(unitSpinner.getSelectedItemPosition()));
+                }
                 else {
                     newItem = new itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())); }
                 if (itemName.length() > 0 && !isInRecipeItems(itemName)){
@@ -187,6 +190,7 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
                 itemName = AddPantryFragment.parseItem(item);
                 if (String.valueOf(qnty.getText()).equals("")) {
                     newItem = new itemDescription(itemName);
+                    newItem.setUnit(categories.get(unitSpinner.getSelectedItemPosition()));
                 } else {
                     newItem = new itemDescription(itemName,
                             Double.valueOf(String.valueOf(qnty.getText())),
@@ -211,8 +215,20 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
                 qnty.setText("");
                 return;
             case R.id.upload:
+                if(recipeTitle.getText().toString().isEmpty()){
+                    recipeTitle.setError("Title cannot be empty");
+                    if(recipeInstructions.getText().toString().isEmpty()){
+                        recipeInstructions.setError("Instructions cannot be empty");
+                    }
+                    return;
+                }
+                if(recipeInstructions.getText().toString().isEmpty()){
+                    recipeInstructions.setError("Instructions cannot be empty");
+                    return;
+                }
+                String itemList = String.valueOf(recipeItems).substring(1, String.valueOf(recipeItems).length()-1);
                 myDB = new DatabaseHelper(this.getContext());
-                myDB.insertDataUserRecipe(currentUser,String.valueOf(recipeTitle.getText()),String.valueOf(recipeItems),String.valueOf(recipeInstructions.getText()),R.drawable.ic_baseline_search_24);
+                myDB.insertDataUserRecipe(currentUser,String.valueOf(recipeTitle.getText()),itemList, String.valueOf(recipeInstructions.getText()),R.drawable.ic_baseline_search_24);
                 recipeItems = new ArrayList<>();
                 getParentFragmentManager().beginTransaction().replace(this.getId(),
                         new RecipeFragment()).commit();

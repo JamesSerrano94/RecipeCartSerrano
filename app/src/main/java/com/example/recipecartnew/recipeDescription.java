@@ -99,7 +99,7 @@ public class recipeDescription{
         ArrayList<itemDescription> allIngredients = new ArrayList<>();
         for (int i = 0; i < items.length; i++){
             String[] info = items[i].split(" ");
-            allIngredients.add(new itemDescription(info[0],Double.parseDouble(info[1]),info[2]));
+            allIngredients.add(translateItem(items[i]));
         }
 
         return allIngredients;

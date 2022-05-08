@@ -95,7 +95,7 @@ public class RecipeFragment extends Fragment implements View.OnClickListener {
                     //recipes.get(position);
 
                     getParentFragmentManager().beginTransaction().replace(getId(),
-                            new RecipeViewFragment(recipe.get(position))).commit();
+                            new UserRecipeViewFragment(recipe.get(position))).commit();
                     return;
 
                 }
