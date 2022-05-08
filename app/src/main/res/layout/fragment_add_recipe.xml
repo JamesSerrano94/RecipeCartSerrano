@@ -14,6 +14,16 @@
         tools:context=".AddRecipeFragment">
 
 
+        <ImageView
+            android:id="@+id/RecipeImage"
+            android:layout_width="125dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="230dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textView7"
             android:layout_width="154dp"

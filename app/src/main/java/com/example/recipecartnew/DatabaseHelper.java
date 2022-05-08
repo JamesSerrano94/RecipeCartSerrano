@@ -156,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
 
     }
-    public boolean insertDataUserRecipe(String username, String title, String ingredient, String instructions, int image){
+    public boolean insertDataUserRecipe(String username, String title, String ingredient, String instructions, String image){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(RUOL, username);

@@ -1,21 +1,35 @@
 package com.example.recipecartnew;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 ///**
 // * A simple {@link Fragment} subclass.
@@ -28,10 +42,14 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
     DatabaseHelper myDB;
     String currentUser = User.getInstance().getUsername();
     ArrayAdapter<itemDescription> recipeAdapter;
+    UploadTask uploadTask;
+    StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://pantry-ae39f.appspot.com");
     ListView recipeList;
     List<String> categories;
     TextView recipeTitle, recipeInstructions;
     TextView addItem, qnty;
+    ImageView imageView;
+    Uri imageURI;
     Spinner unitSpinner;
     String item, itemName;
     itemDescription newItem;
@@ -111,6 +129,7 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
         addItem = (TextView) view.findViewById(R.id.addItemTxtField2);
         qnty = (TextView) view.findViewById(R.id.qntyTxtField2);
         recipeTitle = (TextView) view.findViewById(R.id.RecipeName) ;
+        imageView = (ImageView) view.findViewById(R.id.RecipeImage);
         recipeInstructions = (TextView) view.findViewById(R.id.Instructions);
 
         button.setOnClickListener((View.OnClickListener) this);
@@ -119,6 +138,7 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
         button2.setOnClickListener( this);
         Button button3 = view.findViewById(R.id.removeButton2);
         button3.setOnClickListener(this);
+        Button button4 = view.findViewById(R.id.picture);
         unitSpinner = (Spinner) view.findViewById(R.id.unitSpinner2);
         User currentUser = User.getInstance();
         recipeList = (ListView) view.findViewById(R.id.recipeList2);
@@ -151,6 +171,16 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
         if (spinnerAdapter == null){System.out.println("adapter\n");}
         unitSpinner.setAdapter(spinnerAdapter);
         System.out.println("E");
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImagePicker.Companion.with(AddRecipeFragment.this)
+                        .cropSquare()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start(10);
+            }
+        });
         return view;
     }
 
@@ -214,6 +244,14 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
                 addItem.setText("");
                 qnty.setText("");
                 return;
+
+            case R.id.picture:
+                ImagePicker.Companion.with(AddRecipeFragment.this)
+                        .cropSquare()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start(10);
+                return;
             case R.id.upload:
                 if(recipeTitle.getText().toString().isEmpty()){
                     recipeTitle.setError("Title cannot be empty");
@@ -226,15 +264,59 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
                     recipeInstructions.setError("Instructions cannot be empty");
                     return;
                 }
+
                 String itemList = String.valueOf(recipeItems).substring(1, String.valueOf(recipeItems).length()-1);
                 myDB = new DatabaseHelper(this.getContext());
-                myDB.insertDataUserRecipe(currentUser,String.valueOf(recipeTitle.getText()),itemList, String.valueOf(recipeInstructions.getText()),R.drawable.ic_baseline_search_24);
+                if (uploadProfileImage()) {
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    myDB.insertDataUserRecipe(currentUser,String.valueOf(recipeTitle.getText()),itemList, String.valueOf(recipeInstructions.getText()),imageURI.getLastPathSegment());
+                    recipeItems = new ArrayList<>();
+                    getParentFragmentManager().beginTransaction().replace(this.getId(),
+                            new RecipeFragment()).commit();
+                    return;
+                }
+                myDB.insertDataUserRecipe(currentUser,String.valueOf(recipeTitle.getText()),itemList, String.valueOf(recipeInstructions.getText()), String.valueOf(R.drawable.ic_baseline_search_24));
                 recipeItems = new ArrayList<>();
                 getParentFragmentManager().beginTransaction().replace(this.getId(),
                         new RecipeFragment()).commit();
                 return;
         }
-
     }
 
+    private boolean uploadProfileImage() {
+        if(imageURI != null) {
+            uploadTask = storageReference.child("recipe_images/" + imageURI.getLastPathSegment()).putFile(imageURI);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    return;
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getActivity(), "Error uploading image", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                }
+            });
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 10){
+            imageURI = data.getData();
+            imageView.setImageURI(imageURI);
+        }
+    }
 }

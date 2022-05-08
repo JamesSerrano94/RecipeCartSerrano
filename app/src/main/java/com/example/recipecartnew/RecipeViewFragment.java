@@ -136,7 +136,7 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
                 image.setImageResource(thisRecipe.getImageName());
             }
             description.setText(thisRecipe.getInstructions());
-            ingredients = thisRecipe.getItems();
+            ingredients = thisRecipe.getItems(10);
 
 
             for (int i = 0; i < ingredients.size(); i++){
@@ -164,7 +164,7 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addToMyRecipes:
-                myDB.insertDataUserRecipe(currentUser,thisRecipe.getTitle(),thisRecipe.getIngredients(),thisRecipe.getInstructions(),thisRecipe.getImageName());
+                myDB.insertDataUserRecipe(currentUser,thisRecipe.getTitle(),thisRecipe.getIngredients(),thisRecipe.getInstructions(),String.valueOf(thisRecipe.getImageName()));
             case R.id.returnRecipesBtn:
                 getParentFragmentManager().beginTransaction().replace(getId(),
                         new SearchFragment()).commit();

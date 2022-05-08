@@ -1,5 +1,7 @@
 package com.example.recipecartnew;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +32,7 @@ public class UserRecipeViewFragment extends Fragment implements View.OnClickList
     List<recipeDescription> recipes = new ArrayList<>();
     HomeRecyclerViewAdapter mHomeRecyclerViewAdapter;
     HomeRecyclerViewAdapter.OnNoteListener monNoteListener;
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://pantry-ae39f.appspot.com");
     recipeDescription thisRecipe;
     ArrayList<itemDescription> ingredients;
     List<itemDescription> ingredientsList = new ArrayList<>();
@@ -79,7 +86,6 @@ public class UserRecipeViewFragment extends Fragment implements View.OnClickList
         ListView ingredientList = view.findViewById(R.id.recipeIngredientList2);
         myDB = new DatabaseHelper(getActivity());
         myDB.getAllPantryData(currentUser);
-
         pantryData = myDB.getAllPantryData(currentUser);
 
         //mSearchRecyclerViewAdapter = new SearchRecyclerViewAdapter(recipes, monNoteListener);
@@ -94,7 +100,20 @@ public class UserRecipeViewFragment extends Fragment implements View.OnClickList
             if(thisRecipe.getImageName()==-1){
                 ingredients = thisRecipe.getItems(0);
             }else{
-                image.setImageResource(thisRecipe.getImageName());
+                final long ONE_MEGABYTE = 1024 * 1024;
+                System.out.println("recipe_images/"+thisRecipe.getImageName());
+                storageReference.child("recipe_images/" + thisRecipe.getImageName()).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        try {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            image.setImageBitmap(bitmap);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
                 ingredients =thisRecipe.getItems(0);
             }
 
