@@ -299,6 +299,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.delete(PANTRY_TABLE,PCOL_1+" = ?", new String[]{username});
     }
 
+    public Integer clearUserRecipes(String username){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        return sqLiteDatabase.delete(UserRecipe_TABLE, RUOL+" = ?", new String[]{username});
+    }
     public boolean containsRecipe(List<recipeDescription> recipes, recipeDescription recipe){
         for(int i = 0; i < recipes.size(); i++){
             if(recipes.get(i).equalRecipes(recipes.get(i), recipe)){

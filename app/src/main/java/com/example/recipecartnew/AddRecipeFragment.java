@@ -272,6 +272,7 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
                 }
                 if(recipeItems.size()==0){
                     addItem.setError("Ingredient list cannot be empty");
+                    return;
                 }
                 String itemList = String.valueOf(recipeItems).substring(1, String.valueOf(recipeItems).length()-1);
                 myDB = new DatabaseHelper(this.getContext());
