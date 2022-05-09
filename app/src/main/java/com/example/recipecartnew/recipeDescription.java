@@ -89,7 +89,6 @@ public class recipeDescription{
         for (int i = 0; i < items.length; i++){
             allIngredients.add(translateItem(items[i]));
         }
-
         return allIngredients;}
     public ArrayList<itemDescription> getItems(int j){
         System.out.println(Ingredients);

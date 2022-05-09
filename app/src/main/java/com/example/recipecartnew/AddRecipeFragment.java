@@ -226,6 +226,7 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
                             Double.valueOf(String.valueOf(qnty.getText())),
                             categories.get(unitSpinner.getSelectedItemPosition()));
                 }
+
                 if (isInRecipeItems(itemName)) {
                     if (itemName.length() > 0) {
                         double newAmount = recipeItems.get(getRecipeIndexOf(itemName)).getAmount();

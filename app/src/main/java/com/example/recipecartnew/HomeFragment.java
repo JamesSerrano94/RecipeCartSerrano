@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment
         if (monNoteListener == null) {
             acceptsInterfaceObject(new HomeRecyclerViewAdapter.OnNoteListener(){
 
+
                 @Override
                 public void onNoteClick(int position) {
 

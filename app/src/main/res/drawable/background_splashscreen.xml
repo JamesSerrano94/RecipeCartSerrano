@@ -7,4 +7,5 @@
         android:gravity="center"
         android:drawable="@drawable/large_recipecart"
         />
+
 </layer-list>

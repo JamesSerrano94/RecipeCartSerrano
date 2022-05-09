@@ -22,7 +22,6 @@ import java.util.List;
  * A fragment representing a list of Items.
  */
 public class RecipeFragment extends Fragment implements View.OnClickListener {
-
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters

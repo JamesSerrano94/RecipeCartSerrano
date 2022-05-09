@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class MyPantryRecyclerViewAdapter extends RecyclerView.Adapter<MyPantryRecyclerViewAdapter.ViewHolder> {
 
 
-
     private final ArrayList<itemDescription> mValues;
 
     public MyPantryRecyclerViewAdapter(ArrayList<itemDescription> items) {

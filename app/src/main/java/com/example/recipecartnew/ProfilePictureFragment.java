@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-
 public class ProfilePictureFragment extends Fragment {
     private ImageView imageView;
     private Button save, close;

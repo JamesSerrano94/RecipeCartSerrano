@@ -230,6 +230,7 @@ public class AddPantryFragment extends Fragment {
                 }
 
 
+
                 addItem.setText("");
                 qnty.setText("");
             }

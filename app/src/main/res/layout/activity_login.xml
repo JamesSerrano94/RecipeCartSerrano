@@ -2,11 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".LoginActivity"
-    android:layout_margin="10dp"
-    android:padding="10dp"
+
     >
 
 
@@ -27,9 +26,8 @@
     <EditText
         android:id="@+id/login_user"
         style="@style/Widget.AppCompat.EditText"
-        android:layout_width="wrap_content"
-
-        android:layout_height="wrap_content"
+        android:layout_width="332dp"
+        android:layout_height="48dp"
         android:layout_below="@+id/text_login"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -39,13 +37,14 @@
         android:fontFamily="@font/lato_black"
         android:hint="USERNAME"
         android:textColor="#000000"
+        android:textColorHint="#686666"
         android:textSize="20sp" />
 
     <EditText
         android:id="@+id/login_password"
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="332dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_below="@+id/login_user"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -56,6 +55,7 @@
         android:hint="PASSWORD"
         android:inputType="textPassword"
         android:textColor="#000000"
+        android:textColorHint="#686666"
         android:textSize="20sp" />
 
     <Button
@@ -76,29 +76,29 @@
 
     <TextView
         android:id="@+id/text_register"
-        android:layout_width="65dp"
-        android:layout_height="27dp"
+        android:layout_width="107dp"
+        android:layout_height="32dp"
         android:layout_below="@+id/login"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="208dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="114dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="58dp"
+        android:layout_toEndOf="@+id/textView"
         android:fontFamily="@font/lato_black"
-        android:text="Sign up"
-        android:textAlignment="center"
-        android:textColor="#4DC350"
+        android:text="@string/sign_up"
+        android:textAlignment="viewStart"
+        android:textColor="#43A047"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="31dp"
+        android:layout_height="32dp"
         android:layout_below="@+id/login"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="208dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="98dp"
         android:fontFamily="@font/lato"
-        android:text="Don't have an account?"
+        android:text="@string/account_sign_up"
         android:textSize="16sp" />
 </RelativeLayout>
