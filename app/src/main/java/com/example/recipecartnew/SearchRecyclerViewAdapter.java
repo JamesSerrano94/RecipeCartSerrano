@@ -1,5 +1,7 @@
 package com.example.recipecartnew;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipecartnew.databinding.FragmentSearchBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -16,14 +21,16 @@ import java.util.List;
  * TODO: Replace the implementation with code for your data type.
  */
 public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder> {
-
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://pantry-ae39f.appspot.com");
     private final List<recipeDescription> mValues;
     private OnNoteListener monNoteListener;
 
+    //Accepts Interface
     public void acceptsInterfaceObject(OnNoteListener obj){
         monNoteListener = obj;
     }
 
+    //OnClick
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -31,6 +38,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         }
     };
 
+    //Constructor
     public SearchRecyclerViewAdapter(List<recipeDescription> items) {
         mValues = items;
         this.acceptsInterfaceObject(new OnNoteListener() {
@@ -40,11 +48,9 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
                 //need to figure this out
             }
         });
-
-
-
     }
 
+    //Constructor
     public SearchRecyclerViewAdapter(List<recipeDescription> items, OnNoteListener onNoteListener) {
         mValues = items;
         this.monNoteListener = onNoteListener;
@@ -63,7 +69,22 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTitle.setText(mValues.get(position).getTitle());
-        holder.mImage.setImageResource(mValues.get(position).getImageName());
+        if(mValues.get(position).getImageName()!=null) {
+            holder.mImage.setImageBitmap(null);
+            final long ONE_MEGABYTE = 1024 * 1024;
+            storageReference.child("recipe_images/").child(mValues.get(position).getImageName()).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        holder.mImage.setImageBitmap(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
        // holder.mImage.setImageDrawable(draw);
     }
 

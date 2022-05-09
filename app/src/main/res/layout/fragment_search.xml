@@ -12,10 +12,11 @@
 
         <TextView
             android:id="@+id/RecipeList2"
-            android:layout_width="252dp"
-            android:layout_height="74dp"
+            android:layout_width="237dp"
+            android:layout_height="79dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/lato_black"
             android:text="TextView"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

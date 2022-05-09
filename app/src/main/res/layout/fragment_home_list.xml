@@ -2,65 +2,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list"
-    android:name="com.example.recipecartnew.RecipeFragment"
+    android:id="@+id/list2"
+    android:name="com.example.recipecartnew.HomeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-
-    tools:context=".RecipeFragment"
+    tools:context=".HomeFragment"
     >
-
-    <TextView
-        android:id="@+id/emptyUserRecipes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/lato"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/YourRecipes" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/RecipeButton"
-        android:layout_width="75dp"
-        android:layout_height="66dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="88dp"
-        app:backgroundTint="#4DC350"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_add_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewRecipe"
-        android:layout_width="378dp"
+        android:id="@+id/recyclerViewHome"
+        android:layout_width="359dp"
         android:layout_height="491dp"
         android:layout_marginTop="96dp"
-        android:scrollbars="vertical"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/fragment_recipe" />
+        tools:listitem="@layout/fragment_home" />
 
     <TextView
-        android:id="@+id/YourRecipes"
+        android:id="@+id/YourRecipes2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_black"
-        android:text="Your Recipes"
+        android:text="Suggested Recipes"
         android:textColor="#000000"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewRecipe"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewHome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.275" />
+
+    <TextView
+        android:id="@+id/emptyRecipes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/YourRecipes2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

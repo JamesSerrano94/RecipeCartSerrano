@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -80,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 .append(RCOL2).append(" ").append(STRING_type).append(", ")
                 .append(RCOL3).append(" ").append(STRING_type).append(", ")
                 .append(RCOL4).append(" ").append(STRING_type)
-//                .append(", ").append(RCOL5).append(" ").append(INT_type)
+                .append(", ").append(RCOL5).append(" ").append(STRING_type)
                 .append(", foreign key (").append(RUOL)
                 .append(") REFERENCES USER_TABLE (").append(UCOL_1).append(")").append(")").toString());
     }
@@ -155,21 +156,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
 
     }
-    public boolean insertDataUserRecipe(String username, String title, String ingredient, String instructions){
+    public boolean insertDataUserRecipe(String username, String title, String ingredient, String instructions, String image){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(RUOL, username);
         contentValues.put(RCOL2,title);
         contentValues.put(RCOL3,ingredient);
         contentValues.put(RCOL4,instructions);
-        //contentValues.put(RCOL5,image);
+        contentValues.put(RCOL5,image);
         long result = sqLiteDatabase.insert(UserRecipe_TABLE,null,contentValues);
         if(result==-1) {
             return false;
         }
         return true;
     }
-    public boolean insertDataGlobalRecipe(String title, String ingredient, String Instructions, int image){
+    public boolean insertDataGlobalRecipe(String title, String ingredient, String Instructions, String image){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(RCOL2,title);
@@ -205,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             while (res.moveToNext()){
 
-                recipeDescription recipe = new recipeDescription(res.getString(1),res.getString(2),res.getString(3));
+                recipeDescription recipe = new recipeDescription(res.getString(1),res.getString(2),res.getString(3),res.getString(4));
                 recipes.add(recipe);
             }
         } catch (Exception e) {
@@ -222,11 +223,57 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             while (res.moveToNext()){
 
-                recipeDescription recipe = new recipeDescription(res.getString(1),res.getString(2),res.getString(3),res.getInt(4));
+                recipeDescription recipe = new recipeDescription(res.getString(1),res.getString(2),res.getString(3),res.getString(4));
                 recipes.add(recipe);
             }
         } catch (Exception e) {
             Log.d(TAG, "Error while trying to get posts from database");
+        }
+        return recipes;
+    }
+    public List<recipeDescription> getRecommendedRecipes(String username){
+        List<recipeDescription> recipes = new ArrayList<>();
+        List<recipeDescription> UserRecipes = getAllUserRecipes(username);
+        List<recipeDescription> GlobalRecipes = getAllGlobalRecipes();
+        List<recipeDescription> UniqueRecipes = new ArrayList<>();
+        ArrayList<itemDescription> pantryItems = getAllPantryData(username);
+        for(int i = 0; i < GlobalRecipes.size(); i++){
+            if(i >= UserRecipes.size()-1){
+                if(!UniqueRecipes.contains(GlobalRecipes.get(i))) {
+                    UniqueRecipes.add(GlobalRecipes.get(i));
+                }
+                continue;
+            }
+            else if(!GlobalRecipes.get(i).equalRecipes(GlobalRecipes.get(i), UserRecipes.get(i))){
+                UniqueRecipes.add(GlobalRecipes.get(i));
+
+            }
+            else if(!this.containsRecipe(UniqueRecipes, GlobalRecipes.get(i))) {
+                UniqueRecipes.add(GlobalRecipes.get(i));
+            }
+        }
+
+        for(int i = 0; i < UserRecipes.size(); i++){
+            if(i >= GlobalRecipes.size()-1){
+                if(!UniqueRecipes.contains(UserRecipes.get(i))) {
+                    UniqueRecipes.add(UserRecipes.get(i));
+                }
+                continue;
+            }
+            else if(!UserRecipes.get(i).equalRecipes(UserRecipes.get(i), GlobalRecipes.get(i))){
+                UniqueRecipes.add(UserRecipes.get(i));
+            }
+            else if(!this.containsRecipe(UniqueRecipes, UserRecipes.get(i))) {
+                UniqueRecipes.add(UserRecipes.get(i));
+            }
+        }
+
+        for(int i = 0; i < pantryItems.size(); i++) {
+            for(int j = 0; j < UniqueRecipes.size(); j++){
+                if(UniqueRecipes.get(j).getIngredients().contains(pantryItems.get(i).getName()) && !this.containsRecipe(recipes, UniqueRecipes.get(j))){
+                    recipes.add(UniqueRecipes.get(j));
+                }
+            }
         }
         return recipes;
     }
@@ -251,5 +298,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Integer clearUserPantry(String username){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         return sqLiteDatabase.delete(PANTRY_TABLE,PCOL_1+" = ?", new String[]{username});
+    }
+
+    public Integer clearUserRecipes(String username){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        return sqLiteDatabase.delete(UserRecipe_TABLE, RUOL+" = ?", new String[]{username});
+    }
+    public boolean containsRecipe(List<recipeDescription> recipes, recipeDescription recipe){
+        for(int i = 0; i < recipes.size(); i++){
+            if(recipes.get(i).equalRecipes(recipes.get(i), recipe)){
+                return true;
+            }
+        }
+        return false;
     }
 }

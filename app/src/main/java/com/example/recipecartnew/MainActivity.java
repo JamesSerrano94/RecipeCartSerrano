@@ -32,8 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         bottomNav.setOnNavigationItemSelectedListener(navListner);
+
 //
 //      //if statement to keep the selected fragment when rotating the device
+
+//        //f statement to keep the selected fragment when rotating the device
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main,
                     new HomeFragment()).commit();

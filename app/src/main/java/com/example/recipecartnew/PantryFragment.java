@@ -34,6 +34,7 @@ public class PantryFragment extends Fragment implements View.OnClickListener {
     String currentUser = User.getInstance().getUsername();
     String currentUserName = User.getInstance().getName();
     ArrayList<itemDescription> pantry;
+    TextView empty;
 
 
     /**
@@ -61,7 +62,6 @@ public class PantryFragment extends Fragment implements View.OnClickListener {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,7 +72,13 @@ public class PantryFragment extends Fragment implements View.OnClickListener {
         UserName.setText(currentUserName+"'s Pantry");
         button.setOnClickListener(this);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        empty = view.findViewById(R.id.emptyPantry);
         pantry = myDB.getAllPantryData(currentUser);
+        if(pantry.size()==0){
+            empty.setText("No match, please add new pantry items");
+        }else{
+            empty.setText("");
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new MyPantryRecyclerViewAdapter(pantry));
 
