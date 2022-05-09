@@ -94,10 +94,11 @@ public class UserRecipeViewFragment extends Fragment implements View.OnClickList
 
 
         if (thisRecipe != null){
+            System.out.println(thisRecipe.getImageName());
             title.setText(thisRecipe.getTitle());
 
             description.setText(thisRecipe.getInstructions());
-            if(thisRecipe.getImageName()==-1){
+            if(thisRecipe.getImageName()==null){
                 ingredients = thisRecipe.getItems(0);
             }else{
                 final long ONE_MEGABYTE = 1024 * 1024;

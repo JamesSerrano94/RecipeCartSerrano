@@ -1,5 +1,7 @@
 package com.example.recipecartnew;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +11,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +39,13 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private int code;
     TextView title;
     ImageView image;
     List<recipeDescription> recipes = new ArrayList<>();
     SearchRecyclerViewAdapter mSearchRecyclerViewAdapter;
     SearchRecyclerViewAdapter.OnNoteListener monNoteListener;
+    StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://pantry-ae39f.appspot.com");
     recipeDescription thisRecipe;
     ArrayList<itemDescription> ingredients;
     List<itemDescription> ingredientsList = new ArrayList<>();
@@ -54,8 +63,9 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
         // Required empty public constructor
     }
 
-    public RecipeViewFragment(recipeDescription thisRecipe){
+    public RecipeViewFragment(recipeDescription thisRecipe, int code){
         this.thisRecipe = thisRecipe;
+        this.code = code;
     }
 
     public RecipeViewFragment(SearchRecyclerViewAdapter.OnNoteListener obj){
@@ -132,8 +142,21 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
 
         if (thisRecipe != null){
             title.setText(thisRecipe.getTitle());
-            if(thisRecipe.getImageName()!=-1) {
-                image.setImageResource(thisRecipe.getImageName());
+            if(thisRecipe.getImageName()!= null) {
+                image.setImageBitmap(null);
+                final long ONE_MEGABYTE = 1024 * 1024;
+                storageReference.child("recipe_images/").child(thisRecipe.getImageName()).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        try {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            image.setImageBitmap(bitmap);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
             }
             description.setText(thisRecipe.getInstructions());
             ingredients = thisRecipe.getItems(10);
@@ -164,12 +187,25 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addToMyRecipes:
+                List<recipeDescription> recipes = myDB.getAllUserRecipes(currentUser);
+                for(int i=0; i<recipes.size(); i++) {
+                    if (recipes.get(i).equalRecipes(recipes.get(i), thisRecipe)) {
+                        Toast.makeText(getContext(), "Recipe already in your recipe list", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
                 myDB.insertDataUserRecipe(currentUser,thisRecipe.getTitle(),thisRecipe.getIngredients(),thisRecipe.getInstructions(),String.valueOf(thisRecipe.getImageName()));
             case R.id.returnRecipesBtn:
-                getParentFragmentManager().beginTransaction().replace(getId(),
-                        new SearchFragment()).commit();
+                if(code == 0) {
+                    getParentFragmentManager().beginTransaction().replace(getId(),
+                            new SearchFragment()).commit();
+                }
+
+                else if(code == 1) {
+                    getParentFragmentManager().beginTransaction().replace(getId(),
+                            new HomeFragment()).commit();
+                }
                 return;
         }
     }
-
 }

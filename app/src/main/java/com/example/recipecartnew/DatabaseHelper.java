@@ -81,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 .append(RCOL2).append(" ").append(STRING_type).append(", ")
                 .append(RCOL3).append(" ").append(STRING_type).append(", ")
                 .append(RCOL4).append(" ").append(STRING_type)
-                .append(", ").append(RCOL5).append(" ").append(INT_type)
+                .append(", ").append(RCOL5).append(" ").append(STRING_type)
                 .append(", foreign key (").append(RUOL)
                 .append(") REFERENCES USER_TABLE (").append(UCOL_1).append(")").append(")").toString());
     }
@@ -170,7 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return true;
     }
-    public boolean insertDataGlobalRecipe(String title, String ingredient, String Instructions, int image){
+    public boolean insertDataGlobalRecipe(String title, String ingredient, String Instructions, String image){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(RCOL2,title);
@@ -206,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             while (res.moveToNext()){
 
-                recipeDescription recipe = new recipeDescription(res.getString(1),res.getString(2),res.getString(3));
+                recipeDescription recipe = new recipeDescription(res.getString(1),res.getString(2),res.getString(3),res.getString(4));
                 recipes.add(recipe);
             }
         } catch (Exception e) {
@@ -223,7 +223,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             while (res.moveToNext()){
 
-                recipeDescription recipe = new recipeDescription(res.getString(1),res.getString(2),res.getString(3),res.getInt(4));
+                recipeDescription recipe = new recipeDescription(res.getString(1),res.getString(2),res.getString(3),res.getString(4));
                 recipes.add(recipe);
             }
         } catch (Exception e) {

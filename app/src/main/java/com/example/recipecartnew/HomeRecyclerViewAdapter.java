@@ -1,5 +1,7 @@
 package com.example.recipecartnew;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipecartnew.databinding.FragmentHomeBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -18,6 +23,7 @@ import java.util.List;
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder>{
 
     private final List<recipeDescription> mValues;
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://pantry-ae39f.appspot.com");
     private OnNoteListener monNoteListener;
 
 
@@ -65,8 +71,21 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTitle.setText(mValues.get(position).getTitle());
-        if(mValues.get(position).getImageName()!=-1) {
-            holder.mImage.setImageResource(mValues.get(position).getImageName());
+        if(mValues.get(position).getImageName()!="") {
+            holder.mImage.setImageBitmap(null);
+            final long ONE_MEGABYTE = 1024 * 1024;
+            storageReference.child("recipe_images/").child(mValues.get(position).getImageName()).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        holder.mImage.setImageBitmap(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
         }
         // holder.mImage.setImageDrawable(draw);
     }

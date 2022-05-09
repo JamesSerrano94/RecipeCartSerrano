@@ -10,7 +10,7 @@ public class recipeDescription{
     private String Ingredients;
     private String Instructions;
     private User currentUser= User.getInstance();
-    private int ImageName;
+    private String ImageName;
     private String Description;
 
 
@@ -18,7 +18,7 @@ public class recipeDescription{
     public recipeDescription(){
 
     }
-    public recipeDescription(String title, String Ingredients, String Instructions, int ImageName) {
+    public recipeDescription(String title, String Ingredients, String Instructions, String ImageName) {
         this.title = title;
         this.Ingredients = Ingredients;
         this.Instructions = Instructions;
@@ -28,7 +28,6 @@ public class recipeDescription{
         this.title = title;
         this.Ingredients = Ingredients;
         this.Instructions = Instructions;
-        ImageName =-1;
     }
 
     @NonNull
@@ -67,11 +66,11 @@ public class recipeDescription{
         this.title = title;
     }
 
-    public int getImageName() {
+    public String getImageName() {
         return ImageName;
     }
 
-    public void setImageName(int imageName) {
+    public void setImageName(String imageName) {
         ImageName = imageName;
     }
     public void setDescription(String description){
@@ -140,6 +139,10 @@ public class recipeDescription{
 
         itemDescription thisItem = new itemDescription(name.toString(), amount, words[count]);
         return thisItem;
+    }
+
+    public boolean equalRecipes(recipeDescription recipe, recipeDescription other){
+        return ((recipe.getImageName().equals(other.getImageName())) && (recipe.getIngredients().equals(other.getIngredients())) && (recipe.getTitle().equals(other.getTitle())) && (recipe.getInstructions().equals(other.getInstructions())));
     }
 
     public double kgsToLbs(double kgs){

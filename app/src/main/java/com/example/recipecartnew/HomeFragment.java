@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment
                 public void onNoteClick(int position) {
 
                     getParentFragmentManager().beginTransaction().replace(getId(),
-                            new UserRecipeViewFragment(recipes.get(position))).commit();
+                            new RecipeViewFragment(recipes.get(position),1)).commit();
                     return;
 
                 }

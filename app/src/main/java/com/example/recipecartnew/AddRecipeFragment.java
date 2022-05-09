@@ -258,13 +258,21 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener{
                     if(recipeInstructions.getText().toString().isEmpty()){
                         recipeInstructions.setError("Instructions cannot be empty");
                     }
+                    if(recipeItems.size()==0){
+                        addItem.setError("Ingredient list cannot be empty");
+                    }
                     return;
                 }
                 if(recipeInstructions.getText().toString().isEmpty()){
                     recipeInstructions.setError("Instructions cannot be empty");
+                    if(recipeItems.size()==0){
+                        addItem.setError("Ingredient list cannot be empty");
+                    }
                     return;
                 }
-
+                if(recipeItems.size()==0){
+                    addItem.setError("Ingredient list cannot be empty");
+                }
                 String itemList = String.valueOf(recipeItems).substring(1, String.valueOf(recipeItems).length()-1);
                 myDB = new DatabaseHelper(this.getContext());
                 if (uploadProfileImage()) {
