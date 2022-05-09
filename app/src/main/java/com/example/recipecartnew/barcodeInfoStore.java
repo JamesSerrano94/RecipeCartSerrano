@@ -37,8 +37,8 @@ public class barcodeInfoStore {
         return number;
     }
 
-    public void setNumber(double number) {
-        this.number = number;
+    public void setNumber(CharSequence number) {
+        this.number = Double.valueOf(String.valueOf(number));
     }
 
     public static String toString(double number) {

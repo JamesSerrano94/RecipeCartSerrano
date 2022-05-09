@@ -178,8 +178,12 @@ public class AddPantryFragment extends Fragment {
                 for (int i = 0; i < barcodeInfoStoreList.size(); i++) {
 
                     if (barcodeNumber.equals(barcodeInfoStoreList.get(i).getBarcode())) {
-                        newItem = new itemDescription(barcodeInfoStoreList.get(i).getItemName(),
-                                barcodeInfoStoreList.get(i).getNumber(), categories.get(unitSpinner.getSelectedItemPosition()));
+                        //newItem = new itemDescription(barcodeInfoStoreList.get(i).getItemName(),
+                                //barcodeInfoStoreList.get(i).getNumber(), categories.get(unitSpinner.getSelectedItemPosition()));
+                        barcodeInfoStoreList.get(i).setItemName((String) addItem.getText());
+                        barcodeInfoStoreList.get(i).setNumber(qnty.getText());
+                        barcodeInfoStoreList.get(i).setUnit(categories.get(unitSpinner.getSelectedItemPosition()));
+
                     }
                 }
                 System.out.println("TESTB");
@@ -294,6 +298,7 @@ public class AddPantryFragment extends Fragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+        boolean barcodeExists = false;
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
         TextView barcodeNumber = (TextView) getView().findViewById(R.id.editTextBarcodeNumber);
@@ -305,12 +310,16 @@ public class AddPantryFragment extends Fragment {
             barcodeNumber.setText(result.getContents());
 
             for (int i = 0; i < barcodeInfoStoreList.size(); i++) {
+                barcodeExists = true;
                 if (result.getContents().equals(barcodeInfoStoreList.get(i).getBarcode())) {
                     // set info stored in barcodeInfoStore to the text fields on the pantry item page
                     addItem.setText(barcodeInfoStoreList.get(i).getItemName());
                     num = barcodeInfoStoreList.get(i).getNumber();
                     qnty.setText(barcodeInfoStore.toString(num));
                 }
+            }
+            if(!barcodeExists){
+                barcodeInfoStoreList.add(new barcodeInfoStore(result.getContents()));
             }
         } else {
             barcodeNumber.setText("INVALID BARCODE");
