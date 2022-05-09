@@ -1,11 +1,7 @@
 package com.example.recipecartnew;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,8 +54,10 @@ public class LoginActivity extends AppCompatActivity {
         textRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+
             }
         });
     }
@@ -84,23 +82,28 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.hasChild(user)) {
-
+                        System.out.println("A");
                         final String getPass = snapshot.child(user).child("password").getValue(String.class);
                         if (getPass.equals(pass)) {
+                            System.out.println("PASSA");
                             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                             currentUser.setUsername(user);
                             currentUser.setPassword(pass);
+                            System.out.println("PASSB");
                             currentUser.setName(snapshot.child(user).child("name").getValue(String.class));
                             currentUser.setEmail(snapshot.child(user).child("email").getValue(String.class));
                             currentUser.setMeasureType(snapshot.child(user).child("measureType").getValue(String.class));if(snapshot.child(user).hasChild("imageURI")) {
                                 currentUser.setImageURL(snapshot.child(user).child("imageURI").getValue(String.class));
                             }
+                            System.out.println("PASSC");
                             //myDB.dropTables();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            System.out.println("PASSD");
                         }
                         else {
                             Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
                         }
+                        System.out.println("B");
                     }
                     else {
                         Toast.makeText(LoginActivity.this, "Incorrect Username", Toast.LENGTH_SHORT).show();

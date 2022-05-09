@@ -170,6 +170,7 @@ public class AddPantryFragment extends Fragment {
 
         addButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                System.out.println("TESTA");
                 String item = String.valueOf(addItem.getText());
                 String itemName = parseItem(item);
                 itemDescription newItem = null;
@@ -181,7 +182,7 @@ public class AddPantryFragment extends Fragment {
                                 barcodeInfoStoreList.get(i).getNumber(), categories.get(unitSpinner.getSelectedItemPosition()));
                     }
                 }
-
+                System.out.println("TESTB");
                 if (newItem == null) {
                     barcodeInfoStoreList.add(new barcodeInfoStore(barcodeNumber.getText().toString(), itemName,
                             Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())));
@@ -192,7 +193,7 @@ public class AddPantryFragment extends Fragment {
                         newItem = new itemDescription(itemName, Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition()));
                     }
                 }
-
+                System.out.println("TESTC");
                 if (itemName.length() > 0 && !isInDatabase(itemName)){
                     pantryItems.add(newItem);
                     myDB.insertDataPantry(currentUser,newItem.name,newItem.amount,newItem.unit);
@@ -221,7 +222,7 @@ public class AddPantryFragment extends Fragment {
                     pantryAdapter = new ArrayAdapter<itemDescription>(getActivity().getBaseContext(), android.R.layout.simple_spinner_dropdown_item);
                     pantryList.setAdapter(pantryAdapter);
                 }
-
+                System.out.println("TESTD");
 
                 addItem.setText("");
                 qnty.setText("");}

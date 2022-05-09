@@ -115,6 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Username already used", Toast.LENGTH_SHORT).show();
                     }
                     else{
+                        myDB.dropTables();
                         databaseReference.child("users").child(user).child("email").setValue(e);
                         databaseReference.child("users").child(user).child("name").setValue(person);
                         databaseReference.child("users").child(user).child("password").setValue(pass);
