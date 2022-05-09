@@ -184,8 +184,8 @@ public class AddPantryFragment extends Fragment {
                 }
                 System.out.println("TESTB");
                 if (newItem == null) {
-                    barcodeInfoStoreList.add(new barcodeInfoStore(barcodeNumber.getText().toString(), itemName,
-                            Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())));
+                    //barcodeInfoStoreList.add(new barcodeInfoStore(barcodeNumber.getText().toString(), itemName,
+                            //Double.valueOf(String.valueOf(qnty.getText())), categories.get(unitSpinner.getSelectedItemPosition())));
 
                     if (String.valueOf(qnty.getText()).equals("")) {
                         newItem = new itemDescription(itemName);
