@@ -6,11 +6,6 @@ public class itemDescription {
     double amount;
     String unit;
 
-
-
-    public itemDescription(){
-
-    }
     public itemDescription(String name){
         this.name = name;
         amount = 1;
