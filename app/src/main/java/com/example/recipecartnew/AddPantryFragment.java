@@ -1,5 +1,6 @@
 package com.example.recipecartnew;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +19,17 @@ import android.app.Activity;
 import android.content.Intent;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.CaptureActivity;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,61 +153,18 @@ public class AddPantryFragment extends Fragment {
         barcodeInfoStoreList = new ArrayList<barcodeInfoStore>();
 
         scanButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                class BarcodeScanner extends Activity {
-                    public void onCreate (Bundle savedInstanceState) {
-                        super.onCreate(savedInstanceState);
-                        setContentView(R.layout.fragment_add_pantry);
+                IntentIntegrator.forSupportFragment(AddPantryFragment.this).initiateScan();
+                //Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                //intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
+                //startActivityForResult(intent, 0);
 
-                        try {
-                            ImageButton scanButton = findViewById(R.id.imageButton4);
-                            scanButton.setOnClickListener(new View.OnClickListener() {
-
-                                public void onClick(View v) {
-                                    Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                                    intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
-                                    startActivityForResult(intent, 0);
-                                }
-                            });
-                        } catch (ActivityNotFoundException anfe) {
-                            Log.e("onCreate", "Scanner Not Found", anfe);
-                        }
-                    }
-
-
-                    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-                        String item = String.valueOf(addItem.getText());
-                        String itemName = parseItem(item);
-
-                        if (requestCode == 0) {
-                            if (resultCode == RESULT_OK) {
-                                String contents = intent.getStringExtra("SCAN_RESULT");
-                                TextView barcodeDisplay = (TextView) findViewById(R.id.editTextBarcodeNumber);
-                                Double num;
-                                barcodeDisplay.setText(contents);
-
-                                for (int i = 0; i < barcodeInfoStoreList.size(); i++) {
-                                    if (contents.equals(barcodeInfoStoreList.get(i).getBarcode())) {
-                                        // set info stored in barcodeInfoStore to the text fields on the pantry item page
-                                        addItem.setText(barcodeInfoStoreList.get(i).getItemName());
-                                        num = barcodeInfoStoreList.get(i).getNumber();
-                                        qnty.setText(barcodeInfoStore.toString(num));
-                                    }
-                                }
-
-                            } else if (resultCode == RESULT_CANCELED) {
-                                TextView barcodeDisplay = (TextView) findViewById(R.id.editTextBarcodeNumber);
-                                barcodeDisplay.setText("INVALID BARCODE");
-                            }
-                        }
-                    }
-
-                }
-
-                BarcodeScanner scanner = new BarcodeScanner();
-                scanner.onCreate(savedInstanceState);
             }
+
+
+//            }
 
         });
 
@@ -254,6 +219,7 @@ public class AddPantryFragment extends Fragment {
                 addItem.setText("");
                 qnty.setText("");}
         });
+
         removeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String item = String.valueOf(addItem.getText());
@@ -294,9 +260,6 @@ public class AddPantryFragment extends Fragment {
             }
         });
 
-
-
-
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //pantryItems.removeAll(pantryItems);
@@ -322,5 +285,28 @@ public class AddPantryFragment extends Fragment {
         });
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
+        TextView barcodeNumber = (TextView) getView().findViewById(R.id.editTextBarcodeNumber);
+        TextView addItem = (TextView) getView().findViewById(R.id.addItemTxtField);
+        TextView qnty = (TextView) getView().findViewById(R.id.qntyTxtField);
+        if (requestCode == 0) {
+            Double num;
+
+            barcodeNumber.setText(result.getContents());
+
+            for (int i = 0; i < barcodeInfoStoreList.size(); i++) {
+                if (result.getContents().equals(barcodeInfoStoreList.get(i).getBarcode())) {
+                    // set info stored in barcodeInfoStore to the text fields on the pantry item page
+                    addItem.setText(barcodeInfoStoreList.get(i).getItemName());
+                    num = barcodeInfoStoreList.get(i).getNumber();
+                    qnty.setText(barcodeInfoStore.toString(num));
+                }
+            }
+        } else {
+            barcodeNumber.setText("INVALID BARCODE");
+        }
+    }
 }

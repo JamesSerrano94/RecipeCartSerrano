@@ -1,9 +1,11 @@
 package com.example.recipecartnew;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -67,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment).commit();
                     return true;
                 }
-            };
+    };
+
+
+
 
 }
