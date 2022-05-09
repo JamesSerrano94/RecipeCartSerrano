@@ -133,7 +133,6 @@ public class RecipeViewFragment extends Fragment implements View.OnClickListener
         myDB.getAllPantryData(currentUser);
 
         pantryData = myDB.getAllPantryData(currentUser);
-
         //mSearchRecyclerViewAdapter = new SearchRecyclerViewAdapter(recipes, monNoteListener);
         Button returnRecipesBtn= (Button) view.findViewById(R.id.returnRecipesBtn);
         addBtn= (Button) view.findViewById(R.id.addToMyRecipes);

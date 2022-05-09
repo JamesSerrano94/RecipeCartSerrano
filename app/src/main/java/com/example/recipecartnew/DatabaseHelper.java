@@ -267,6 +267,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UniqueRecipes.add(UserRecipes.get(i));
             }
         }
+
         for(int i = 0; i < pantryItems.size(); i++) {
             for(int j = 0; j < UniqueRecipes.size(); j++){
                 if(UniqueRecipes.get(j).getIngredients().contains(pantryItems.get(i).getName()) && !this.containsRecipe(recipes, UniqueRecipes.get(j))){

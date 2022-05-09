@@ -62,7 +62,6 @@ public class PantryFragment extends Fragment implements View.OnClickListener {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

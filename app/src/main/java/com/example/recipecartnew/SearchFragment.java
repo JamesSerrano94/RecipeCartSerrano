@@ -22,7 +22,6 @@ public class SearchFragment extends Fragment
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 6;
-
     //FeedReaderDbHelper helper;
     DatabaseHelper myDB;
     List<recipeDescription> recipes = new ArrayList<>();

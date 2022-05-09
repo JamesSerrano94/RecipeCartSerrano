@@ -51,7 +51,6 @@ public class MyRecipeRecyclerViewAdapter extends RecyclerView.Adapter<MyRecipeRe
                 //need to figure this out
             }
         });
-
     }
     //Constructor
     public MyRecipeRecyclerViewAdapter(List<recipeDescription> items, OnNoteListener onNoteListener) {

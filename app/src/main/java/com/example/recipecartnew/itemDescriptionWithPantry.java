@@ -9,6 +9,7 @@ public class itemDescriptionWithPantry{
         this.number = number;
     }
 
+
     public String toString(){
         StringBuilder name = new StringBuilder(item.toString());
         name.append(" (");

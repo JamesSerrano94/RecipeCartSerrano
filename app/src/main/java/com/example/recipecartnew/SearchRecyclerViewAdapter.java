@@ -25,7 +25,6 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     private final List<recipeDescription> mValues;
     private OnNoteListener monNoteListener;
 
-
     //Accepts Interface
     public void acceptsInterfaceObject(OnNoteListener obj){
         monNoteListener = obj;
