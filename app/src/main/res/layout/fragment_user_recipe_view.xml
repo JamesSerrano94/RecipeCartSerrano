@@ -17,7 +17,7 @@
 
 
         <TextView
-            android:id="@+id/viewRecipeTitle"
+            android:id="@+id/viewRecipeTitle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/returnRecipesBtn"
+            android:id="@+id/returnRecipesBtn2"
             android:layout_width="191dp"
             android:layout_height="50dp"
             android:layout_marginEnd="24dp"
@@ -39,32 +39,32 @@
             app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addToMyRecipes"
+            app:layout_constraintTop_toBottomOf="@+id/recipeIngredientList2"
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
-            android:id="@+id/foodImage"
+            android:id="@+id/foodImage2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewRecipeTitle"
+            app:layout_constraintTop_toBottomOf="@+id/viewRecipeTitle2"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/description2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:fontFamily="@font/lato_black"
             android:text="TextView"
             android:textColor="#000000"
-            app:layout_constraintTop_toBottomOf="@+id/foodImage"
+            app:layout_constraintTop_toBottomOf="@+id/foodImage2"
             tools:layout_editor_absoluteX="16dp" />
 
         <ListView
-            android:id="@+id/recipeIngredientList"
+            android:id="@+id/recipeIngredientList2"
             android:layout_width="266dp"
             android:layout_height="250dp"
             android:layout_marginStart="16dp"
@@ -74,19 +74,8 @@
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollingCache="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description" />
+            app:layout_constraintTop_toBottomOf="@+id/description2" />
 
-        <Button
-            android:id="@+id/addToMyRecipes"
-            android:layout_width="201dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="16dp"
-            android:text="Add to My Recipes"
-            app:cornerRadius="20dp"
-            app:iconTint="#4DC350"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipeIngredientList" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

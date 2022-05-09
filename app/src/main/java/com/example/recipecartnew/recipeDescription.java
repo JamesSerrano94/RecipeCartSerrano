@@ -10,7 +10,7 @@ public class recipeDescription{
     private String Ingredients;
     private String Instructions;
     private User currentUser= User.getInstance();
-    private int ImageName;
+    private String ImageName;
     private String Description;
 
 
@@ -18,7 +18,7 @@ public class recipeDescription{
     public recipeDescription(){
 
     }
-    public recipeDescription(String title, String Ingredients, String Instructions, int ImageName) {
+    public recipeDescription(String title, String Ingredients, String Instructions, String ImageName) {
         this.title = title;
         this.Ingredients = Ingredients;
         this.Instructions = Instructions;
@@ -66,11 +66,11 @@ public class recipeDescription{
         this.title = title;
     }
 
-    public int getImageName() {
+    public String getImageName() {
         return ImageName;
     }
 
-    public void setImageName(int imageName) {
+    public void setImageName(String imageName) {
         ImageName = imageName;
     }
     public void setDescription(String description){
@@ -89,26 +89,36 @@ public class recipeDescription{
         for (int i = 0; i < items.length; i++){
             allIngredients.add(translateItem(items[i]));
         }
-
         return allIngredients;}
+    public ArrayList<itemDescription> getItems(int j){
+        System.out.println(Ingredients);
+        int count = Ingredients.length() - Ingredients.replace(", ", "").length();
+        String[] items = Ingredients.split(",", count + 1);
+        ArrayList<itemDescription> allIngredients = new ArrayList<>();
+        for (int i = 0; i < items.length; i++){
+            String[] info = items[i].split(" ");
+            allIngredients.add(translateItem(items[i]));
+        }
 
-    public itemDescription translateItem(String items){
-        //System.out.println(items);
+        return allIngredients;
+    }
+
+
+    public itemDescription translateItem(String items) {
+        System.out.println(items);
         int count = items.length() - items.replace(" ", "").length();
         String[] words = items.split(" ", count + 1);
         StringBuilder name = new StringBuilder();
-        Double amount= Double.parseDouble(words[count-1]);
-        if(currentUser.getMeasureType().equals("Metric")){
-            if(words[count].equals("Gallon")){
+        Double amount = Double.parseDouble(words[count - 1]);
+        if (currentUser.getMeasureType().equals("Metric")) {
+            if (words[count].equals("Gallon")) {
                 amount = galToL(amount);
                 words[count] = "L";
-            }
-            else if(words[count].equals("Lbs")){
+            } else if (words[count].equals("Lbs")) {
                 amount = lbsToKg(amount);
                 words[count] = "Kgs";
             }
         }
-
         else if(currentUser.getMeasureType().equals("Imperial")){
             if(words[count].equals("L")){
                 amount = lToGal(amount);
@@ -128,6 +138,10 @@ public class recipeDescription{
 
         itemDescription thisItem = new itemDescription(name.toString(), amount, words[count]);
         return thisItem;
+    }
+
+    public boolean equalRecipes(recipeDescription recipe, recipeDescription other){
+        return ((recipe.getImageName().equals(other.getImageName())) && (recipe.getIngredients().equals(other.getIngredients())) && (recipe.getTitle().equals(other.getTitle())) && (recipe.getInstructions().equals(other.getInstructions())));
     }
 
     public double kgsToLbs(double kgs){

@@ -1,5 +1,6 @@
 package com.example.recipecartnew;
 
+
 public class itemDescription {
     String name;
     double amount;
@@ -7,7 +8,9 @@ public class itemDescription {
 
 
 
-    public itemDescription() {
+
+
+    public itemDescription(){
     }
 
     public itemDescription(String name){
