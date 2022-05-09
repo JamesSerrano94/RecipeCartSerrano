@@ -1,10 +1,14 @@
 package com.example.recipecartnew;
 
-
 public class itemDescription {
     String name;
     double amount;
     String unit;
+
+
+
+    public itemDescription() {
+    }
 
     public itemDescription(String name){
         this.name = name;
