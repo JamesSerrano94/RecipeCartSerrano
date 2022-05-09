@@ -8,8 +8,11 @@ public class itemDescription {
 
 
 
+
+
     public itemDescription(){
     }
+
     public itemDescription(String name){
         this.name = name;
         amount = 1;

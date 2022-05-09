@@ -1,9 +1,17 @@
 package com.example.recipecartnew;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -17,11 +25,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_app);
         myDB =new DatabaseHelper(this);
 
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                PackageManager.PERMISSION_GRANTED);
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
 
 
         bottomNav.setOnNavigationItemSelectedListener(navListner);
+
+//
+//      //if statement to keep the selected fragment when rotating the device
+
 //        //f statement to keep the selected fragment when rotating the device
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main,
                     new HomeFragment()).commit();
@@ -57,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment).commit();
                     return true;
                 }
-            };
+    };
+
+
+
 
 }
