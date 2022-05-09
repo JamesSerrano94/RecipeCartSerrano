@@ -233,26 +233,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public List<recipeDescription> getRecommendedRecipes(String username){
         List<recipeDescription> recipes = new ArrayList<>();
-        List<recipeDescription> Userrecipes = getAllUserRecipes(username);
+        List<recipeDescription> UserRecipes = getAllUserRecipes(username);
         List<recipeDescription> GlobalRecipes = getAllGlobalRecipes();
+        List<recipeDescription> UniqueRecipes = new ArrayList<>();
         ArrayList<itemDescription> pantryItems = getAllPantryData(username);
-        for(int i = 0; i < pantryItems.size(); i++) {
-            for(int j = 0; j < GlobalRecipes.size(); j++){
-                if(GlobalRecipes.get(j).getIngredients().contains(pantryItems.get(i).getName())){
-                    recipes.add(GlobalRecipes.get(j));
+        for(int i = 0; i < GlobalRecipes.size(); i++){
+            if(i >= UserRecipes.size()-1){
+                if(!UniqueRecipes.contains(GlobalRecipes.get(i))) {
+                    UniqueRecipes.add(GlobalRecipes.get(i));
                 }
+                continue;
+            }
+            else if(!GlobalRecipes.get(i).equalRecipes(GlobalRecipes.get(i), UserRecipes.get(i))){
+                UniqueRecipes.add(GlobalRecipes.get(i));
+
+            }
+            else if(!this.containsRecipe(UniqueRecipes, GlobalRecipes.get(i))) {
+                UniqueRecipes.add(GlobalRecipes.get(i));
+            }
+        }
+
+        for(int i = 0; i < UserRecipes.size(); i++){
+            if(i >= GlobalRecipes.size()-1){
+                if(!UniqueRecipes.contains(UserRecipes.get(i))) {
+                    UniqueRecipes.add(UserRecipes.get(i));
+                }
+                continue;
+            }
+            else if(!UserRecipes.get(i).equalRecipes(UserRecipes.get(i), GlobalRecipes.get(i))){
+                UniqueRecipes.add(UserRecipes.get(i));
+            }
+            else if(!this.containsRecipe(UniqueRecipes, UserRecipes.get(i))) {
+                UniqueRecipes.add(UserRecipes.get(i));
             }
         }
         for(int i = 0; i < pantryItems.size(); i++) {
-           for(int j = 0; j < Userrecipes.size(); j++){
-               if(Userrecipes.get(j).getIngredients().contains(pantryItems.get(i).getName())){
-                   if(!recipes.contains(Userrecipes.get(j))) {
-                       recipes.add(Userrecipes.get(j));
-                   }
-               }
-           }
+            for(int j = 0; j < UniqueRecipes.size(); j++){
+                if(UniqueRecipes.get(j).getIngredients().contains(pantryItems.get(i).getName()) && !this.containsRecipe(recipes, UniqueRecipes.get(j))){
+                    recipes.add(UniqueRecipes.get(j));
+                }
+            }
         }
-
         return recipes;
     }
 
@@ -276,5 +297,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Integer clearUserPantry(String username){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         return sqLiteDatabase.delete(PANTRY_TABLE,PCOL_1+" = ?", new String[]{username});
+    }
+
+    public boolean containsRecipe(List<recipeDescription> recipes, recipeDescription recipe){
+        for(int i = 0; i < recipes.size(); i++){
+            if(recipes.get(i).equalRecipes(recipes.get(i), recipe)){
+                return true;
+            }
+        }
+        return false;
     }
 }

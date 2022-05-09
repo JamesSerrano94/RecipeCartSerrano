@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                             currentUser.setMeasureType(snapshot.child(user).child("measureType").getValue(String.class));if(snapshot.child(user).hasChild("imageURI")) {
                                 currentUser.setImageURL(snapshot.child(user).child("imageURI").getValue(String.class));
                             }
-                            myDB.dropTables();
+                            //myDB.dropTables();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                         else {
