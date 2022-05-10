@@ -93,7 +93,7 @@ public class recipeDescription{
     public ArrayList<itemDescription> getItems(int j){
         System.out.println(Ingredients);
         int count = Ingredients.length() - Ingredients.replace(", ", "").length();
-        String[] items = Ingredients.split(",", count + 1);
+        String[] items = Ingredients.split(", ", count + 1);
         ArrayList<itemDescription> allIngredients = new ArrayList<>();
         for (int i = 0; i < items.length; i++){
             String[] info = items[i].split(" ");
