@@ -150,7 +150,9 @@ public class AddPantryFragment extends Fragment {
         pantryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pantryList.setAdapter(pantryAdapter);
 
-        barcodeInfoStoreList = new ArrayList<barcodeInfoStore>();
+        if(barcodeInfoStoreList == null) {
+            barcodeInfoStoreList = new ArrayList<barcodeInfoStore>();
+        }
 
         scanButton.setOnClickListener(new View.OnClickListener() {
 
@@ -176,12 +178,12 @@ public class AddPantryFragment extends Fragment {
                 itemDescription newItem = null;
 
                 for (int i = 0; i < barcodeInfoStoreList.size(); i++) {
-
-                    if (barcodeNumber.equals(barcodeInfoStoreList.get(i).getBarcode())) {
+                    
+                    if (barcodeNumber.getText().toString().equals(barcodeInfoStoreList.get(i).getBarcode())) {
                         //newItem = new itemDescription(barcodeInfoStoreList.get(i).getItemName(),
                                 //barcodeInfoStoreList.get(i).getNumber(), categories.get(unitSpinner.getSelectedItemPosition()));
-                        barcodeInfoStoreList.get(i).setItemName((String) addItem.getText());
-                        barcodeInfoStoreList.get(i).setNumber(qnty.getText());
+                        barcodeInfoStoreList.get(i).setItemName(addItem.getText().toString());
+                        barcodeInfoStoreList.get(i).setNumber(qnty.getText().toString());
                         barcodeInfoStoreList.get(i).setUnit(categories.get(unitSpinner.getSelectedItemPosition()));
 
                     }
@@ -304,22 +306,24 @@ public class AddPantryFragment extends Fragment {
         TextView barcodeNumber = (TextView) getView().findViewById(R.id.editTextBarcodeNumber);
         TextView addItem = (TextView) getView().findViewById(R.id.addItemTxtField);
         TextView qnty = (TextView) getView().findViewById(R.id.qntyTxtField);
-        if (requestCode == 0) {
+        if (result.getContents() != null) {
             Double num;
 
             barcodeNumber.setText(result.getContents());
-
+            System.out.println("BARCODE NUM:" + barcodeNumber.getText());
             for (int i = 0; i < barcodeInfoStoreList.size(); i++) {
-                barcodeExists = true;
-                if (result.getContents().equals(barcodeInfoStoreList.get(i).getBarcode())) {
+                if (barcodeNumber.getText().toString().equals(barcodeInfoStoreList.get(i).getBarcode())) {
                     // set info stored in barcodeInfoStore to the text fields on the pantry item page
+                    barcodeExists = true;
                     addItem.setText(barcodeInfoStoreList.get(i).getItemName());
                     num = barcodeInfoStoreList.get(i).getNumber();
                     qnty.setText(barcodeInfoStore.toString(num));
+                    System.out.println("FOUND ITEM: A"+ barcodeInfoStoreList.get(i).getItemName());
                 }
             }
             if(!barcodeExists){
                 barcodeInfoStoreList.add(new barcodeInfoStore(result.getContents()));
+                System.out.println("FOUND ITEM: "+ barcodeInfoStoreList.get(0).getItemName());
             }
         } else {
             barcodeNumber.setText("INVALID BARCODE");

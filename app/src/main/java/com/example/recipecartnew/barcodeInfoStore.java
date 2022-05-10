@@ -10,6 +10,7 @@ public class barcodeInfoStore {
         this.barcode = barcode;
     }
 
+
     public barcodeInfoStore(String barcode, String itemName, double number, String unit){
         this.barcode = barcode;
         this.itemName = itemName;
@@ -38,7 +39,12 @@ public class barcodeInfoStore {
     }
 
     public void setNumber(CharSequence number) {
-        this.number = Double.valueOf(String.valueOf(number));
+        if(number.length() == 0){
+            this.number = 1;
+        }
+        else {
+            this.number = Double.valueOf(String.valueOf(number));
+        }
     }
 
     public static String toString(double number) {
