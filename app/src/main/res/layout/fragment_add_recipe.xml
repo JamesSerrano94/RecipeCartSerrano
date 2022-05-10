@@ -196,7 +196,7 @@
             android:id="@+id/upload"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="60dp"
             android:width="125dp"
             android:height="75dp"
             android:backgroundTint="#4DC350"
