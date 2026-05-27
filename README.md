@@ -1,3 +1,5 @@
 This is an android app where you log in. Once you create an account you then scan grocery items which are then saved to your pantry. You can then look for recipes that are sorted in terms of what ingredients you have in your pantry. Recipes are user created. 
 
 Unfortunely this no longer works because database has since been taken offline. So you can log into the app but the information is not saved.
+
+One challenge of the project is that while barcodes are standarized, the format of the text string from a barcode is not. So you could scan a barcode and it might say "Pringles - BBQ flavor" but then scan another barcode and it would say "Lays_BBQ" Despite being similar items it was difficult to find a way to parse it automatically. We could go through every barcode combination but that is a lot of work. The solution was to trust the user enough, so when they scan the barcode they type in what food item it is. Every time they scan the same barcode again the same food item would pop up again, so no need to type in every item.
